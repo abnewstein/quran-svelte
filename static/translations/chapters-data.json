@@ -1,0 +1,1028 @@
+[
+  {
+    "number": 1,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u0627\u062a\u062d\u0629",
+      "transliteration": "Al-Fatihah",
+      "english": "The Opening"
+    },
+    "versesCount": 7
+  },
+  {
+    "number": 2,
+    "name": {
+      "arabic": "\u0627\u0644\u0628\u0642\u0631\u0629",
+      "transliteration": "Al-Baqarah",
+      "english": "The Heifer"
+    },
+    "versesCount": 286
+  },
+  {
+    "number": 3,
+    "name": {
+      "arabic": "\u0622\u0644 \u0639\u0645\u0631\u0627\u0646",
+      "transliteration": "Ali 'Imran",
+      "english": "House of \u02bfImr\u0101n"
+    },
+    "versesCount": 200
+  },
+  {
+    "number": 4,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0633\u0627\u0621",
+      "transliteration": "An-Nisa",
+      "english": "The Women"
+    },
+    "versesCount": 176
+  },
+  {
+    "number": 5,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0627\u0626\u062f\u0629",
+      "transliteration": "Al-Ma'idah",
+      "english": "The Table Spread"
+    },
+    "versesCount": 120
+  },
+  {
+    "number": 6,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u0646\u0639\u0627\u0645",
+      "transliteration": "Al-An'am",
+      "english": "The Cattle"
+    },
+    "versesCount": 165
+  },
+  {
+    "number": 7,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u0639\u0631\u0627\u0641",
+      "transliteration": "Al-A'raf",
+      "english": "The Elevations"
+    },
+    "versesCount": 206
+  },
+  {
+    "number": 8,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u0646\u0641\u0627\u0644",
+      "transliteration": "Al-Anfal",
+      "english": "The Spoils of War"
+    },
+    "versesCount": 75
+  },
+  {
+    "number": 9,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u0648\u0628\u0629",
+      "transliteration": "At-Tawbah",
+      "english": "Repentance"
+    },
+    "versesCount": 129
+  },
+  {
+    "number": 10,
+    "name": {
+      "arabic": "\u064a\u0648\u0646\u0633",
+      "transliteration": "Yunus",
+      "english": "Jonah"
+    },
+    "versesCount": 109
+  },
+  {
+    "number": 11,
+    "name": {
+      "arabic": "\u0647\u0648\u062f",
+      "transliteration": "Hud",
+      "english": "H\u016bd"
+    },
+    "versesCount": 123
+  },
+  {
+    "number": 12,
+    "name": {
+      "arabic": "\u064a\u0648\u0633\u0641",
+      "transliteration": "Yusuf",
+      "english": "Joseph"
+    },
+    "versesCount": 111
+  },
+  {
+    "number": 13,
+    "name": {
+      "arabic": "\u0627\u0644\u0631\u0639\u062f",
+      "transliteration": "Ar-Ra'd",
+      "english": "Thunder"
+    },
+    "versesCount": 43
+  },
+  {
+    "number": 14,
+    "name": {
+      "arabic": "\u0627\u0628\u0631\u0627\u0647\u064a\u0645",
+      "transliteration": "Ibrahim",
+      "english": "Abraham"
+    },
+    "versesCount": 52
+  },
+  {
+    "number": 15,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u062c\u0631",
+      "transliteration": "Al-Hijr",
+      "english": "The Rocky Tract"
+    },
+    "versesCount": 99
+  },
+  {
+    "number": 16,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u062d\u0644",
+      "transliteration": "An-Nahl",
+      "english": "The Bee"
+    },
+    "versesCount": 128
+  },
+  {
+    "number": 17,
+    "name": {
+      "arabic": "\u0627\u0644\u0625\u0633\u0631\u0627\u0621",
+      "transliteration": "Al-Isra",
+      "english": "The Night Journey"
+    },
+    "versesCount": 111
+  },
+  {
+    "number": 18,
+    "name": {
+      "arabic": "\u0627\u0644\u0643\u0647\u0641",
+      "transliteration": "Al-Kahf",
+      "english": "The Cave"
+    },
+    "versesCount": 110
+  },
+  {
+    "number": 19,
+    "name": {
+      "arabic": "\u0645\u0631\u064a\u0645",
+      "transliteration": "Maryam",
+      "english": "Mary"
+    },
+    "versesCount": 98
+  },
+  {
+    "number": 20,
+    "name": {
+      "arabic": "\u0637\u0647",
+      "transliteration": "Taha",
+      "english": "\u1e6c\u0101 H\u0101"
+    },
+    "versesCount": 135
+  },
+  {
+    "number": 21,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u0646\u0628\u064a\u0627\u0621",
+      "transliteration": "Al-Anbya",
+      "english": "The Prophets"
+    },
+    "versesCount": 112
+  },
+  {
+    "number": 22,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u062c",
+      "transliteration": "Al-Hajj",
+      "english": "The Pilgrimage"
+    },
+    "versesCount": 78
+  },
+  {
+    "number": 23,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0624\u0645\u0646\u0648\u0646",
+      "transliteration": "Al-Mu'minun",
+      "english": "The Believers"
+    },
+    "versesCount": 118
+  },
+  {
+    "number": 24,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0648\u0631",
+      "transliteration": "An-Nur",
+      "english": "Light"
+    },
+    "versesCount": 64
+  },
+  {
+    "number": 25,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u0631\u0642\u0627\u0646",
+      "transliteration": "Al-Furqan",
+      "english": "The Division"
+    },
+    "versesCount": 77
+  },
+  {
+    "number": 26,
+    "name": {
+      "arabic": "\u0627\u0644\u0634\u0639\u0631\u0627\u0621",
+      "transliteration": "Ash-Shu'ara",
+      "english": "The Poets"
+    },
+    "versesCount": 227
+  },
+  {
+    "number": 27,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0645\u0644",
+      "transliteration": "An-Naml",
+      "english": "The Ant"
+    },
+    "versesCount": 93
+  },
+  {
+    "number": 28,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u0635\u0635",
+      "transliteration": "Al-Qasas",
+      "english": "The Story"
+    },
+    "versesCount": 88
+  },
+  {
+    "number": 29,
+    "name": {
+      "arabic": "\u0627\u0644\u0639\u0646\u0643\u0628\u0648\u062a",
+      "transliteration": "Al-'Ankabut",
+      "english": "The Spider"
+    },
+    "versesCount": 69
+  },
+  {
+    "number": 30,
+    "name": {
+      "arabic": "\u0627\u0644\u0631\u0648\u0645",
+      "transliteration": "Ar-Rum",
+      "english": "The Romans"
+    },
+    "versesCount": 60
+  },
+  {
+    "number": 31,
+    "name": {
+      "arabic": "\u0644\u0642\u0645\u0627\u0646",
+      "transliteration": "Luqman",
+      "english": "Luqm\u0101n"
+    },
+    "versesCount": 34
+  },
+  {
+    "number": 32,
+    "name": {
+      "arabic": "\u0627\u0644\u0633\u062c\u062f\u0629",
+      "transliteration": "As-Sajdah",
+      "english": "Submission"
+    },
+    "versesCount": 30
+  },
+  {
+    "number": 33,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u062d\u0632\u0627\u0628",
+      "transliteration": "Al-Ahzab",
+      "english": "The Parties"
+    },
+    "versesCount": 73
+  },
+  {
+    "number": 34,
+    "name": {
+      "arabic": "\u0633\u0628\u0625",
+      "transliteration": "Saba",
+      "english": "Saba\u2019"
+    },
+    "versesCount": 54
+  },
+  {
+    "number": 35,
+    "name": {
+      "arabic": "\u0641\u0627\u0637\u0631",
+      "transliteration": "Fatir",
+      "english": "Originator"
+    },
+    "versesCount": 45
+  },
+  {
+    "number": 36,
+    "name": {
+      "arabic": "\u064a\u0633",
+      "transliteration": "Ya-Sin",
+      "english": "Y\u0101 S\u012bn"
+    },
+    "versesCount": 83
+  },
+  {
+    "number": 37,
+    "name": {
+      "arabic": "\u0627\u0644\u0635\u0627\u0641\u0627\u062a",
+      "transliteration": "As-Saffat",
+      "english": "Those Lined Up"
+    },
+    "versesCount": 182
+  },
+  {
+    "number": 38,
+    "name": {
+      "arabic": "\u0635",
+      "transliteration": "Sad",
+      "english": "\u1e62\u0101d"
+    },
+    "versesCount": 88
+  },
+  {
+    "number": 39,
+    "name": {
+      "arabic": "\u0627\u0644\u0632\u0645\u0631",
+      "transliteration": "Az-Zumar",
+      "english": "The Throngs"
+    },
+    "versesCount": 75
+  },
+  {
+    "number": 40,
+    "name": {
+      "arabic": "\u063a\u0627\u0641\u0631",
+      "transliteration": "Ghafir",
+      "english": "The Forgiver"
+    },
+    "versesCount": 85
+  },
+  {
+    "number": 41,
+    "name": {
+      "arabic": "\u0641\u0635\u0644\u062a",
+      "transliteration": "Fussilat",
+      "english": "Set Out and Detailed"
+    },
+    "versesCount": 54
+  },
+  {
+    "number": 42,
+    "name": {
+      "arabic": "\u0627\u0644\u0634\u0648\u0631\u0649",
+      "transliteration": "Ash-Shuraa",
+      "english": "Consultation"
+    },
+    "versesCount": 53
+  },
+  {
+    "number": 43,
+    "name": {
+      "arabic": "\u0627\u0644\u0632\u062e\u0631\u0641",
+      "transliteration": "Az-Zukhruf",
+      "english": "Ornaments"
+    },
+    "versesCount": 89
+  },
+  {
+    "number": 44,
+    "name": {
+      "arabic": "\u0627\u0644\u062f\u062e\u0627\u0646",
+      "transliteration": "Ad-Dukhan",
+      "english": "Smoke"
+    },
+    "versesCount": 59
+  },
+  {
+    "number": 45,
+    "name": {
+      "arabic": "\u0627\u0644\u062c\u0627\u062b\u064a\u0629",
+      "transliteration": "Al-Jathiyah",
+      "english": "The Kneeling"
+    },
+    "versesCount": 37
+  },
+  {
+    "number": 46,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u062d\u0642\u0627\u0641",
+      "transliteration": "Al-Ahqaf",
+      "english": "The Wind-Curved Sandhills"
+    },
+    "versesCount": 35
+  },
+  {
+    "number": 47,
+    "name": {
+      "arabic": "\u0645\u062d\u0645\u062f",
+      "transliteration": "Muhammad",
+      "english": "Mu\u1e25ammad"
+    },
+    "versesCount": 38
+  },
+  {
+    "number": 48,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u062a\u062d",
+      "transliteration": "Al-Fath",
+      "english": "The Victory"
+    },
+    "versesCount": 29
+  },
+  {
+    "number": 49,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u062c\u0631\u0627\u062a",
+      "transliteration": "Al-Hujurat",
+      "english": "The Chambers"
+    },
+    "versesCount": 18
+  },
+  {
+    "number": 50,
+    "name": {
+      "arabic": "\u0642",
+      "transliteration": "Qaf",
+      "english": "Q\u0101f"
+    },
+    "versesCount": 45
+  },
+  {
+    "number": 51,
+    "name": {
+      "arabic": "\u0627\u0644\u0630\u0627\u0631\u064a\u0627\u062a",
+      "transliteration": "Adh-Dhariyat",
+      "english": "Those Scattering"
+    },
+    "versesCount": 60
+  },
+  {
+    "number": 52,
+    "name": {
+      "arabic": "\u0627\u0644\u0637\u0648\u0631",
+      "transliteration": "At-Tur",
+      "english": "The Mount"
+    },
+    "versesCount": 49
+  },
+  {
+    "number": 53,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u062c\u0645",
+      "transliteration": "An-Najm",
+      "english": "The Star"
+    },
+    "versesCount": 62
+  },
+  {
+    "number": 54,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u0645\u0631",
+      "transliteration": "Al-Qamar",
+      "english": "The Moon"
+    },
+    "versesCount": 55
+  },
+  {
+    "number": 55,
+    "name": {
+      "arabic": "\u0627\u0644\u0631\u062d\u0645\u0646",
+      "transliteration": "Ar-Rahman",
+      "english": "The Almighty"
+    },
+    "versesCount": 78
+  },
+  {
+    "number": 56,
+    "name": {
+      "arabic": "\u0627\u0644\u0648\u0627\u0642\u0639\u0629",
+      "transliteration": "Al-Waqi'ah",
+      "english": "The Event"
+    },
+    "versesCount": 96
+  },
+  {
+    "number": 57,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u062f\u064a\u062f",
+      "transliteration": "Al-Hadid",
+      "english": "Iron"
+    },
+    "versesCount": 29
+  },
+  {
+    "number": 58,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u062c\u0627\u062f\u0644\u0629",
+      "transliteration": "Al-Mujadila",
+      "english": "The Disputing Woman"
+    },
+    "versesCount": 22
+  },
+  {
+    "number": 59,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u0634\u0631",
+      "transliteration": "Al-Hashr",
+      "english": "The Gathering"
+    },
+    "versesCount": 24
+  },
+  {
+    "number": 60,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0645\u062a\u062d\u0646\u0629",
+      "transliteration": "Al-Mumtahanah",
+      "english": "The Woman Examined"
+    },
+    "versesCount": 13
+  },
+  {
+    "number": 61,
+    "name": {
+      "arabic": "\u0627\u0644\u0635\u0641",
+      "transliteration": "As-Saf",
+      "english": "The Ranks"
+    },
+    "versesCount": 14
+  },
+  {
+    "number": 62,
+    "name": {
+      "arabic": "\u0627\u0644\u062c\u0645\u0639\u0629",
+      "transliteration": "Al-Jumu'ah",
+      "english": "The Assembly"
+    },
+    "versesCount": 11
+  },
+  {
+    "number": 63,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0646\u0627\u0641\u0642\u0648\u0646",
+      "transliteration": "Al-Munafiqun",
+      "english": "The Waverers"
+    },
+    "versesCount": 11
+  },
+  {
+    "number": 64,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u063a\u0627\u0628\u0646",
+      "transliteration": "At-Taghabun",
+      "english": "Mutual Overcoming In Trade"
+    },
+    "versesCount": 18
+  },
+  {
+    "number": 65,
+    "name": {
+      "arabic": "\u0627\u0644\u0637\u0644\u0627\u0642",
+      "transliteration": "At-Talaq",
+      "english": "Divorce"
+    },
+    "versesCount": 12
+  },
+  {
+    "number": 66,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u062d\u0631\u064a\u0645",
+      "transliteration": "At-Tahrim",
+      "english": "Prohibition"
+    },
+    "versesCount": 12
+  },
+  {
+    "number": 67,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0644\u0643",
+      "transliteration": "Al-Mulk",
+      "english": "Dominion"
+    },
+    "versesCount": 30
+  },
+  {
+    "number": 68,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u0644\u0645",
+      "transliteration": "Al-Qalam",
+      "english": "The Pen"
+    },
+    "versesCount": 52
+  },
+  {
+    "number": 69,
+    "name": {
+      "arabic": "\u0627\u0644\u062d\u0627\u0642\u0629",
+      "transliteration": "Al-Haqqah",
+      "english": "The Inevitable Reality"
+    },
+    "versesCount": 52
+  },
+  {
+    "number": 70,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0639\u0627\u0631\u062c",
+      "transliteration": "Al-Ma'arij",
+      "english": "The Means Of Ascent"
+    },
+    "versesCount": 44
+  },
+  {
+    "number": 71,
+    "name": {
+      "arabic": "\u0646\u0648\u062d",
+      "transliteration": "Nuh",
+      "english": "Noah"
+    },
+    "versesCount": 28
+  },
+  {
+    "number": 72,
+    "name": {
+      "arabic": "\u0627\u0644\u062c\u0646",
+      "transliteration": "Al-Jinn",
+      "english": "The Domini"
+    },
+    "versesCount": 28
+  },
+  {
+    "number": 73,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0632\u0645\u0644",
+      "transliteration": "Al-Muzzammil",
+      "english": "One Enwrapped"
+    },
+    "versesCount": 20
+  },
+  {
+    "number": 74,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u062f\u062b\u0631",
+      "transliteration": "Al-Muddaththir",
+      "english": "One Covering Himself"
+    },
+    "versesCount": 56
+  },
+  {
+    "number": 75,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u064a\u0627\u0645\u0629",
+      "transliteration": "Al-Qiyamah",
+      "english": "The Resurrection"
+    },
+    "versesCount": 40
+  },
+  {
+    "number": 76,
+    "name": {
+      "arabic": "\u0627\u0644\u0627\u0646\u0633\u0627\u0646",
+      "transliteration": "Al-Insan",
+      "english": "Man"
+    },
+    "versesCount": 31
+  },
+  {
+    "number": 77,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0631\u0633\u0644\u0627\u062a",
+      "transliteration": "Al-Mursalat",
+      "english": "The Emissaries"
+    },
+    "versesCount": 50
+  },
+  {
+    "number": 78,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0628\u0625",
+      "transliteration": "An-Naba",
+      "english": "The Report"
+    },
+    "versesCount": 40
+  },
+  {
+    "number": 79,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0627\u0632\u0639\u0627\u062a",
+      "transliteration": "An-Nazi'at",
+      "english": "Those Who Remove"
+    },
+    "versesCount": 46
+  },
+  {
+    "number": 80,
+    "name": {
+      "arabic": "\u0639\u0628\u0633",
+      "transliteration": "'Abasa",
+      "english": "He Frowned"
+    },
+    "versesCount": 42
+  },
+  {
+    "number": 81,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u0643\u0648\u064a\u0631",
+      "transliteration": "At-Takwir",
+      "english": "The Wrapping-Up"
+    },
+    "versesCount": 29
+  },
+  {
+    "number": 82,
+    "name": {
+      "arabic": "\u0627\u0644\u0625\u0646\u0641\u0637\u0627\u0631",
+      "transliteration": "Al-Infitar",
+      "english": "The Splitting"
+    },
+    "versesCount": 19
+  },
+  {
+    "number": 83,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0637\u0641\u0641\u064a\u0646",
+      "transliteration": "Al-Mutaffifin",
+      "english": "The Unfair Traders"
+    },
+    "versesCount": 36
+  },
+  {
+    "number": 84,
+    "name": {
+      "arabic": "\u0627\u0644\u0625\u0646\u0634\u0642\u0627\u0642",
+      "transliteration": "Al-Inshiqaq",
+      "english": "The Splitting Asunder"
+    },
+    "versesCount": 25
+  },
+  {
+    "number": 85,
+    "name": {
+      "arabic": "\u0627\u0644\u0628\u0631\u0648\u062c",
+      "transliteration": "Al-Buruj",
+      "english": "The Constellations"
+    },
+    "versesCount": 22
+  },
+  {
+    "number": 86,
+    "name": {
+      "arabic": "\u0627\u0644\u0637\u0627\u0631\u0642",
+      "transliteration": "At-Tariq",
+      "english": "The Night-Comer"
+    },
+    "versesCount": 17
+  },
+  {
+    "number": 87,
+    "name": {
+      "arabic": "\u0627\u0644\u0623\u0639\u0644\u0649",
+      "transliteration": "Al-A'la",
+      "english": "The Most High"
+    },
+    "versesCount": 19
+  },
+  {
+    "number": 88,
+    "name": {
+      "arabic": "\u0627\u0644\u063a\u0627\u0634\u064a\u0629",
+      "transliteration": "Al-Ghashiyah",
+      "english": "The Enveloping"
+    },
+    "versesCount": 26
+  },
+  {
+    "number": 89,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u062c\u0631",
+      "transliteration": "Al-Fajr",
+      "english": "The Dawn"
+    },
+    "versesCount": 30
+  },
+  {
+    "number": 90,
+    "name": {
+      "arabic": "\u0627\u0644\u0628\u0644\u062f",
+      "transliteration": "Al-Balad",
+      "english": "The Land"
+    },
+    "versesCount": 20
+  },
+  {
+    "number": 91,
+    "name": {
+      "arabic": "\u0627\u0644\u0634\u0645\u0633",
+      "transliteration": "Ash-Shams",
+      "english": "The Sun"
+    },
+    "versesCount": 15
+  },
+  {
+    "number": 92,
+    "name": {
+      "arabic": "\u0627\u0644\u0644\u064a\u0644",
+      "transliteration": "Al-Layl",
+      "english": "The Night"
+    },
+    "versesCount": 21
+  },
+  {
+    "number": 93,
+    "name": {
+      "arabic": "\u0627\u0644\u0636\u062d\u0649",
+      "transliteration": "Ad-Duhaa",
+      "english": "The Morning Light"
+    },
+    "versesCount": 11
+  },
+  {
+    "number": 94,
+    "name": {
+      "arabic": "\u0627\u0644\u0634\u0631\u062d",
+      "transliteration": "Ash-Sharh",
+      "english": "The Expansion"
+    },
+    "versesCount": 8
+  },
+  {
+    "number": 95,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u064a\u0646",
+      "transliteration": "At-Tin",
+      "english": "The Fig"
+    },
+    "versesCount": 8
+  },
+  {
+    "number": 96,
+    "name": {
+      "arabic": "\u0627\u0644\u0639\u0644\u0642",
+      "transliteration": "Al-'Alaq",
+      "english": "The Clinging Thing"
+    },
+    "versesCount": 19
+  },
+  {
+    "number": 97,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u062f\u0631",
+      "transliteration": "Al-Qadr",
+      "english": "The Determination"
+    },
+    "versesCount": 5
+  },
+  {
+    "number": 98,
+    "name": {
+      "arabic": "\u0627\u0644\u0628\u064a\u0646\u0629",
+      "transliteration": "Al-Bayyinah",
+      "english": "The Clear Evidence"
+    },
+    "versesCount": 8
+  },
+  {
+    "number": 99,
+    "name": {
+      "arabic": "\u0627\u0644\u0632\u0644\u0632\u0644\u0629",
+      "transliteration": "Az-Zalzalah",
+      "english": "The Shaking"
+    },
+    "versesCount": 8
+  },
+  {
+    "number": 100,
+    "name": {
+      "arabic": "\u0627\u0644\u0639\u0627\u062f\u064a\u0627\u062a",
+      "transliteration": "Al-'Adiyat",
+      "english": "The Chargers"
+    },
+    "versesCount": 11
+  },
+  {
+    "number": 101,
+    "name": {
+      "arabic": "\u0627\u0644\u0642\u0627\u0631\u0639\u0629",
+      "transliteration": "Al-Qari'ah",
+      "english": "The Calamity"
+    },
+    "versesCount": 11
+  },
+  {
+    "number": 102,
+    "name": {
+      "arabic": "\u0627\u0644\u062a\u0643\u0627\u062b\u0631",
+      "transliteration": "At-Takathur",
+      "english": "The Competition For Increase"
+    },
+    "versesCount": 8
+  },
+  {
+    "number": 103,
+    "name": {
+      "arabic": "\u0627\u0644\u0639\u0635\u0631",
+      "transliteration": "Al-'Asr",
+      "english": "The Span Of Time"
+    },
+    "versesCount": 3
+  },
+  {
+    "number": 104,
+    "name": {
+      "arabic": "\u0627\u0644\u0647\u0645\u0632\u0629",
+      "transliteration": "Al-Humazah",
+      "english": "The Slanderer"
+    },
+    "versesCount": 9
+  },
+  {
+    "number": 105,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u064a\u0644",
+      "transliteration": "Al-Fil",
+      "english": "One Weak In Judgment"
+    },
+    "versesCount": 5
+  },
+  {
+    "number": 106,
+    "name": {
+      "arabic": "\u0642\u0631\u064a\u0634",
+      "transliteration": "Quraysh",
+      "english": "Quraysh"
+    },
+    "versesCount": 4
+  },
+  {
+    "number": 107,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0627\u0639\u0648\u0646",
+      "transliteration": "Al-Ma'un",
+      "english": "Small Things"
+    },
+    "versesCount": 7
+  },
+  {
+    "number": 108,
+    "name": {
+      "arabic": "\u0627\u0644\u0643\u0648\u062b\u0631",
+      "transliteration": "Al-Kawthar",
+      "english": "Abundance"
+    },
+    "versesCount": 3
+  },
+  {
+    "number": 109,
+    "name": {
+      "arabic": "\u0627\u0644\u0643\u0627\u0641\u0631\u0648\u0646",
+      "transliteration": "Al-Kafirun",
+      "english": "The False Claimers Of Guidance"
+    },
+    "versesCount": 6
+  },
+  {
+    "number": 110,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0635\u0631",
+      "transliteration": "An-Nasr",
+      "english": "Help"
+    },
+    "versesCount": 3
+  },
+  {
+    "number": 111,
+    "name": {
+      "arabic": "\u0627\u0644\u0645\u0633\u062f",
+      "transliteration": "Al-Masad",
+      "english": "Twisted Strands"
+    },
+    "versesCount": 5
+  },
+  {
+    "number": 112,
+    "name": {
+      "arabic": "\u0627\u0644\u0625\u062e\u0644\u0627\u0635",
+      "transliteration": "Al-Ikhlas",
+      "english": "Sincerity"
+    },
+    "versesCount": 4
+  },
+  {
+    "number": 113,
+    "name": {
+      "arabic": "\u0627\u0644\u0641\u0644\u0642",
+      "transliteration": "Al-Falaq",
+      "english": "Daybreak"
+    },
+    "versesCount": 5
+  },
+  {
+    "number": 114,
+    "name": {
+      "arabic": "\u0627\u0644\u0646\u0627\u0633",
+      "transliteration": "An-Nas",
+      "english": "Mankind"
+    },
+    "versesCount": 6
+  }
+]

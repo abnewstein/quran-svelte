@@ -2,7 +2,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>The Qur'an: A Complete Revelation</title>
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 

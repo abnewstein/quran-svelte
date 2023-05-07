@@ -20,10 +20,7 @@
 					/>
 				</svg>
 			</label>
-			<ul
-				tabindex="0"
-				class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-secondary-100 rounded-box w-52"
-			>
+			<ul class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-white rounded-box w-52">
 				<li><a href="/chapter">Chapters</a></li>
 				<li><a href="/about">About</a></li>
 			</ul>
