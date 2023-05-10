@@ -108,7 +108,6 @@ class QuranData {
 			query,
 			chapters,
 			translations
-			// Optionally include currentPage and totalPages if you implement pagination
 		};
 	}
 }
