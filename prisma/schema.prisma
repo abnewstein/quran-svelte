@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("POSTGRES_PRISMA_URL")
+  directUrl         = env("POSTGRES_URL_NON_POOLING")
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model chapters {
+  number               Int      @id
+  arabic_name          String
+  transliteration_name String
+  english_name         String
+  verses_count         Int
+  verses               verses[]
+}
+
+model translations {
+  id       Int     @id @default(autoincrement())
+  verse_id Int?
+  language String
+  text     String
+  verses   verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model verses {
+  id             Int            @id
+  chapter_number Int?
+  verse_number   Int
+  text           String
+  translations   translations[]
+  chapters       chapters?      @relation(fields: [chapter_number], references: [number], onDelete: NoAction, onUpdate: NoAction)
+}
