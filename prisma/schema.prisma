@@ -19,11 +19,12 @@ model chapters {
 }
 
 model translations {
-  id       Int     @id @default(autoincrement())
-  verse_id Int?
-  language String
-  text     String
-  verses   verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id         Int     @id @default(autoincrement())
+  verse_id   Int?
+  language   String
+  translator String
+  text       String
+  verses     verses? @relation(fields: [verse_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model verses {
