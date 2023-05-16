@@ -3,10 +3,11 @@
 	import { get } from 'svelte/store';
 
 	export let data;
+	const chapterNumber = Number(data.chapterNumber);
 	const quranData = get(quranDataStore);
-	const chapterData = quranData?.getChapter(Number(data.chapterNumber));
-	const verseDataEn = quranData?.getVerses(data.chapterNumber, TranslationEnum.ENGLISH_SAM_GERRANS);
-	const verseDataAr = quranData?.getVerses(data.chapterNumber, TranslationEnum.ARABIC_ORIGINAL);
+	const chapterData = quranData?.getChapter(chapterNumber);
+	const verseDataEn = quranData?.getVerses(chapterNumber, TranslationEnum.ENGLISH_SAM_GERRANS);
+	const verseDataAr = quranData?.getVerses(chapterNumber, TranslationEnum.ARABIC_ORIGINAL);
 	const combinedData = verseDataAr?.map((verseAr, index) => {
 		return {
 			...verseAr,
@@ -15,16 +16,19 @@
 	});
 </script>
 
+<!-- eslint-disable svelte/no-at-html-tags -->
 <div class="w-full">
 	<div class="grid grid-cols-2 items-baseline gap-4 rounded p-1">
-		{#each combinedData as verse}
-			<div class="text-right" dir="rtl">
-				{verse.text}
-			</div>
-			<div>
-				{verse.textEn}
-			</div>
-		{/each}
+		{#if combinedData}
+			{#each combinedData as verse}
+				<div class="text-right" dir="rtl">
+					{@html verse.text}
+				</div>
+				<div>
+					{@html verse.textEn}
+				</div>
+			{/each}
+		{/if}
 	</div>
 </div>
 

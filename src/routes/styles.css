@@ -7,7 +7,7 @@
 :root {
 	--font-body: 'Noto Naskh Arabic', serif;
 	font-family: var(--font-body);
-	color: var(--color-text);
+	color: black;
 }
 
 body {
