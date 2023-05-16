@@ -21,7 +21,7 @@
 					</span>
 					<span class="mt-1">{chapter.name.english}</span>
 					<span
-						class="bottom-2 text-xs absolute prose prose-sm prose-stone border-2 border-black border-[0.0314rem] rounded-lg px-2"
+						class="bottom-2 text-xs absolute prose prose-sm prose-stone border-black border-[0.0314rem] rounded-lg py-1 px-2"
 						>{chapter.versesCount} verses</span
 					>
 				</div>
