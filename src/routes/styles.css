@@ -1,9 +1,5 @@
 @import '@fontsource/noto-naskh-arabic';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
 	--font-body: 'Noto Naskh Arabic', serif;
 	font-family: var(--font-body);

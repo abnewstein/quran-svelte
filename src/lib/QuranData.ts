@@ -34,7 +34,6 @@ class QuranData {
 
 	public static getInstance(): QuranData {
 		if (!QuranData.instance) {
-			// Transform the JSON data into the desired structure
 			const translationsData: { [translation: string]: Quran.Translation } = {
 				[TranslationEnum.ARABIC_ORIGINAL]: {
 					metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
@@ -89,6 +88,14 @@ class QuranData {
 		const verses = this.getVerses(chapterNumber, translation);
 		return verses[verseNumber - 1] || null;
 	}
+
+	getFirstVersePair(): { ar: Quran.Verse | null; en: Quran.Verse | null } | null {
+		return {
+			ar: this.getVerse(1, 1, TranslationEnum.ARABIC_ORIGINAL),
+			en: this.getVerse(1, 1, TranslationEnum.ENGLISH_SAM_GERRANS)
+		};
+	}
+
 	getSearchResult(query: string, translation: string): Quran.SearchResult {
 		// Implement your search logic here
 

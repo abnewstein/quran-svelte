@@ -14,17 +14,27 @@
 			textEn: verseDataEn ? verseDataEn[index].text : null
 		};
 	});
+	const firstVerse = quranData?.getFirstVersePair();
 </script>
 
 <!-- eslint-disable svelte/no-at-html-tags -->
 <div class="w-full">
 	<div class="grid grid-cols-2 items-baseline gap-4 rounded p-1">
+		{#if chapterNumber !== 1}
+			<div class="text-right" dir="rtl">
+				{firstVerse?.ar?.text}
+			</div>
+			<div>
+				{firstVerse?.en?.text}
+			</div>
+		{/if}
 		{#if combinedData}
-			{#each combinedData as verse}
+			{#each combinedData as verse, index}
 				<div class="text-right" dir="rtl">
 					{@html verse.text}
 				</div>
 				<div>
+					<sup>{index + 1}</sup>
 					{@html verse.textEn}
 				</div>
 			{/each}
