@@ -6,39 +6,54 @@
 	const chapters = quranData?.getChapters();
 </script>
 
-<div class="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-3">
+<div class="p-5 gap-3" grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-6">
 	{#if !chapters}
-		<div class="flex flex-col items-center justify-center">
-			<div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-black" />
-			<span class="mt-2">Loading...</span>
+		<div flex="~ flex-col items-center justify-center">
+			<span>Loading...</span>
 		</div>
 	{:else}
-		{#each chapters as chapter}
-			<a
-				class="chapter-card block relative rounded-xl bg-white p-4 sm:p-6 lg:p-8 border-[0.0314rem] border-black shadow-md"
-				href="/chapter/{chapter.number}"
-			>
-				<div class="flex flex-col items-center text-center mb-4 md:mb-3">
+		{#each chapters as chapter (chapter.number)}
+			<a class="chapter-card" href="/chapter/{chapter.number}">
+				<div>
 					<strong class="text-xl">{chapter.number}</strong>
-					<span class="mt-1 text-slate-600">
-						{chapter.name.arabic}
-						{'|'}
-						<small class="italic">{chapter.name.transliteration}</small>
-					</span>
-					<span class="mt-1">{chapter.name.english}</span>
-					<span
-						class="bottom-2 text-xs absolute prose prose-sm prose-stone border-black border-[0.0314rem] rounded-lg py-1 px-2"
-						>{chapter.versesCount} verses</span
-					>
+					<p>
+						{chapter.name.arabic} | <small>{chapter.name.transliteration}</small>
+					</p>
+					<p>{chapter.name.english}</p>
+					<span class="verse-count">{chapter.versesCount} verses</span>
 				</div>
 			</a>
 		{/each}
 	{/if}
 </div>
 
-<style>
-	.chapter-card:hover {
-		box-shadow: 0 0 7px #1c1917;
-		transition: box-shadow 0.1s ease-in-out;
+<style lang="scss">
+	a.chapter-card {
+		@apply block relative rounded-xl bg-white p-4 pb-6 border-solid border-1 border-black shadow-md no-underline text-current;
+
+		&:hover {
+			box-shadow: 0 0 7px #1c1917;
+			transition: box-shadow 0.1s ease-in-out;
+		}
+
+		div {
+			@apply flex flex-col items-center text-center;
+
+			p {
+				@apply prose-stone mb-2 mt-0;
+
+				&:last-of-type {
+					@apply font-bold mb-3;
+				}
+
+				small {
+					@apply font-italic;
+				}
+			}
+		}
+
+		.verse-count {
+			@apply bottom-1 absolute text-xs prose-stone border-solid border-black border-1 rounded-lg py-1 px-2;
+		}
 	}
 </style>

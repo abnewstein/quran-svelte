@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Header from './Header.svelte';
-	import 'unocss';
+	import 'uno.css';
 	import './styles.css';
+	import Header from './Header.svelte';
 </script>
 
 <div class="app">
