@@ -25,9 +25,9 @@
 			<ChapterTitle {chapter} />
 		{/if}
 		<hr />
-		<div class="grid grid-cols-2 items-baseline gap-4 rounded p-1">
+		<div grid="~ cols-2 items-baseline gap-4 rounded p-1">
 			{#if chapterNumber !== 1}
-				<div class="text-right" dir="rtl">
+				<div class="ar-text" dir="rtl">
 					{firstVerse?.ar?.text}
 				</div>
 				<div>
@@ -36,7 +36,7 @@
 			{/if}
 			{#if combinedData}
 				{#each combinedData as verse, index}
-					<div class="text-right" dir="rtl">
+					<div class="ar-text" dir="rtl">
 						{@html verse.text}
 					</div>
 					<div>
@@ -48,3 +48,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.ar-text {
+		@apply text-right text-xl;
+	}
+</style>
