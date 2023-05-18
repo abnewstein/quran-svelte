@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { quranDataStore } from '$lib/QuranData';
 	import { get } from 'svelte/store';
+	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 
 	const quranData = get(quranDataStore);
 	const chapters = quranData?.getChapters();
@@ -13,15 +14,11 @@
 		</div>
 	{:else}
 		{#each chapters as chapter (chapter.number)}
-			<a class="chapter-card" href="/chapter/{chapter.number}">
-				<div>
-					<strong class="text-xl">{chapter.number}</strong>
-					<p>
-						{chapter.name.arabic} | <small>{chapter.name.transliteration}</small>
-					</p>
-					<p>{chapter.name.english}</p>
-					<span class="verse-count">{chapter.versesCount} verses</span>
-				</div>
+			<a class="chapter-card" border="solid 1 black rounded-xl" href="/chapter/{chapter.number}">
+				<ChapterTitle {chapter} />
+				<span class="verse-count text-xs prose-stone" border="solid 1 black rounded-lg" p="y-1 x-2"
+					>{chapter.versesCount} verses</span
+				>
 			</a>
 		{/each}
 	{/if}
@@ -29,25 +26,15 @@
 
 <style lang="scss">
 	a.chapter-card {
-		@apply block relative rounded-xl bg-white p-4 pb-6 border-solid border-1 border-black shadow-md no-underline text-current;
+		@apply block relative p-4 pb-6;
+		@apply bg-white shadow-md no-underline text-current;
 		&:hover {
 			box-shadow: 0 0 7px #1c1917;
 			transition: box-shadow 0.1s ease-in-out;
 		}
-		div {
-			@apply flex flex-col items-center text-center;
-			p {
-				@apply prose-stone mb-2 mt-0;
-				&:last-of-type {
-					@apply font-bold mb-3;
-				}
-				small {
-					@apply font-italic;
-				}
-			}
-		}
 		.verse-count {
-			@apply bottom-1 absolute text-xs prose-stone border-solid border-black border-1 rounded-lg py-1 px-2;
+			@apply bottom-1 absolute right-1 left-1 m-a;
+			width: fit-content;
 		}
 	}
 </style>
