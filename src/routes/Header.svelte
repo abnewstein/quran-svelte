@@ -14,7 +14,7 @@
 		</a>
 	</div>
 	<div>
-		<a href="/" class="text-2xl text-bold">القرآن - Al Qur'an</a>
+		<a href="/" class="font-bold">القرآن - Al Qur'an</a>
 	</div>
 </nav>
 

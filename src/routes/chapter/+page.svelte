@@ -30,28 +30,22 @@
 <style lang="scss">
 	a.chapter-card {
 		@apply block relative rounded-xl bg-white p-4 pb-6 border-solid border-1 border-black shadow-md no-underline text-current;
-
 		&:hover {
 			box-shadow: 0 0 7px #1c1917;
 			transition: box-shadow 0.1s ease-in-out;
 		}
-
 		div {
 			@apply flex flex-col items-center text-center;
-
 			p {
 				@apply prose-stone mb-2 mt-0;
-
 				&:last-of-type {
 					@apply font-bold mb-3;
 				}
-
 				small {
 					@apply font-italic;
 				}
 			}
 		}
-
 		.verse-count {
 			@apply bottom-1 absolute text-xs prose-stone border-solid border-black border-1 rounded-lg py-1 px-2;
 		}
