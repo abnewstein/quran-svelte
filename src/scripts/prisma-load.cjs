@@ -1,3 +1,4 @@
+/*
 const fs = require('fs');
 const { PrismaClient } = require('@prisma/client');
 
@@ -65,3 +66,4 @@ main()
 	.finally(async () => {
 		await prisma.$disconnect();
 	});
+*/
