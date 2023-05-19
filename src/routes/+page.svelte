@@ -6,7 +6,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section />
+<container> HOME </container>
 
 <style>
 </style>

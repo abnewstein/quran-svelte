@@ -12,7 +12,7 @@
 
 <style lang="scss">
 	p {
-		@apply prose-stone mb-2 mt-0;
+		@apply prose prose-stone mb-2 mt-0;
 		&:last-of-type {
 			@apply font-bold mb-3;
 		}
