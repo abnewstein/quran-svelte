@@ -20,7 +20,7 @@
 
 <!-- eslint-disable svelte/no-at-html-tags -->
 <div class="flex flex-col items-center py-2 md:py-10">
-	<container>
+	<container class="w-8/9">
 		{#if chapter}
 			<ChapterTitle {chapter} />
 		{/if}
