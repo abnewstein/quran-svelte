@@ -51,6 +51,6 @@
 
 <style>
 	.ar-text {
-		@apply text-right text-xl;
+		--uno: text-right text-xl;
 	}
 </style>
