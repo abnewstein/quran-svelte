@@ -12,7 +12,7 @@
 
 <style lang="scss">
 	p {
-		--uno: prose prose-stone mb-2 mt-0;
+		--uno: prose prose-stone mb-2 mt-0 text-center;
 		&:last-of-type {
 			--uno: font-bold mb-3;
 		}
