@@ -27,7 +27,7 @@
 <style lang="scss">
 	a.chapter-card {
 		--uno: block relative p-4 pb-6;
-		--uno: bg-white shadow-md no-underline text-current;
+		--uno: bg-white no-underline text-current;
 		&:hover {
 			filter: drop-shadow(0 0 3px limegreen);
 			box-shadow: 0 0 3px limegreen;

@@ -25,7 +25,7 @@
 			<ChapterTitle {chapter} />
 		{/if}
 		<hr />
-		<div grid="~ cols-2 items-baseline gap-4 rounded p-1">
+		<div class="verses-grid">
 			{#if chapterNumber !== 1}
 				<div class="ar-text" dir="rtl">
 					{firstVerse?.ar?.text}
@@ -49,7 +49,14 @@
 	</container>
 </div>
 
-<style>
+<style lang="scss">
+	.verses-grid {
+		--uno: grid items-baseline gap-4 rounded p-1;
+		grid-template-columns: 9fr 11fr;
+		@screen lt-sm {
+			grid-template-columns: 2fr 3fr;
+		}
+	}
 	.ar-text {
 		--uno: text-right text-xl;
 	}
