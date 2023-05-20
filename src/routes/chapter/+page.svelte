@@ -9,7 +9,7 @@
 
 <div class="p-5 gap-3" grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-6">
 	{#if !chapters}
-		<div flex="~ flex-col items-center justify-center">
+		<div flex="~ col items-center justify-center">
 			<span>Loading...</span>
 		</div>
 	{:else}
@@ -26,8 +26,8 @@
 
 <style lang="scss">
 	a.chapter-card {
-		@apply block relative p-4 pb-6;
-		@apply bg-white shadow-md no-underline text-current;
+		--uno: block relative p-4 pb-6;
+		--uno: bg-white shadow-md no-underline text-current;
 		&:hover {
 			filter: drop-shadow(0 0 3px limegreen);
 			box-shadow: 0 0 3px limegreen;
@@ -35,7 +35,7 @@
 			text-shadow: 0 0 1px limegreen;
 		}
 		.verse-count {
-			@apply bottom-1 absolute right-1 left-1 m-a;
+			--uno: bottom-1 absolute right-1 left-1 m-a;
 			width: fit-content;
 		}
 	}

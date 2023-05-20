@@ -12,12 +12,12 @@
 
 <style lang="scss">
 	p {
-		@apply prose prose-stone mb-2 mt-0;
+		--uno: prose prose-stone mb-2 mt-0;
 		&:last-of-type {
-			@apply font-bold mb-3;
+			--uno: font-bold mb-3;
 		}
 		small {
-			@apply font-italic text-sm;
+			--uno: font-italic text-sm;
 		}
 	}
 </style>

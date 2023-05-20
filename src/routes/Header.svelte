@@ -25,8 +25,8 @@
 
 <style lang="scss">
 	a.nav-item {
-		@apply no-underline text-current text-3xl p-1 px-2;
-		@apply border-1 border-solid rounded-lg;
+		--uno: no-underline text-current text-3xl p-1 px-2;
+		--uno: border-1 border-solid rounded-lg;
 		&.active {
 			// filter: drop-shadow(0 0 1px blueviolet);
 			box-shadow: 0 0 5px black;
