@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	const pageMap = {
-		'/': { name: 'Home', icon: 'i-ph-house' },
 		'/chapter': { name: 'Chapter', icon: 'i-ph-book-open-text-duotone' },
 		'/about': { name: 'About', icon: 'i-ph-identification-card' }
 	};
