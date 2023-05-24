@@ -95,28 +95,6 @@ class QuranData {
 			en: this.getVerse(1, 1, TranslationEnum.ENGLISH_SAM_GERRANS)
 		};
 	}
-
-	getSearchResult(query: string, translation: string): Quran.SearchResult {
-		// Implement your search logic here
-
-		// Example:
-		const chapters = this.chapters.filter((chapter) =>
-			chapter.name.english.toLowerCase().includes(query.toLowerCase())
-		);
-		const translations: Quran.Translation[] = Object.keys(this.translations).map((key) => {
-			const { metadata, verses } = this.translations[key];
-			const filteredVerses = verses.map((chapterVerses) =>
-				chapterVerses.filter((verse) => verse.text.toLowerCase().includes(query.toLowerCase()))
-			);
-			return { metadata, verses: filteredVerses };
-		});
-
-		return {
-			query,
-			chapters,
-			translations
-		};
-	}
 }
 
 export const quranDataStore = writable<QuranData | null>(null);
