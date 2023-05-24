@@ -3,21 +3,15 @@
 </script>
 
 <div flex="~ col items-center text-center">
-	<strong class="text-2xl">{chapter.number}</strong>
-	<p class="text-lg">
-		{chapter.name.arabic} | <small>{chapter.name.transliteration}</small>
+	<strong class="text-3xl">{chapter.number}</strong>
+	<p>
+		{chapter.name.arabic} | <i>{chapter.name.transliteration}</i>
 	</p>
-	<p>{chapter.name.english}</p>
+	<p class="font-bold mb-3">{chapter.name.english}</p>
 </div>
 
 <style lang="scss">
 	p {
-		--uno: prose prose-stone mb-2 mt-0 text-center;
-		&:last-of-type {
-			--uno: font-bold mb-3;
-		}
-		small {
-			--uno: font-italic text-sm;
-		}
+		--uno: prose prose-stone mb-2 mt-0 text-center text-lg;
 	}
 </style>
