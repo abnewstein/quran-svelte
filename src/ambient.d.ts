@@ -31,10 +31,10 @@ declare namespace Quran {
 	export interface Note {
 		chapterNumber: number;
 		verseNumber: number;
-		notes: {
-			index: number;
+		notesDetails: {
+			number: number;
 			text: string;
-			coords: number;
+			index: number;
 		}[];
 	}
 
