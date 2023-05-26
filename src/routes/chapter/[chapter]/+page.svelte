@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { quranDataStore, TranslationEnum } from '$lib/QuranStore';
+	import { quranDataStore } from '$lib/store';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 
 	export let data;
@@ -7,12 +7,7 @@
 	$: chapter = quranDataStore.getChapter;
 	$: verseDataEn = quranDataStore.getVersesEn;
 	$: verseDataAr = quranDataStore.getVersesAr;
-
-	const verseParams = [
-		[chapterNumber, TranslationEnum.ENGLISH_SAM_GERRANS],
-		[chapterNumber, TranslationEnum.ARABIC_ORIGINAL]
-	];
-	$: firstVerse = quranDataStore.getFirstVersePair;
+	$: firstVerse = quranDataStore.firstVersePair;
 </script>
 
 <!-- eslint-disable svelte/no-at-html-tags -->

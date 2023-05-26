@@ -1,0 +1,60 @@
+
+import getVersesArOriginal from '../data/verses_ar_original.json';
+import getVersesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
+import notesEnSamGerrans from '../data/notes_en_sam-gerrans.json';
+
+export enum TranslationEnum {
+	ARABIC_ORIGINAL = 'ar_original',
+	ENGLISH_SAM_GERRANS = 'en_sam-gerrans'
+	// Add more translations here
+}
+
+const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadata } = {
+	[TranslationEnum.ARABIC_ORIGINAL]: { name: 'Arabic Original', translator: '', language: 'ar' },
+	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
+		name: 'English - Sam Gerrans',
+		translator: 'Sam Gerrans',
+		language: 'en'
+	}
+	// Add more translations metadata here
+};
+
+const groupVersesByChapter = (verses: (string | number)[][]): Quran.Verse[][] => {
+	const versesByChapter: Quran.Verse[][] = [];
+	let currentChapterNumber = 1;
+	let currentChapterVerses: Quran.Verse[] = [];
+
+	let verseId = 1;
+	for(const [chapterNumber, verseNumber, text] of verses) {		
+		if (chapterNumber !== currentChapterNumber) {
+			versesByChapter.push(currentChapterVerses);
+			currentChapterNumber = chapterNumber as number;
+			currentChapterVerses = [];
+		}
+
+		currentChapterVerses.push({
+			id: Number(verseId++),
+			chapterNumber: Number(chapterNumber),
+			verseNumber: Number(verseNumber),
+			text: text as string
+		});
+	}
+
+	versesByChapter.push(currentChapterVerses);
+
+	return versesByChapter;
+};
+
+
+// Prepare translations data
+export const translationsData: Record<TranslationEnum, Quran.Translation> = {
+	[TranslationEnum.ARABIC_ORIGINAL]: {
+		metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
+		verses: groupVersesByChapter(getVersesArOriginal)
+	},
+	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
+		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
+		verses: groupVersesByChapter(getVersesEnSamGerrans),
+	}
+	// Add more translations here
+};
