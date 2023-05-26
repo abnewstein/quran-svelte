@@ -25,17 +25,19 @@ declare namespace Quran {
 	export interface Translation {
 		metadata: TranslationMetadata;
 		verses: Verse[][];
-		notes?: Note[];
+		notes?: Note[][];
 	}
+
+	type NoteDetails = {
+		number: number;
+		text: string;
+		index: number;
+	};
 
 	export interface Note {
 		chapterNumber: number;
 		verseNumber: number;
-		notesDetails: {
-			number: number;
-			text: string;
-			index: number;
-		}[];
+		noteDetails: NoteDetails[];
 	}
 
 	export interface SearchResult {

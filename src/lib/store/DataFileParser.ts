@@ -19,7 +19,38 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 	// Add more translations metadata here
 };
 
-const groupVersesByChapter = (verses: (string | number)[][]): Quran.Verse[][] => {
+// Group notes by chapter
+const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
+    const notesByChapter: Quran.Note[][] = [];
+    let currentChapterNumber = 1;
+    let currentChapterNotes: Quran.Note[] = [];
+
+    for(const [chapterNumber, verseNumber, noteNumber, noteText, noteIndex] of notes) {        
+        if (chapterNumber !== currentChapterNumber) {
+            notesByChapter.push(currentChapterNotes);
+            currentChapterNumber = chapterNumber as number;
+            currentChapterNotes = [];
+        }
+
+        currentChapterNotes.push({
+            chapterNumber: Number(chapterNumber),
+            verseNumber: Number(verseNumber),
+            noteDetails: [
+                {
+                    number: Number(noteNumber),
+                    text: noteText as string,
+                    index: Number(noteIndex)
+                }
+            ]
+        });
+    }
+
+    notesByChapter.push(currentChapterNotes);
+
+    return notesByChapter;
+};
+
+const groupVersesByChapter = (verses: (string | number)[][], specialCase: TranslationEnum = TranslationEnum.ARABIC_ORIGINAL): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
@@ -54,7 +85,8 @@ export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: groupVersesByChapter(getVersesEnSamGerrans),
+		verses: groupVersesByChapter(getVersesEnSamGerrans, TranslationEnum.ENGLISH_SAM_GERRANS),
+        notes: groupNotesByChapter(notesEnSamGerrans)
 	}
 	// Add more translations here
 };
