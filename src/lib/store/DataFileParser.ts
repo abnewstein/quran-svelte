@@ -1,6 +1,7 @@
 
-import getVersesArOriginal from '../data/verses_ar_original.json';
-import getVersesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
+import versesArOriginal from '../data/verses_ar_original.json';
+import versesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
+import versesEnSamGerransWithNotes from '../data/verses_en_sam-gerrans_with-notes.json';
 import notesEnSamGerrans from '../data/notes_en_sam-gerrans.json';
 
 export enum TranslationEnum {
@@ -50,7 +51,7 @@ const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
     return notesByChapter;
 };
 
-const groupVersesByChapter = (verses: (string | number)[][], specialCase: TranslationEnum = TranslationEnum.ARABIC_ORIGINAL): Quran.Verse[][] => {
+const groupVersesByChapter = (verses: (string | number)[][]): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
@@ -81,11 +82,11 @@ const groupVersesByChapter = (verses: (string | number)[][], specialCase: Transl
 export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	[TranslationEnum.ARABIC_ORIGINAL]: {
 		metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
-		verses: groupVersesByChapter(getVersesArOriginal)
+		verses: groupVersesByChapter(versesArOriginal)
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: groupVersesByChapter(getVersesEnSamGerrans, TranslationEnum.ENGLISH_SAM_GERRANS),
+		verses: groupVersesByChapter(versesEnSamGerransWithNotes),
         notes: groupNotesByChapter(notesEnSamGerrans)
 	}
 	// Add more translations here

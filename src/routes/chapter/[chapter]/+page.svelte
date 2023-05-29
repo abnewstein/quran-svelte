@@ -23,7 +23,7 @@
 					{$firstVerse?.ar?.text}
 				</div>
 				<div>
-					{$firstVerse?.en?.text}
+					{@html $firstVerse?.en?.text}
 				</div>
 			{/if}
 			{#each $verseDataAr(chapterNumber) as verse, index}
