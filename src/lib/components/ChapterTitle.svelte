@@ -7,11 +7,11 @@
 	<p>
 		{chapter.name.arabic} | <i>{chapter.name.transliteration}</i>
 	</p>
-	<p class="font-bold mb-3">{chapter.name.english}</p>
+	<strong class="text-2xl mb-3">{chapter.name.english}</strong>
 </div>
 
 <style lang="scss">
 	p {
-		--uno: prose prose-stone mb-2 mt-0 text-center text-lg;
+		--uno: prose prose-stone mb-3 mt-0 text-center text-2xl;
 	}
 </style>

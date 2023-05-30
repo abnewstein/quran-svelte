@@ -1,6 +1,6 @@
 <script lang="ts">
 	import 'uno.css';
-	import './styles.css';
+	import './styles.scss';
 	import Header from '$lib/components/Header.svelte';
 	import { fade } from 'svelte/transition';
 

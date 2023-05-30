@@ -22,17 +22,18 @@
 				<div class="ar-text" dir="rtl">
 					{$firstVerse?.ar?.text}
 				</div>
-				<div>
+				<div class="en-text">
 					{@html $firstVerse?.en?.text}
 				</div>
 			{/if}
 			{#each $verseDataAr(chapterNumber) as verse, index}
+				{@const verseTextEn = $verseDataEn(chapterNumber)[index].text}
 				<div class="ar-text" dir="rtl">
 					{@html verse.text}
 				</div>
-				<div>
+				<div class="en-text">
 					<sup class="font-bold mr-1">{index + 1}</sup>
-					{@html $verseDataEn(chapterNumber)[index].text}
+					{@html verseTextEn}
 				</div>
 			{/each}
 		</div>
@@ -48,6 +49,10 @@
 		}
 	}
 	.ar-text {
-		--uno: text-right text-xl;
+		--uno: text-right text-2xl;
+	}
+
+	.en-text {
+		--uno: text-xl;
 	}
 </style>

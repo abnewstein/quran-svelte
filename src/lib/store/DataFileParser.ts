@@ -51,7 +51,7 @@ const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
     return notesByChapter;
 };
 
-const groupVersesByChapter = (verses: (string | number)[][]): Quran.Verse[][] => {
+const groupVersesByChapter = (verses: (string | number)[][], withNotes = false): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
@@ -64,12 +64,22 @@ const groupVersesByChapter = (verses: (string | number)[][]): Quran.Verse[][] =>
 			currentChapterVerses = [];
 		}
 
-		currentChapterVerses.push({
+		let verseText = text as string;
+
+		if (withNotes) {
+			// verseText = verseText.replace(/<sup>/g, '<sup class="verse-note">');
+			// replace all instances of <sup> with <sup class="verse-note"> and also enclose the sup content in a button tag
+			verseText = verseText.replace(/<sup>(.*?)<\/sup>/g, '<sup class="verse-note"><button class="verse-note-button">$1</button></sup>');
+		}
+		const verse: Quran.Verse = {
 			id: Number(verseId++),
 			chapterNumber: Number(chapterNumber),
 			verseNumber: Number(verseNumber),
-			text: text as string
-		});
+			text: verseText as string
+		};
+
+		
+		currentChapterVerses.push(verse);
 	}
 
 	versesByChapter.push(currentChapterVerses);
@@ -86,7 +96,7 @@ export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: groupVersesByChapter(versesEnSamGerransWithNotes),
+		verses: groupVersesByChapter(versesEnSamGerransWithNotes, true),
         notes: groupNotesByChapter(notesEnSamGerrans)
 	}
 	// Add more translations here

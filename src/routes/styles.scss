@@ -26,6 +26,13 @@ body {
 	white-space: nowrap;
 }
 
-sup {
-	margin: 0 0.125rem;
+.verse-note-button {
+	--uno: border-none outline-none bg-white rounded-sm text-blue-500;
+
+	&:hover {
+		--uno: bg-gray-800 text-white cursor-pointer;
+	}
+	&:active {
+		--uno: bg-gray-300 text-black;		
+	}
 }
