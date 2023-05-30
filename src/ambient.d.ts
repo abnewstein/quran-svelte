@@ -31,7 +31,6 @@ declare namespace Quran {
 	type NoteDetails = {
 		number: number;
 		text: string;
-		index: number;
 	};
 
 	export interface Note {

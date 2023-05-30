@@ -1,5 +1,4 @@
 import versesArOriginal from '../data/verses_ar_original.json';
-import versesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
 import versesEnSamGerransWithNotes from '../data/verses_en_sam-gerrans_with-notes.json';
 import notesEnSamGerrans from '../data/notes_en_sam-gerrans.json';
 
@@ -9,6 +8,7 @@ export enum TranslationEnum {
 	// Add more translations here
 }
 
+// Contains metadata for all translations
 const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadata } = {
 	[TranslationEnum.ARABIC_ORIGINAL]: { name: 'Arabic Original', translator: '', language: 'ar' },
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
@@ -19,30 +19,32 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 	// Add more translations metadata here
 };
 
-// Group notes by chapter
+const formatNote = ([chapterNumber, verseNumber, noteNumber, noteText]: (string | number)[]): Quran.Note => {
+	return {
+		chapterNumber: Number(chapterNumber),
+		verseNumber: Number(verseNumber),
+		noteDetails: [
+			{
+				number: Number(noteNumber),
+				text: noteText as string,
+			}
+		]
+	};
+};
+
 const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
 	const notesByChapter: Quran.Note[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterNotes: Quran.Note[] = [];
 
-	for (const [chapterNumber, verseNumber, noteNumber, noteText, noteIndex] of notes) {
-		if (chapterNumber !== currentChapterNumber) {
+	for (const note of notes) {
+		if (note[0] !== currentChapterNumber) {
 			notesByChapter.push(currentChapterNotes);
-			currentChapterNumber = chapterNumber as number;
+			currentChapterNumber = note[0] as number;
 			currentChapterNotes = [];
 		}
 
-		currentChapterNotes.push({
-			chapterNumber: Number(chapterNumber),
-			verseNumber: Number(verseNumber),
-			noteDetails: [
-				{
-					number: Number(noteNumber),
-					text: noteText as string,
-					index: Number(noteIndex)
-				}
-			]
-		});
+		currentChapterNotes.push(formatNote(note));
 	}
 
 	notesByChapter.push(currentChapterNotes);
@@ -50,42 +52,41 @@ const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
 	return notesByChapter;
 };
 
-const groupVersesByChapter = (
-	verses: (string | number)[][],
-	withNotes = false
-): Quran.Verse[][] => {
+const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], verseId: number, withNotes = false): Quran.Verse => {
+	let verseText = text as string;
+
+	if (withNotes) {
+		verseText = verseText.replace(
+			/<sup>(.*?)<\/sup>/g,
+			`<sup class="verse-note"><button class="verse-note-button" data-chapter-num="${chapterNumber}" data-verse-num="${verseNumber}">$1</button></sup>`
+		);
+	}
+
+	return {
+		id: verseId,
+		chapterNumber: Number(chapterNumber),
+		verseNumber: Number(verseNumber),
+		text: verseText
+	};
+};
+
+const groupVersesByChapter = (verses: (string | number)[][], withNotes = false): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
-
 	let verseId = 1;
-	for (const [chapterNumber, verseNumber, text] of verses) {
-		if (chapterNumber !== currentChapterNumber) {
+
+	for (const verse of verses) {
+		if (verse[0] !== currentChapterNumber) {
 			versesByChapter.push(currentChapterVerses);
-			currentChapterNumber = chapterNumber as number;
+			currentChapterNumber = verse[0] as number;
 			currentChapterVerses = [];
 		}
 
-		let verseText = text as string;
-
-		if (withNotes) {
-			verseText = verseText.replace(
-				/<sup>(.*?)<\/sup>/g,
-				'<sup class="verse-note"><button class="verse-note-button">$1</button></sup>'
-			);
-		}
-		const verse: Quran.Verse = {
-			id: Number(verseId++),
-			chapterNumber: Number(chapterNumber),
-			verseNumber: Number(verseNumber),
-			text: verseText as string
-		};
-
-		currentChapterVerses.push(verse);
+		currentChapterVerses.push(formatVerse(verse, verseId++, withNotes));
 	}
 
 	versesByChapter.push(currentChapterVerses);
-
 	return versesByChapter;
 };
 
