@@ -1,2 +1,2 @@
-export * from './DataFileParser'
-export * from './QuranStore'
+export * from './DataFileParser';
+export * from './QuranStore';

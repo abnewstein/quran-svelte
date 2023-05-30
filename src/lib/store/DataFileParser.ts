@@ -1,4 +1,3 @@
-
 import versesArOriginal from '../data/verses_ar_original.json';
 import versesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
 import versesEnSamGerransWithNotes from '../data/verses_en_sam-gerrans_with-notes.json';
@@ -22,42 +21,45 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 
 // Group notes by chapter
 const groupNotesByChapter = (notes: (string | number)[][]): Quran.Note[][] => {
-    const notesByChapter: Quran.Note[][] = [];
-    let currentChapterNumber = 1;
-    let currentChapterNotes: Quran.Note[] = [];
+	const notesByChapter: Quran.Note[][] = [];
+	let currentChapterNumber = 1;
+	let currentChapterNotes: Quran.Note[] = [];
 
-    for(const [chapterNumber, verseNumber, noteNumber, noteText, noteIndex] of notes) {        
-        if (chapterNumber !== currentChapterNumber) {
-            notesByChapter.push(currentChapterNotes);
-            currentChapterNumber = chapterNumber as number;
-            currentChapterNotes = [];
-        }
+	for (const [chapterNumber, verseNumber, noteNumber, noteText, noteIndex] of notes) {
+		if (chapterNumber !== currentChapterNumber) {
+			notesByChapter.push(currentChapterNotes);
+			currentChapterNumber = chapterNumber as number;
+			currentChapterNotes = [];
+		}
 
-        currentChapterNotes.push({
-            chapterNumber: Number(chapterNumber),
-            verseNumber: Number(verseNumber),
-            noteDetails: [
-                {
-                    number: Number(noteNumber),
-                    text: noteText as string,
-                    index: Number(noteIndex)
-                }
-            ]
-        });
-    }
+		currentChapterNotes.push({
+			chapterNumber: Number(chapterNumber),
+			verseNumber: Number(verseNumber),
+			noteDetails: [
+				{
+					number: Number(noteNumber),
+					text: noteText as string,
+					index: Number(noteIndex)
+				}
+			]
+		});
+	}
 
-    notesByChapter.push(currentChapterNotes);
+	notesByChapter.push(currentChapterNotes);
 
-    return notesByChapter;
+	return notesByChapter;
 };
 
-const groupVersesByChapter = (verses: (string | number)[][], withNotes = false): Quran.Verse[][] => {
+const groupVersesByChapter = (
+	verses: (string | number)[][],
+	withNotes = false
+): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
 
 	let verseId = 1;
-	for(const [chapterNumber, verseNumber, text] of verses) {		
+	for (const [chapterNumber, verseNumber, text] of verses) {
 		if (chapterNumber !== currentChapterNumber) {
 			versesByChapter.push(currentChapterVerses);
 			currentChapterNumber = chapterNumber as number;
@@ -67,9 +69,10 @@ const groupVersesByChapter = (verses: (string | number)[][], withNotes = false):
 		let verseText = text as string;
 
 		if (withNotes) {
-			// verseText = verseText.replace(/<sup>/g, '<sup class="verse-note">');
-			// replace all instances of <sup> with <sup class="verse-note"> and also enclose the sup content in a button tag
-			verseText = verseText.replace(/<sup>(.*?)<\/sup>/g, '<sup class="verse-note"><button class="verse-note-button">$1</button></sup>');
+			verseText = verseText.replace(
+				/<sup>(.*?)<\/sup>/g,
+				'<sup class="verse-note"><button class="verse-note-button">$1</button></sup>'
+			);
 		}
 		const verse: Quran.Verse = {
 			id: Number(verseId++),
@@ -78,7 +81,6 @@ const groupVersesByChapter = (verses: (string | number)[][], withNotes = false):
 			text: verseText as string
 		};
 
-		
 		currentChapterVerses.push(verse);
 	}
 
@@ -86,7 +88,6 @@ const groupVersesByChapter = (verses: (string | number)[][], withNotes = false):
 
 	return versesByChapter;
 };
-
 
 // Prepare translations data
 export const translationsData: Record<TranslationEnum, Quran.Translation> = {
@@ -97,7 +98,7 @@ export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
 		verses: groupVersesByChapter(versesEnSamGerransWithNotes, true),
-        notes: groupNotesByChapter(notesEnSamGerrans)
+		notes: groupNotesByChapter(notesEnSamGerrans)
 	}
 	// Add more translations here
 };

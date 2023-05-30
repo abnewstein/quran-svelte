@@ -1,5 +1,12 @@
 // uno.config.ts
-import { defineConfig, presetIcons, presetAttributify, presetTypography, presetUno, presetTagify } from 'unocss';
+import {
+	defineConfig,
+	presetIcons,
+	presetAttributify,
+	presetTypography,
+	presetUno,
+	presetTagify
+} from 'unocss';
 import extractorSvelte from '@unocss/extractor-svelte';
 import transformerDirectives from '@unocss/transformer-directives';
 
