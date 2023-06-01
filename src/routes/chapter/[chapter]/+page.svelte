@@ -19,22 +19,22 @@
 		<hr />
 		<div class="verses-grid">
 			{#if chapterNumber !== 1}
-				<div class="ar-text" dir="rtl">
+				<p class="ar-text" dir="rtl">
 					{$firstVerse?.ar?.text}
-				</div>
-				<div class="en-text">
+				</p>
+				<p class="en-text">
 					{@html $firstVerse?.en?.text}
-				</div>
+				</p>
 			{/if}
 			{#each $verseDataAr(chapterNumber) as verse, index}
 				{@const verseTextEn = $verseDataEn(chapterNumber)[index].text}
-				<div class="ar-text" dir="rtl">
+				<p class="ar-text" dir="rtl">
 					{@html verse.text}
-				</div>
-				<div class="en-text">
+				</p>
+				<p class="en-text">
 					<sup class="font-bold mr-1">{index + 1}</sup>
 					{@html verseTextEn}
-				</div>
+				</p>
 			{/each}
 		</div>
 	</container>
@@ -48,11 +48,15 @@
 			grid-template-columns: 2fr 3fr;
 		}
 	}
-	.ar-text {
-		--uno: text-right text-2xl;
-	}
+	p {
+		--uno: prose my-0;
 
-	.en-text {
-		--uno: text-xl;
+		&.ar-text {
+			--uno: text-right text-2xl;
+		}
+
+		&.en-text {
+			--uno: text-xl;
+		}
 	}
 </style>

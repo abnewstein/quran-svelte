@@ -10,7 +10,7 @@ export enum TranslationEnum {
 
 // Contains metadata for all translations
 const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadata } = {
-	[TranslationEnum.ARABIC_ORIGINAL]: { name: 'Arabic Original', translator: '', language: 'ar' },
+	[TranslationEnum.ARABIC_ORIGINAL]: { name: 'Arabic Original', language: 'ar' },
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		name: 'English - Sam Gerrans',
 		translator: 'Sam Gerrans',
@@ -19,64 +19,72 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 	// Add more translations metadata here
 };
 
-const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], verseId: number, verseNotes: (string | number)[][]): Quran.Verse => {
-	let verseText = text as string;
-	const notesRecord: Quran.NoteDetails = {};
+type ChapterVerseKey = string;
 
-	for (const note of verseNotes) {
-		verseText = verseText.replace(
-			/<sup>(.*?)<\/sup>/g,
-			`<sup class="verse-note"><button class="verse-note-button" data-chapter-num="${chapterNumber}" data-verse-num="${verseNumber}">$1</button></sup>`
-		);
-		notesRecord[note[2] as number] = note[3] as string;
+const createNotesLookup = (notes: (string | number)[][]): Record<ChapterVerseKey, Quran.NoteDetails> => {
+	const notesLookup: Record<ChapterVerseKey, Quran.NoteDetails> = {};
+
+	for (const note of notes) {
+		const chapterVerseKey = `${note[0]}-${note[1]}`;
+		if (!notesLookup[chapterVerseKey]) {
+			notesLookup[chapterVerseKey] = [];
+		}
+
+		notesLookup[chapterVerseKey].push({
+			number: note[2] as number,
+			text: note[3] as string
+		});
 	}
+
+	return notesLookup;
+};
+
+const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], verseId: number, verseNotes: Quran.NoteDetails): Quran.Verse => {
+	let verseText = text as string;
+	verseText = verseText.replace(
+		/<sup>(.*?)<\/sup>/g,
+		`<sup class="verse-note"><a href="#" class="verse-note-link">$1</a></sup>`
+	);	
 
 	return {
 		id: verseId,
 		chapterNumber: Number(chapterNumber),
 		verseNumber: Number(verseNumber),
 		text: verseText,
-		notes: notesRecord
+		notes: verseNotes
 	};
 };
 
-const groupVersesByChapter = (verses: (string | number)[][], notes: (string | number)[][]): Quran.Verse[][] => {
+const groupVersesByChapter = (verses: (string | number)[][], notesLookup: Record<ChapterVerseKey, Quran.NoteDetails>): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
 	let verseId = 1;
 
-	for (const verse of verses) {
-		const currentVerseNumber = Number(verse[1]);
+	for (const verse of verses) {		
 		if (verse[0] !== currentChapterNumber) {
 			versesByChapter.push(currentChapterVerses);
 			currentChapterNumber = verse[0] as number;
 			currentChapterVerses = [];
 		}
-		const verseNotes: (string | number)[][] = [];
-		if(notes.length > 0){
-		for (const note of notes) {
-				if (note[0] === currentChapterNumber && note[1] === currentVerseNumber) {
-					verseNotes.push(note);
-				}
-			}
-		}		
+		const verseNotes = notesLookup[`${verse[0]}-${verse[1]}`] || [];
 		currentChapterVerses.push(formatVerse(verse, verseId++, verseNotes));
 	}
 
-	versesByChapter.push(currentChapterVerses);	
+	versesByChapter.push(currentChapterVerses);		
 	return versesByChapter;
 };
 
 // Prepare translations data
+const notesLookup = createNotesLookup(notesEnSamGerrans);
 export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	[TranslationEnum.ARABIC_ORIGINAL]: {
 		metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
-		verses: groupVersesByChapter(versesArOriginal, [])
+		verses: groupVersesByChapter(versesArOriginal, {})
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: groupVersesByChapter(versesEnSamGerransWithNotes, notesEnSamGerrans),
+		verses: groupVersesByChapter(versesEnSamGerransWithNotes, notesLookup),
 	}
 	// Add more translations here
 };

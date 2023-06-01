@@ -9,19 +9,24 @@ declare namespace Quran {
 		versesCount: number;
 	}
 
-	type NoteDetails = Record<number, string>;
+	export interface NoteDetail {
+		number: number;
+		text: string;
+	}
+
+	type NoteDetails = NoteDetail[];
 
 	export interface Verse {
 		id: number;
 		chapterNumber: number;
 		verseNumber: number;
 		text: string;
-		notes?: noteDetails;
+		notes?: NoteDetails;
 	}
 
 	export interface TranslationMetadata {
 		name: string;
-		translator: string;
+		translator?: string;
 		language: string;
 	}
 

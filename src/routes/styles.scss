@@ -26,13 +26,14 @@ body {
 	white-space: nowrap;
 }
 
-.verse-note-button {
-	--uno: px-3px border-none outline-none bg-white rounded-sm text-blue-500;
-
-	&:hover {
-		--uno: bg-gray-800 text-white cursor-pointer;
-	}
-	&:active {
-		--uno: bg-gray-300 text-black;
+sup.verse-note {
+	a.verse-note-link {
+		--uno: px-2px rounded-lg decoration-none;		
+		&:hover {
+			--uno: bg-gray-800 text-white cursor-pointer;
+		}
+		&:active {
+			--uno: bg-gray-300 text-black;
+		}
 	}
 }
