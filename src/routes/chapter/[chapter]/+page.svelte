@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { quranDataStore, TranslationEnum } from '$lib/QuranStore';
+	import { quranDataStore } from '$lib/store';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 
 	export let data;
@@ -7,12 +7,7 @@
 	$: chapter = quranDataStore.getChapter;
 	$: verseDataEn = quranDataStore.getVersesEn;
 	$: verseDataAr = quranDataStore.getVersesAr;
-
-	const verseParams = [
-		[chapterNumber, TranslationEnum.ENGLISH_SAM_GERRANS],
-		[chapterNumber, TranslationEnum.ARABIC_ORIGINAL]
-	];
-	$: firstVerse = quranDataStore.getFirstVersePair;
+	$: firstVerse = quranDataStore.firstVersePair;
 </script>
 
 <!-- eslint-disable svelte/no-at-html-tags -->
@@ -24,21 +19,22 @@
 		<hr />
 		<div class="verses-grid">
 			{#if chapterNumber !== 1}
-				<div class="ar-text" dir="rtl">
+				<p class="ar-text" dir="rtl">
 					{$firstVerse?.ar?.text}
-				</div>
-				<div>
-					{$firstVerse?.en?.text}
-				</div>
+				</p>
+				<p class="en-text">
+					{@html $firstVerse?.en?.text}
+				</p>
 			{/if}
 			{#each $verseDataAr(chapterNumber) as verse, index}
-				<div class="ar-text" dir="rtl">
+				{@const verseTextEn = $verseDataEn(chapterNumber)[index].text}
+				<p class="ar-text" dir="rtl">
 					{@html verse.text}
-				</div>
-				<div>
+				</p>
+				<p class="en-text">
 					<sup class="font-bold mr-1">{index + 1}</sup>
-					{@html $verseDataEn(chapterNumber)[index].text}
-				</div>
+					{@html verseTextEn}
+				</p>
 			{/each}
 		</div>
 	</container>
@@ -52,7 +48,15 @@
 			grid-template-columns: 2fr 3fr;
 		}
 	}
-	.ar-text {
-		--uno: text-right text-xl;
+	p {
+		--uno: prose my-0;
+
+		&.ar-text {
+			--uno: text-right text-2xl;
+		}
+
+		&.en-text {
+			--uno: text-xl;
+		}
 	}
 </style>

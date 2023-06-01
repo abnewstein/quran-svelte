@@ -4,7 +4,7 @@
 </script>
 
 <a border="solid 1 black rounded-xl" href="/chapter/{chapter.number}">
-	<ChapterTitle {chapter} />
+	<ChapterTitle {chapter} minimal />
 	<span class="verse-count text-xs prose-stone" border="solid 1 black rounded-lg" p="y-1 x-2"
 		>{chapter.versesCount} verses</span
 	>
