@@ -9,11 +9,14 @@ declare namespace Quran {
 		versesCount: number;
 	}
 
+	type NoteDetails = Record<number, string>;
+
 	export interface Verse {
 		id: number;
-		chapterNumber?: number;
-		verseNumber?: number;
+		chapterNumber: number;
+		verseNumber: number;
 		text: string;
+		notes?: noteDetails;
 	}
 
 	export interface TranslationMetadata {
@@ -25,19 +28,7 @@ declare namespace Quran {
 	export interface Translation {
 		metadata: TranslationMetadata;
 		verses: Verse[][];
-		notes?: Note[][];
-	}
-
-	type NoteDetails = {
-		number: number;
-		text: string;
-	};
-
-	export interface Note {
-		chapterNumber: number;
-		verseNumber: number;
-		noteDetails: NoteDetails[];
-	}
+	}	
 
 	export interface SearchResult {
 		query: string;
