@@ -1,17 +1,22 @@
 <script lang="ts">
 	export let chapter: Quran.Chapter;
+	export let minimal: boolean = false;
 </script>
 
-<div flex="~ col items-center text-center">
+<div flex="~ col items-center" class:text-xl={minimal}>
 	<strong class="text-3xl">{chapter.number}</strong>
-	<p>
+	<p class:text-2xl={!minimal}>
 		{chapter.name.arabic} | <i>{chapter.name.transliteration}</i>
 	</p>
-	<strong class="text-2xl mb-3">{chapter.name.english}</strong>
+	<strong class="mb-4" class:text-2xl={!minimal}>{chapter.name.english}</strong>
 </div>
 
 <style lang="scss">
 	p {
-		--uno: prose prose-stone mb-3 mt-0 text-center text-2xl;
+		--uno: prose prose-stone my-2 text-center;
+	}
+
+	strong {
+		--uno: prose text-center;
 	}
 </style>
