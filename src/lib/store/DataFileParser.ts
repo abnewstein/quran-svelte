@@ -43,7 +43,7 @@ const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], ve
 	let verseText = text as string;
 	verseText = verseText.replace(
 		/<sup>(.*?)<\/sup>/g,
-		`<sup class="verse-note"><a href="#" class="verse-note-link">$1</a></sup>`
+		`<sup class="verse-note"><a href="#" class="verse-note-link-${chapterNumber}:${verseNumber}:$1">$1</a></sup>`
 	);	
 
 	return {
