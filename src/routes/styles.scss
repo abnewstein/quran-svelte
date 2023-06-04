@@ -27,7 +27,7 @@ body {
 }
 
 sup.verse-note {
-	a.verse-note-link {
+	a {
 		--uno: px-2px rounded-lg decoration-none;		
 		&:hover {
 			--uno: bg-gray-800 text-white cursor-pointer;

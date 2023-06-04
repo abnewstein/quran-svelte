@@ -31,7 +31,7 @@ const createNotesLookup = (notes: (string | number)[][]): Record<ChapterVerseKey
 		}
 
 		notesLookup[chapterVerseKey].push({
-			number: note[2] as number,
+			id: `${note[0]}:${note[1]}:${note[2]}` as Quran.VerseNoteKey,
 			text: note[3] as string
 		});
 	}
@@ -43,7 +43,7 @@ const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], ve
 	let verseText = text as string;
 	verseText = verseText.replace(
 		/<sup>(.*?)<\/sup>/g,
-		`<sup class="verse-note"><a href="#" class="verse-note-link">$1</a></sup>`
+		`<sup class="verse-note"><a href="#" class="verse-note-link-${chapterNumber}:${verseNumber}:$1">$1</a></sup>`
 	);	
 
 	return {

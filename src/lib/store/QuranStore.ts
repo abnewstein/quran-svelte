@@ -1,45 +1,26 @@
-import { writable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 import chaptersData from '../data/chapters-data.json';
 import { TranslationEnum, translationsData } from './DataFileParser';
 
-const _quranDataStore = writable({
-	chapters: chaptersData,
-	translations: translationsData
-});
+function createQuranStore() {
+	const { subscribe } = writable({
+		chapters: chaptersData,
+		translations: translationsData,
+		getChapter: (chapterNumber: number): Quran.Chapter =>
+			chaptersData.find((chapter) => chapter.number === chapterNumber) as Quran.Chapter,
+		getVersesAr: (chapterNumber: number): Quran.Verse[] =>
+			translationsData[TranslationEnum.ARABIC_ORIGINAL].verses[chapterNumber - 1],
+		getVersesEn: (chapterNumber: number): Quran.Verse[] =>
+			translationsData[TranslationEnum.ENGLISH_SAM_GERRANS].verses[chapterNumber - 1],
+		firstVersePair: {
+			ar: translationsData[TranslationEnum.ARABIC_ORIGINAL]?.verses[0][0],
+			en: translationsData[TranslationEnum.ENGLISH_SAM_GERRANS]?.verses[0][0]
+		}
+	});
 
-export const quranDataStore = {
-	subscribe: _quranDataStore.subscribe,
+	return {
+		subscribe,
+	};
+}
 
-	chapters: derived(_quranDataStore, ($store) => $store.chapters),
-
-	getChapter: derived(
-		_quranDataStore,
-		($store) =>
-			(chapterNumber: number): Quran.Chapter =>
-				$store.chapters.find((chapter) => chapter.number === chapterNumber) as Quran.Chapter
-	),
-
-	getVersesAr: derived(
-		_quranDataStore,
-		($store) =>
-			(chapterNumber: number): Quran.Verse[] =>
-				$store.translations[TranslationEnum.ARABIC_ORIGINAL].verses[chapterNumber - 1]
-	),
-
-	getVersesEn: derived(
-		_quranDataStore,
-		($store) =>
-			(chapterNumber: number): Quran.Verse[] =>
-				$store.translations[TranslationEnum.ENGLISH_SAM_GERRANS].verses[chapterNumber - 1]
-	),
-
-	firstVersePair: derived(_quranDataStore, ($store) => {
-		const firstVerseAr = $store.translations[TranslationEnum.ARABIC_ORIGINAL]?.verses[0][0];
-		const firstVerseEn = $store.translations[TranslationEnum.ENGLISH_SAM_GERRANS]?.verses[0][0];
-
-		return {
-			ar: firstVerseAr,
-			en: firstVerseEn
-		};
-	})
-};
+export const QuranStore = createQuranStore();
