@@ -26,9 +26,15 @@
 			}
 		}
 		p {
-			--uno: prose prose-stone my-2 text-center text-xl;
+			--uno: prose prose-slate my-2 text-center text-2xl font-bold;
+			i {
+				--uno: text-xl;
+			}
 			&.minimal {
-				--uno: text-lg;
+				--uno: text-xl;
+				i {
+					--uno: text-lg;
+				}
 			}
 		}
 	}

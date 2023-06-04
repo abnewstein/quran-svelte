@@ -1,36 +1,40 @@
 <script lang="ts">
 	import VerseNotes from './VerseNotes.svelte';
-	import { quranDataStore } from '$lib/store';
+	import { QuranStore } from '$lib/store';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked';
 
 	export let chapterNumber: number;
-	$: verseDataEn = quranDataStore.getVersesEn;
-	$: verseDataAr = quranDataStore.getVersesAr;
-	$: firstVerse = quranDataStore.firstVersePair;
-	const verseNotesList: Quran.NoteDetails = [];
+	$: verseDataEn = $QuranStore.getVersesEn(chapterNumber);
+	$: verseDataAr = $QuranStore.getVersesAr(chapterNumber);
+	$: firstVerse = $QuranStore.firstVersePair;
+
+	const handleNoteClick = (key: Quran.VerseNoteKey) => {
+		console.log(key);
+	};
 </script>
 
 <div class="verses-grid">
 	{#if chapterNumber !== 1 && chapterNumber !== 9}
 		<p class="ar-text" dir="rtl">
-			{$firstVerse?.ar?.text}
+			{firstVerse?.ar?.text}
 		</p>
-		<p class="en-text">
-			{@html $firstVerse?.en?.text}
+		<p class="en-text" use:VerseNoteClicked={handleNoteClick}>
+			{@html firstVerse?.en?.text}
 		</p>
+		<VerseNotes verseNotes={firstVerse.en.notes} />
 	{/if}
-	{#each $verseDataAr(chapterNumber) as verse, index}
-		{@const verseEn = $verseDataEn(chapterNumber)[index]}
+	{#each verseDataAr as verse, index (verse.id)}
+		{@const verseEn = verseDataEn[index]}
 		{@const verseTextEn = verseEn?.text}
 		{@const verseNotes = verseEn?.notes ?? []}
 		<p class="ar-text" dir="rtl">
 			{verse.text}
 		</p>
-		<p class="en-text" use:VerseNoteClicked>
+		<p class="en-text" use:VerseNoteClicked={handleNoteClick}>
 			<sup class="font-bold mr-1">{verse.verseNumber}</sup>
 			{@html verseTextEn}
 		</p>
-		<VerseNotes {verseNotes} verseKey="{verse.chapterNumber}:{verse.verseNumber}" />
+		<VerseNotes {verseNotes} />
 	{/each}
 </div>
 

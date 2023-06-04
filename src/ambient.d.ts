@@ -35,6 +35,9 @@ declare namespace Quran {
 		verses: Verse[][];
 	}	
 
+	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
+	export type VerseNoteKey = `${number}:${number}:${number}`;
+
 	export interface SearchResult {
 		query: string;
 		chapters: Chapter[];

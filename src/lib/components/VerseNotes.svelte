@@ -1,22 +1,13 @@
 <script lang="ts">
 	export let verseNotes: Quran.NoteDetails = [];
-	export let verseKey: string = '';
-
-	// deep clone the verseNotes prop
-	$: verseNotesCopy = { ...verseNotes };
-	const addNote = (noteNumber: number) => {
-		verseNotesCopy = { ...verseNotesCopy, ...verseNotes[noteNumber] };
-	};
-	const removeNote = (noteNumber: number) => {
-		verseNotes = verseNotesCopy.filter((n) => n.number !== noteNumber);
-	};
+	export let removeNote: (number: number) => void = () => {};
 </script>
 
-{#if verseNotesCopy.length > 0}
+{#if verseNotes.length > 0}
 	<div class="verse-notes-container">
-		{#each verseNotesCopy as note}
-			<span id="verse-note-{verseKey}:{note.number}"
-				>{note.text}
+		{#each verseNotes as note}
+			<span>
+				{note.text}
 				<button on:click={() => removeNote(note.number)}>X</button>
 			</span>
 		{/each}

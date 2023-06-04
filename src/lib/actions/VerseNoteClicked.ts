@@ -1,22 +1,19 @@
-export const VerseNoteClicked = (node: HTMLElement, _options = {}) => {        
+export const VerseNoteClicked = (node: HTMLElement, handleNoteClickFn: (verseNoteKey: Quran.VerseNoteKey) => void) => {        
 
     const handleNoteClick = (event: Event) => {
         event.preventDefault();
-        console.log('handleNoteClick', event.target);
         const target = event.target as HTMLElement;
+        if(target.tagName.toLowerCase() === 'a'){            
+            const verseNoteKey = target.getAttribute('class')?.split('verse-note-link-')[1] ?? "";
+            handleNoteClickFn(verseNoteKey as Quran.VerseNoteKey)
+        }
     }
 
-    const verseNotesElements = node.querySelectorAll('a[class*=verse-note-link]');
-    for (const verseNotesElement of verseNotesElements) {
-        verseNotesElement.addEventListener('click', handleNoteClick);
-    }
-    console.log(verseNotesElements)
+    node.addEventListener('click', handleNoteClick);
+    
     return {
         destroy()  {
-            console.log('destroy VerseNote')
-            for(const verseNotesElement of verseNotesElements) {
-                verseNotesElement.removeEventListener('click', handleNoteClick)
-            }
+            node.removeEventListener('click', handleNoteClick)
         }
     }
 };

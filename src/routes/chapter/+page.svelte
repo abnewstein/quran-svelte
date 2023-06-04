@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { quranDataStore } from '$lib/store/QuranStore';
+	import { QuranStore } from '$lib/store/QuranStore';
 	import ChapterCard from '$lib/components/ChapterCard.svelte';
 
-	const { chapters } = $quranDataStore;
+	const { chapters } = $QuranStore;
 </script>
 
 <div class="p-5 gap-3" grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-6">
