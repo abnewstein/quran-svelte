@@ -9,8 +9,11 @@ declare namespace Quran {
 		versesCount: number;
 	}
 
+	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
+	export type VerseNoteKey = `${number}:${number}:${number}`;
+	
 	export interface NoteDetail {
-		number: number;
+		id: VerseNoteKey;
 		text: string;
 	}
 
@@ -34,9 +37,6 @@ declare namespace Quran {
 		metadata: TranslationMetadata;
 		verses: Verse[][];
 	}	
-
-	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
-	export type VerseNoteKey = `${number}:${number}:${number}`;
 
 	export interface SearchResult {
 		query: string;

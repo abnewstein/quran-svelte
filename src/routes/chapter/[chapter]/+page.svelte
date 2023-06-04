@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { QuranStore } from '$lib/store';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
-	import VersesGrid from '$lib/components/VersesGrid.svelte';
+	import VerseGrid from '$lib/components/VerseGrid.svelte';
 
 	export let data;
 	const chapterNumber = Number(data.chapterNumber);
@@ -13,6 +13,6 @@
 	<container class="w-8/9">
 		<ChapterTitle chapter={chapter(chapterNumber)} />
 		<hr />
-		<VersesGrid {chapterNumber} />
+		<VerseGrid {chapterNumber} />
 	</container>
 </div>

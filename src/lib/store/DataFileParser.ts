@@ -31,7 +31,7 @@ const createNotesLookup = (notes: (string | number)[][]): Record<ChapterVerseKey
 		}
 
 		notesLookup[chapterVerseKey].push({
-			number: note[2] as number,
+			id: `${note[0]}:${note[1]}:${note[2]}` as Quran.VerseNoteKey,
 			text: note[3] as string
 		});
 	}

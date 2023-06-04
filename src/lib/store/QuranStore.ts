@@ -1,4 +1,4 @@
-import { writable, derived } from 'svelte/store';
+import { writable } from 'svelte/store';
 import chaptersData from '../data/chapters-data.json';
 import { TranslationEnum, translationsData } from './DataFileParser';
 

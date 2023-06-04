@@ -1,6 +1,11 @@
 <script lang="ts">
+	import { activeVerseNotes } from '$lib/store';
 	export let verseNotes: Quran.NoteDetails = [];
-	export let removeNote: (number: number) => void = () => {};
+
+	const handleClick = (noteId: Quran.VerseNoteKey) => {
+		$activeVerseNotes.delete(noteId);
+		$activeVerseNotes = new Set($activeVerseNotes);
+	};
 </script>
 
 {#if verseNotes.length > 0}
@@ -8,7 +13,7 @@
 		{#each verseNotes as note}
 			<span>
 				{note.text}
-				<button on:click={() => removeNote(note.number)}>X</button>
+				<button on:click={() => handleClick(note.id)}>X</button>
 			</span>
 		{/each}
 	</div>
