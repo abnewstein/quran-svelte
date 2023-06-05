@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
+	import { quintOut } from 'svelte/easing';
 	import { activeVerseNotes } from '$lib/store';
 	export let verseNotes: Quran.NoteDetails = [];
 
@@ -9,7 +11,7 @@
 </script>
 
 {#if verseNotes.length > 0}
-	<div class="verse-notes-container">
+	<div class="verse-notes-container" transition:slide={{ duration: 200, easing: quintOut }}>
 		{#each verseNotes as note}
 			<span>
 				{note.text}
