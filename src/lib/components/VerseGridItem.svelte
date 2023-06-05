@@ -5,6 +5,7 @@
 	export let verseAr: Quran.Verse;
 	export let verseEn: Quran.Verse;
 	export let verseNotes: Quran.NoteDetails;
+	export let hideVerseNumber: boolean = false;
 
 	const handleNoteClick = (key: Quran.VerseNoteKey) => {
 		if ($activeVerseNotes.has(key)) {
@@ -20,7 +21,9 @@
 	{verseAr.text}
 </p>
 <p class="en-text" use:VerseNoteClicked={handleNoteClick}>
-	<sup class="font-bold mr-1">{verseEn.verseNumber}</sup>
+	{#if !hideVerseNumber}
+		<sup class="font-bold mr-1">{verseEn.verseNumber}</sup>
+	{/if}
 	{@html verseEn.text}
 </p>
 {#if verseNotes && verseNotes.length > 0}
@@ -37,7 +40,7 @@
 			--uno: text-right text-2xl;
 		}
 		&.en-text {
-			--uno: text-xl;
+			--uno: text-xl leading-relaxed;
 		}
 	}
 </style>

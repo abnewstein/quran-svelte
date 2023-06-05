@@ -14,6 +14,7 @@
 			verseAr={firstVerse.ar}
 			verseEn={firstVerse.en}
 			verseNotes={firstVerse.en.notes ?? []}
+			hideVerseNumber
 		/>
 	{/if}
 	{#each verseDataAr as verse, index (verse.id)}
