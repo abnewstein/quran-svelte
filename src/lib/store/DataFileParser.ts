@@ -75,16 +75,33 @@ const groupVersesByChapter = (verses: (string | number)[][], notesLookup: Record
 	return versesByChapter;
 };
 
+function loadTranslationData(translation: TranslationEnum): Quran.Verse[][] {
+	let verses: (string | number)[][] = [];
+	let notesLookup: Record<ChapterVerseKey, Quran.NoteDetails> = {};
+	switch (translation) {
+		case TranslationEnum.ARABIC_ORIGINAL:
+			verses = versesArOriginal;
+			break;
+		case TranslationEnum.ENGLISH_SAM_GERRANS:
+			verses = versesEnSamGerransWithNotes;
+			notesLookup = createNotesLookup(notesEnSamGerrans);
+			break;
+		default:
+			throw new Error(`Translation ${translation} not found`);
+	}
+	
+	return groupVersesByChapter(verses, notesLookup)
+}
+
 // Prepare translations data
-const notesLookup = createNotesLookup(notesEnSamGerrans);
 export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	[TranslationEnum.ARABIC_ORIGINAL]: {
 		metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
-		verses: groupVersesByChapter(versesArOriginal, {})
+		verses: loadTranslationData(TranslationEnum.ARABIC_ORIGINAL),
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: groupVersesByChapter(versesEnSamGerransWithNotes, notesLookup),
+		verses: loadTranslationData(TranslationEnum.ENGLISH_SAM_GERRANS),
 	}
 	// Add more translations here
 };

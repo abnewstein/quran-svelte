@@ -27,6 +27,7 @@ body {
 }
 
 sup.verse-note {
+	line-height: 0;
 	a {
 		--uno: px-2px rounded-lg decoration-none;		
 		&:hover {

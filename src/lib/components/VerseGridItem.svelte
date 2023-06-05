@@ -37,7 +37,7 @@
 			--uno: text-right text-2xl;
 		}
 		&.en-text {
-			--uno: text-xl;
+			--uno: text-xl leading-relaxed;
 		}
 	}
 </style>
