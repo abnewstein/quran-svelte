@@ -8,24 +8,28 @@
 	$: firstVerse = $QuranStore.firstVersePair;
 </script>
 
-<div class="verse-grid">
+<ul>
 	{#if chapterNumber !== 1 && chapterNumber !== 9}
-		<VerseGridItem
-			verseAr={firstVerse.ar}
-			verseEn={firstVerse.en}
-			verseNotes={firstVerse.en.notes ?? []}
-			hideVerseNumber
-		/>
+		<li>
+			<VerseGridItem
+				verseAr={firstVerse.ar}
+				verseEn={firstVerse.en}
+				verseNotes={firstVerse.en.notes ?? []}
+				hideVerseNumber
+			/>
+		</li>
 	{/if}
 	{#each verseDataAr as verse, index (verse.id)}
 		{@const verseEn = verseDataEn[index]}
 		{@const verseNotes = verseEn?.notes ?? []}
-		<VerseGridItem verseAr={verse} {verseEn} {verseNotes} />
+		<li>
+			<VerseGridItem verseAr={verse} {verseEn} {verseNotes} />
+		</li>
 	{/each}
-</div>
+</ul>
 
 <style lang="scss">
-	.verse-grid {
+	li {
 		--uno: grid items-baseline gap-4 rounded p-1;
 		grid-template-columns: 9fr 11fr;
 		@screen lt-sm {
