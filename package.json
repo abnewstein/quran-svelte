@@ -40,5 +40,8 @@
 		"vite": "^4.3.9",
 		"vitest": "^0.31.4"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@orama/orama": "^1.0.5"
+	}
 }

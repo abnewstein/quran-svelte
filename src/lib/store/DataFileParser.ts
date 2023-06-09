@@ -2,6 +2,7 @@ import versesArOriginal from '../data/verses_ar_original.json';
 import versesEnSamGerransWithNotes from '../data/verses_en_sam-gerrans_with-notes.json';
 import notesEnSamGerrans from '../data/notes_en_sam-gerrans.json';
 
+console.time('Data Files parsing');
 export enum TranslationEnum {
 	ARABIC_ORIGINAL = 'ar_original',
 	ENGLISH_SAM_GERRANS = 'en_sam-gerrans'
@@ -21,7 +22,9 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 
 type ChapterVerseKey = string;
 
-const createNotesLookup = (notes: (string | number)[][]): Record<ChapterVerseKey, Quran.NoteDetails> => {
+const createNotesLookup = (
+	notes: (string | number)[][]
+): Record<ChapterVerseKey, Quran.NoteDetails> => {
 	const notesLookup: Record<ChapterVerseKey, Quran.NoteDetails> = {};
 
 	for (const note of notes) {
@@ -39,12 +42,16 @@ const createNotesLookup = (notes: (string | number)[][]): Record<ChapterVerseKey
 	return notesLookup;
 };
 
-const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], verseId: number, verseNotes: Quran.NoteDetails): Quran.Verse => {
+const formatVerse = (
+	[chapterNumber, verseNumber, text]: (string | number)[],
+	verseId: number,
+	verseNotes: Quran.NoteDetails
+): Quran.Verse => {
 	let verseText = text as string;
 	verseText = verseText.replace(
 		/<sup>(.*?)<\/sup>/g,
 		`<sup class="verse-note"><a href="#" class="verse-note-link-${chapterNumber}:${verseNumber}:$1">$1</a></sup>`
-	);	
+	);
 
 	return {
 		id: verseId,
@@ -55,13 +62,16 @@ const formatVerse = ([chapterNumber, verseNumber, text]: (string | number)[], ve
 	};
 };
 
-const groupVersesByChapter = (verses: (string | number)[][], notesLookup: Record<ChapterVerseKey, Quran.NoteDetails>): Quran.Verse[][] => {
+const groupVersesByChapter = (
+	verses: (string | number)[][],
+	notesLookup: Record<ChapterVerseKey, Quran.NoteDetails>
+): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
 	let currentChapterVerses: Quran.Verse[] = [];
 	let verseId = 1;
 
-	for (const verse of verses) {		
+	for (const verse of verses) {
 		if (verse[0] !== currentChapterNumber) {
 			versesByChapter.push(currentChapterVerses);
 			currentChapterNumber = verse[0] as number;
@@ -71,7 +81,7 @@ const groupVersesByChapter = (verses: (string | number)[][], notesLookup: Record
 		currentChapterVerses.push(formatVerse(verse, verseId++, verseNotes));
 	}
 
-	versesByChapter.push(currentChapterVerses);		
+	versesByChapter.push(currentChapterVerses);
 	return versesByChapter;
 };
 
@@ -89,19 +99,21 @@ function loadTranslationData(translation: TranslationEnum): Quran.Verse[][] {
 		default:
 			throw new Error(`Translation ${translation} not found`);
 	}
-	
-	return groupVersesByChapter(verses, notesLookup)
+
+	return groupVersesByChapter(verses, notesLookup);
 }
 
 // Prepare translations data
 export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	[TranslationEnum.ARABIC_ORIGINAL]: {
 		metadata: translationsMetadata[TranslationEnum.ARABIC_ORIGINAL],
-		verses: loadTranslationData(TranslationEnum.ARABIC_ORIGINAL),
+		verses: loadTranslationData(TranslationEnum.ARABIC_ORIGINAL)
 	},
 	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
 		metadata: translationsMetadata[TranslationEnum.ENGLISH_SAM_GERRANS],
-		verses: loadTranslationData(TranslationEnum.ENGLISH_SAM_GERRANS),
+		verses: loadTranslationData(TranslationEnum.ENGLISH_SAM_GERRANS)
 	}
 	// Add more translations here
 };
+
+console.timeEnd('Data Files parsing');
