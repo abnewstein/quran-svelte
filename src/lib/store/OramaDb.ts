@@ -24,8 +24,8 @@ const createVersesDb = async (verses: (string | number)[][]) => {
 	return verseDb;
 };
 
-const verseArDb = await createVersesDb(versesArOriginal);
-const verseEnDb = await createVersesDb(versesEnSamGerrans);
+const verseArDb = createVersesDb(versesArOriginal);
+const verseEnDb = createVersesDb(versesEnSamGerrans);
 
 export default {
 	verseArDb,
