@@ -32,14 +32,12 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 		}
 
 		let noteText = note[1] as string;
-		if (noteText.match(/^\d/)) {
-			if (noteText.length <= 10 && (noteText.match(/:/g) || []).length === 2) {
-				const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
-				noteText =
-					notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey][
-						Number(noteNumber) - 1
-					].text;
-			}
+		if (noteText.match(/^\d+:\d+:\d+$/) !== null) {
+			const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
+			noteText =
+				notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey][
+					Number(noteNumber) - 1
+				].text;
 		}
 
 		notesLookup[chapterVerseKey].push({

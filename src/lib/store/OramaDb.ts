@@ -18,7 +18,7 @@ const createVersesDb = async (verses: (string | number)[][]) => {
 		text: verse[2] as string
 	}));
 	if ((await count(verseDb)) == 0) {
-		await insertMultiple(verseDb, verseDocs, 500);
+		await insertMultiple(verseDb, verseDocs, 50);
 		console.log('Verses indexed');
 	}
 	return verseDb;
