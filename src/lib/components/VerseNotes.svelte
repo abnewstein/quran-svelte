@@ -12,7 +12,7 @@
 	<ul>
 		{#each verseNotes as note}
 			<li>
-				{note.text}
+				{@html note.text}
 				<button on:click={() => handleClick(note.id)}>X</button>
 			</li>
 		{/each}

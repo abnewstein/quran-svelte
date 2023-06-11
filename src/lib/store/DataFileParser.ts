@@ -20,25 +20,33 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 	// Add more translations metadata here
 };
 
-type ChapterVerseKey = string;
-
-const createNotesLookup = (
-	notes: (string | number)[][]
-): Record<ChapterVerseKey, Quran.NoteDetails> => {
-	const notesLookup: Record<ChapterVerseKey, Quran.NoteDetails> = {};
+const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.NoteDetails> => {
+	const notesLookup: Record<string, Quran.NoteDetails> = {};
 
 	for (const note of notes) {
-		const chapterVerseKey = `${note[0]}-${note[1]}`;
+		const [chapterNumber, verseNumber, noteNumber] = note[0].toString().split(':');
+		const verseNoteKey = `${chapterNumber}:${verseNumber}:${noteNumber}` as Quran.VerseNoteKey;
+		const chapterVerseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
 		if (!notesLookup[chapterVerseKey]) {
 			notesLookup[chapterVerseKey] = [];
 		}
 
+		let noteText = note[1] as string;
+		if (noteText.match(/^\d/)) {
+			if (noteText.length <= 10 && (noteText.match(/:/g) || []).length === 2) {
+				const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
+				noteText =
+					notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey][
+						Number(noteNumber) - 1
+					].text;
+			}
+		}
+
 		notesLookup[chapterVerseKey].push({
-			id: `${note[0]}:${note[1]}:${note[2]}` as Quran.VerseNoteKey,
-			text: note[3] as string
+			id: verseNoteKey,
+			text: noteText
 		});
 	}
-
 	return notesLookup;
 };
 
@@ -64,7 +72,7 @@ const formatVerse = (
 
 const groupVersesByChapter = (
 	verses: (string | number)[][],
-	notesLookup: Record<ChapterVerseKey, Quran.NoteDetails>
+	notesLookup: Record<string, Quran.NoteDetails>
 ): Quran.Verse[][] => {
 	const versesByChapter: Quran.Verse[][] = [];
 	let currentChapterNumber = 1;
@@ -72,12 +80,14 @@ const groupVersesByChapter = (
 	let verseId = 1;
 
 	for (const verse of verses) {
-		if (verse[0] !== currentChapterNumber) {
+		const [chapterNumber, verseNumber] = verse as [number, number];
+		if (chapterNumber !== currentChapterNumber) {
 			versesByChapter.push(currentChapterVerses);
-			currentChapterNumber = verse[0] as number;
+			currentChapterNumber = chapterNumber;
 			currentChapterVerses = [];
 		}
-		const verseNotes = notesLookup[`${verse[0]}-${verse[1]}`] || [];
+		const verseNotes =
+			notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey] || [];
 		currentChapterVerses.push(formatVerse(verse, verseId++, verseNotes));
 	}
 
@@ -87,7 +97,7 @@ const groupVersesByChapter = (
 
 function loadTranslationData(translation: TranslationEnum): Quran.Verse[][] {
 	let verses: (string | number)[][] = [];
-	let notesLookup: Record<ChapterVerseKey, Quran.NoteDetails> = {};
+	let notesLookup: Record<string, Quran.NoteDetails> = {};
 	switch (translation) {
 		case TranslationEnum.ARABIC_ORIGINAL:
 			verses = versesArOriginal;
