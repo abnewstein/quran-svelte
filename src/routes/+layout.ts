@@ -1,9 +1,9 @@
 export const prerender = true;
 
-export const load = ({ url }) => {
+export function load({ url }) {
 	const { pathname } = url;
 
 	return {
 		pathname
 	};
-};
+}

@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { QuranStore } from '$lib/store';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 	import VerseGrid from '$lib/components/VerseGrid.svelte';
 
-	export let data;
-	const chapterNumber = Number(data.chapterNumber);
+	const chapterNumber = Number($page.params.chapter);
+	const verseNumber = $page.url.searchParams.get('verse') as number | null;
 	$: chapter = $QuranStore.getChapter;
 </script>
 
@@ -12,6 +13,6 @@
 	<container class="w-8/9">
 		<ChapterTitle chapter={chapter(chapterNumber)} />
 		<hr />
-		<VerseGrid {chapterNumber} />
+		<VerseGrid {chapterNumber} highlightVerseNumber={verseNumber} />
 	</container>
 </div>
