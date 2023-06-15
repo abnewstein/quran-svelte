@@ -2,9 +2,8 @@ import { create, insertMultiple, count } from '@orama/orama';
 import versesArOriginal from '../data/verses_ar_original.json';
 import versesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
 
-console.time('Verse indexing');
-
 const createVersesDb = async (verses: (string | number)[][]) => {
+	console.time('Verse indexing in orama');
 	const verseDb = await create({
 		schema: {
 			chapterNumber: 'number',
@@ -19,8 +18,8 @@ const createVersesDb = async (verses: (string | number)[][]) => {
 	}));
 	if ((await count(verseDb)) == 0) {
 		await insertMultiple(verseDb, verseDocs, 50);
-		console.log('Verses indexed');
 	}
+	console.timeEnd('Verse indexing in orama');
 	return verseDb;
 };
 
@@ -31,5 +30,3 @@ export default {
 	verseArDb,
 	verseEnDb
 };
-
-console.timeEnd('Verse indexing');
