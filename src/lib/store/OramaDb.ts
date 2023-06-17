@@ -1,4 +1,4 @@
-import { create, insertMultiple, count } from '@orama/orama';
+// import { create, insertMultiple, count } from '@orama/orama';
 import versesArOriginal from '../data/verses_ar_original.json';
 import versesEnSamGerrans from '../data/verses_en_sam-gerrans.json';
 

@@ -1,12 +1,12 @@
 @import '@fontsource/noto-naskh-arabic';
 
 :root {
-	--font-body: 'Noto Naskh Arabic', serif;
-	font-family: var(--font-body);
 	color: black;
 }
 
 body {
+	--font-body: 'Noto Naskh Arabic', serif;
+	font-family: var(--font-body);
 	min-height: 100vh;
 	margin: 0;
 	background-attachment: fixed;
