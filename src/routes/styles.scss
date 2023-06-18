@@ -1,4 +1,4 @@
-@import '@fontsource/noto-naskh-arabic';
+@use '@fontsource/noto-naskh-arabic';
 
 :root {
 	color: black;
@@ -14,22 +14,10 @@ body {
 	background-size: 100vw 100vh;
 }
 
-.visually-hidden {
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: auto;
-	margin: 0;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-	white-space: nowrap;
-}
-
 sup.verse-note {
 	line-height: 0;
 	a {
-		--uno: px-2px rounded-lg decoration-none;		
+		--uno: px-2px rounded-lg decoration-none;
 		&:hover {
 			--uno: bg-gray-800 text-white cursor-pointer;
 		}

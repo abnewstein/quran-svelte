@@ -54,9 +54,10 @@ const formatVerse = (
 	verseNotes: Quran.NoteDetails
 ): Quran.Verse => {
 	let verseText = text as string;
+	const verseNoteIdPrefix = `verse-note-link-${chapterNumber}:${verseNumber}`;
 	verseText = verseText.replace(
 		/<sup>(.*?)<\/sup>/g,
-		`<sup class="verse-note"><a href="#" class="verse-note-link-${chapterNumber}:${verseNumber}:$1">$1</a></sup>`
+		`<sup class="verse-note"><a href="#" id="${verseNoteIdPrefix}:$1">$1</a></sup>`
 	);
 
 	return {

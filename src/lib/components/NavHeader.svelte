@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import NavItem from './NavItem.svelte';
 	const pageMap = {
 		'/chapter': { name: 'Chapters', icon: 'i-ph-book-open-text-duotone', isLink: true },
 		'/search': { name: 'Search', icon: 'i-ph-magnifying-glass', isLink: false },
@@ -16,33 +16,10 @@
 	</div>
 	<div class="flex space-x-6">
 		{#each Object.entries(pageMap) as [path, { name, icon, isLink }]}
-			{#if isLink}
-				<a href={path} class:active={$page.url.pathname === path} class="nav-item" title={name}>
-					<div class={icon} />
-				</a>
-			{:else}
-				<div class="nav-item" title={name}>
-					<div class={icon} />
-				</div>
-			{/if}
+			<NavItem {path} {name} {icon} {isLink} />
 		{/each}
 	</div>
 </nav>
 
 <style lang="scss">
-	.nav-item {
-		--uno: no-underline text-current text-3xl p-1 px-2;
-		--uno: border-1 border-solid rounded-lg;
-		&.active {
-			box-shadow: 0 0 5px black;
-			transition: box-shadow 0.1s ease-in-out;
-		}
-		&:hover,
-		&:active {
-			filter: drop-shadow(0 0 3px limegreen);
-			box-shadow: 0 0 3px limegreen;
-			transition: box-shadow 0.1s ease-in-out;
-			cursor: pointer;
-		}
-	}
 </style>
