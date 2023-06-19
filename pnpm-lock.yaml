@@ -39,6 +39,9 @@ devDependencies:
   '@unocss/preset-attributify':
     specifier: ^0.53.1
     version: 0.53.1
+  '@unocss/reset':
+    specifier: ^0.53.1
+    version: 0.53.1
   '@unocss/transformer-directives':
     specifier: ^0.53.1
     version: 0.53.1

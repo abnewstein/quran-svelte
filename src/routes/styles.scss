@@ -14,15 +14,6 @@ body {
 	background-size: 100vw 100vh;
 }
 
-sup.verse-note {
+sup {
 	line-height: 0;
-	a {
-		--uno: px-2px rounded-lg decoration-none;
-		&:hover {
-			--uno: bg-gray-800 text-white cursor-pointer;
-		}
-		&:active {
-			--uno: bg-gray-300 text-black;
-		}
-	}
 }

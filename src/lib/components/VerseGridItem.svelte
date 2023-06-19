@@ -42,5 +42,15 @@
 		&.en-text {
 			--uno: text-xl leading-relaxed;
 		}
+
+		:global(.verse-note > a) {
+			--uno: px-2px rounded-lg decoration-none text-blue-500;
+			&:hover {
+				--uno: bg-gray-800 text-white cursor-pointer;
+			}
+			&:active {
+				--uno: bg-gray-300 text-black;
+			}
+		}
 	}
 </style>

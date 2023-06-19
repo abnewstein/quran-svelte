@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '@unocss/reset/normalize.css';
 	import 'uno.css';
 	import './styles.scss';
 	import NavHeader from '$lib/components/NavHeader.svelte';
