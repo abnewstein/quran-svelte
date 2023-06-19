@@ -23,14 +23,11 @@
 		--uno: no-underline text-current text-3xl p-1 px-2;
 		--uno: border-1 border-solid rounded-lg;
 		&.active {
-			box-shadow: 0 0 5px black;
-			transition: box-shadow 0.1s ease-in-out;
+			--uno: shadow-md shadow-black;
 		}
 		&:hover,
 		&:active {
-			filter: drop-shadow(0 0 3px limegreen);
-			box-shadow: 0 0 3px limegreen;
-			transition: box-shadow 0.1s ease-in-out;
+			--uno: shadow-md shadow-lime-500;
 			cursor: pointer;
 		}
 	}

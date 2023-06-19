@@ -1,8 +1,8 @@
 <script lang="ts">
 	import NavItem from './NavItem.svelte';
+	import SearchBar from './SearchBar.svelte';
 	const pageMap = {
 		'/chapter': { name: 'Chapters', icon: 'i-ph-book-open-text-duotone', isLink: true },
-		'/search': { name: 'Search', icon: 'i-ph-magnifying-glass', isLink: false },
 		'/about': { name: 'About', icon: 'i-ph-identification-card', isLink: true }
 	};
 </script>
@@ -19,6 +19,7 @@
 			<NavItem {path} {name} {icon} {isLink} />
 		{/each}
 	</div>
+	<SearchBar />
 </nav>
 
 <style lang="scss">

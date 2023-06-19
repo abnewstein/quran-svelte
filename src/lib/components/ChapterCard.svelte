@@ -15,10 +15,7 @@
 		--uno: block relative p-4 pb-6;
 		--uno: bg-white no-underline text-current;
 		&:hover {
-			filter: drop-shadow(0 0 3px limegreen);
-			box-shadow: 0 0 3px limegreen;
-			transition: box-shadow 0.1s ease-in-out;
-			text-shadow: 0 0 1px limegreen;
+			--uno: shadow-md shadow-lime-500;
 		}
 		.verse-count {
 			--uno: bottom-1 absolute right-1 left-1 m-a;
