@@ -10,12 +10,12 @@
 	$: if (browser) {
 		highlightVerseNumber = $page.url.searchParams.get('verse') as number | null;
 	}
-	$: chapter = $QuranStore.getChapter;
+	const chapter = QuranStore.getChapter(chapterNumber);
 </script>
 
 <div class="flex flex-col items-center py-2 md:py-10">
 	<container class="w-8/9">
-		<ChapterTitle chapter={chapter(chapterNumber)} />
+		<ChapterTitle {chapter} />
 		<hr />
 		<VerseGrid {chapterNumber} {highlightVerseNumber} />
 	</container>

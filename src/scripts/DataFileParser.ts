@@ -1,6 +1,6 @@
-import versesArOriginal from '../data/verses_ar_original.json';
-import versesEnSamGerransWithNotes from '../data/verses_en_sam-gerrans_with-notes.json';
-import notesEnSamGerrans from '../data/notes_en_sam-gerrans.json';
+import versesArOriginal from '../lib/data/verses_ar_original.json';
+import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json';
+import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json';
 
 console.time('Data Files parsing');
 export enum TranslationEnum {

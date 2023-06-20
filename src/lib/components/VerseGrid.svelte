@@ -1,13 +1,13 @@
 <script lang="ts">
 	import VerseGridItem from './VerseGridItem.svelte';
-	import { QuranStore } from '$lib/store';
+	import { QuranStore, VerseNoteStore } from '$lib/store';
 	import { onMount } from 'svelte';
 
 	export let chapterNumber: number;
 	export let highlightVerseNumber: number | null = null;
-	$: verseDataEn = $QuranStore.getVersesEn(chapterNumber);
-	$: verseDataAr = $QuranStore.getVersesAr(chapterNumber);
-	$: firstVerse = $QuranStore.firstVersePair;
+	const verseDataEn = QuranStore.getVersesEn(chapterNumber);
+	const verseDataAr = QuranStore.getVersesAr(chapterNumber);
+	const firstVerse = $QuranStore.firstVersePair;
 
 	onMount(() => {
 		if (highlightVerseNumber) {
@@ -19,7 +19,9 @@
 	});
 </script>
 
-<ul>
+<button on:click={() => VerseNoteStore.addAllInChapter(chapterNumber)}>Expand</button>
+<button on:click={() => VerseNoteStore.removeAllInChapter(chapterNumber)}>Collapse</button>
+<ul p-0>
 	{#if chapterNumber !== 1 && chapterNumber !== 9}
 		<li>
 			<VerseGridItem

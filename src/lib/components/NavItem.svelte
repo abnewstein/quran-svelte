@@ -16,14 +16,13 @@
 		<div class={icon} />
 	</div>
 {/if}
-<slot />
 
 <style lang="scss">
 	.nav-item {
 		--uno: no-underline text-current text-3xl p-1 px-2;
 		--uno: border-1 border-solid rounded-lg;
 		&.active {
-			--uno: shadow-md shadow-black;
+			--uno: shadow-md shadow-coolgray-500;
 		}
 		&:hover,
 		&:active {

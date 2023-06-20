@@ -1,5 +1,4 @@
 <script lang="ts">
-	// The user's search query
 	let searchQuery = '';
 
 	const search = () => {
@@ -18,7 +17,7 @@
 	};
 </script>
 
-<div class="search-bar" flex="~ items-center" border="1 solid black rounded">
+<div class="search-bar" flex="~ items-center" border="1 solid black rounded-lg">
 	<input
 		type="text"
 		bind:value={searchQuery}
@@ -38,9 +37,9 @@
 			--uno: m-1 outline-none border-none text-md;
 		}
 		button {
-			--uno: m-x-0.5 p-2 bg-white border-1 rounded border-y-none;
+			--uno: m-x-0.5 p-2 bg-white border-1 rounded-lg border-y-none;
 			&:hover {
-				--uno: bg-lime-200;
+				--uno: bg-lime-500;
 				cursor: pointer;
 			}
 			&:active {
@@ -53,7 +52,7 @@
 			--uno: shadow-md shadow-lime-500;
 		}
 		&:focus-within {
-			--uno: shadow-md shadow-black;
+			--uno: shadow-md shadow-coolgray-500;
 		}
 	}
 </style>

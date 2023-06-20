@@ -1,34 +1,27 @@
 <script lang="ts">
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked';
-	import { activeVerseNotes } from '$lib/store';
+	import { VerseNoteStore } from '$lib/store';
 	import VerseNotes from './VerseNotes.svelte';
 	export let verseAr: Quran.Verse;
 	export let verseEn: Quran.Verse;
 	export let verseNotes: Quran.NoteDetails;
 	export let hideVerseNumber: boolean = false;
-
-	const handleNoteClick = (key: Quran.VerseNoteKey) => {
-		if ($activeVerseNotes.has(key)) {
-			$activeVerseNotes.delete(key);
-		} else {
-			$activeVerseNotes.add(key);
-		}
-		$activeVerseNotes = new Set($activeVerseNotes);
-	};
 </script>
 
 <p class="ar-text" dir="rtl">
 	{verseAr.text}
 </p>
-<p class="en-text" use:VerseNoteClicked={handleNoteClick}>
+<p class="en-text" use:VerseNoteClicked={(key) => VerseNoteStore.toggle(key)}>
 	{#if !hideVerseNumber}
 		<sup class="font-bold mr-1">{verseEn.verseNumber}</sup>
 	{/if}
 	{@html verseEn.text}
 </p>
 {#if verseNotes && verseNotes.length > 0}
-	{#if $activeVerseNotes.size > 0}
-		{@const notes = verseNotes?.filter((note) => $activeVerseNotes.has(note.id))}
+	{#if $VerseNoteStore.size > 0}
+		{@const notes = verseNotes?.filter(
+			(note) => $VerseNoteStore.has(note.id) || VerseNoteStore.matches(note.id)
+		)}
 		<VerseNotes verseNotes={notes} />
 	{/if}
 {/if}
