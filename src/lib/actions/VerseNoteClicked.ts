@@ -5,9 +5,8 @@ export const VerseNoteClicked = (
 	const handleNoteClick = (event: Event) => {
 		event.preventDefault();
 		const target = event.target as HTMLElement;
-		if (target.tagName.toLowerCase() === 'a') {
+		if (target.tagName.toLowerCase() === 'button') {
 			const verseNoteKey = target.id.split('verse-note-link-')[1] ?? '';
-			console.log('VerseNoteClicked', verseNoteKey);
 			handleNoteClickFn(verseNoteKey as Quran.VerseNoteKey);
 		}
 	};

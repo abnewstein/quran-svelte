@@ -24,19 +24,13 @@ export const VerseNoteKeyUtils = {
 		);
 	},
 
-	matchesExact(key1: Quran.VerseNoteKey, key2: Quran.VerseNoteKey): boolean {
-		const [chapter1, verse1, note1] = VerseNoteKeyUtils.split(key1);
-		const [chapter2, verse2, note2] = VerseNoteKeyUtils.split(key2);
-
-		return chapter1 === chapter2 && verse1 === verse2 && note1 === note2;
-	},
-
 	matchesAny(key: Quran.VerseNoteKey, keys: Quran.VerseNoteKey[]): boolean {
 		return keys.some((key2) => VerseNoteKeyUtils.matches(key, key2));
 	},
 
 	addKeyToSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): Set<Quran.VerseNoteKey> => {
 		set.add(key);
+		set = new Set(set);
 		return set;
 	},
 
@@ -45,6 +39,7 @@ export const VerseNoteKeyUtils = {
 		set: Set<Quran.VerseNoteKey>
 	): Set<Quran.VerseNoteKey> => {
 		set.delete(key);
+		set = new Set(set);
 		return set;
 	},
 
@@ -57,38 +52,44 @@ export const VerseNoteKeyUtils = {
 		} else {
 			set.add(key);
 		}
+		set = new Set(set);
 		return set;
 	},
 
-	removeMatchingKeysFromSet: (
-		key: Quran.VerseNoteKey,
+	removeAllMatchingWildcard: (
+		wildcardKey: Quran.VerseNoteKey,
 		set: Set<Quran.VerseNoteKey>
-	): Set<Quran.VerseNoteKey> => {
-		return new Set([...set].filter((storedKey) => !VerseNoteKeyUtils.matches(storedKey, key)));
-	},
-
-	getChapterVerseKey(key: Quran.VerseNoteKey): Quran.ChapterVerseKey {
-		const [chapter, verse] = VerseNoteKeyUtils.split(key);
-		return `${chapter}:${verse}` as Quran.ChapterVerseKey;
-	},
-
-	getChapterKey(key: Quran.VerseNoteKey): number {
-		const [chapter] = VerseNoteKeyUtils.split(key);
-		return chapter;
+	): number => {
+		let count = 0;
+		for (const key of set) {
+			if (VerseNoteKeyUtils.matches(wildcardKey, key)) {
+				set.delete(key);
+				count++;
+			}
+		}
+		return count;
 	},
 
 	isWildcardKey(key: Quran.VerseNoteKey): boolean {
-		const parts = VerseNoteKeyUtils.split(key);
-		return parts.includes('*');
+		return key.includes('*');
 	},
 
-	isChapterWildcardKey(key: Quran.VerseNoteKey): boolean {
-		const [chapter, verse] = VerseNoteKeyUtils.split(key);
-		return verse === '*';
-	},
+	/** Returns true if key1 is more specific than key2
+	 * i.e key1 = 1:1:* and key2 = 1:1:1
+	 * then key2 is more specific than key1
+	 */
 
-	isVerseWildcardKey(key: Quran.VerseNoteKey): boolean {
-		const [chapter, verse, note] = VerseNoteKeyUtils.split(key);
-		return note === '*';
+	isMoreSpecificKey(key1: Quran.VerseNoteKey, key2: Quran.VerseNoteKey): boolean {
+		const [chapter1, verse1, note1] = VerseNoteKeyUtils.split(key1);
+		const [chapter2, verse2, note2] = VerseNoteKeyUtils.split(key2);
+
+		if (key1.includes('*')) {
+			return false;
+		}
+
+		if (key2.includes('*')) {
+			return true;
+		}
+		return false;
 	}
 };

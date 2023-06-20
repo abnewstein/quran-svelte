@@ -18,10 +18,13 @@
 	{@html verseEn.text}
 </p>
 {#if verseNotes && verseNotes.length > 0}
-	{#if $VerseNoteStore.size > 0}
-		{@const notes = verseNotes?.filter(
-			(note) => $VerseNoteStore.has(note.id) || VerseNoteStore.matches(note.id)
-		)}
+	{#if $VerseNoteStore.expanded.size > 0}
+		{@const notes = verseNotes?.filter((note) => {
+			return (
+				($VerseNoteStore.expanded.has(note.id) && !$VerseNoteStore.collapsed.has(note.id)) ||
+				VerseNoteStore.matches(note.id)
+			);
+		})}
 		<VerseNotes verseNotes={notes} />
 	{/if}
 {/if}
@@ -36,8 +39,8 @@
 			--uno: text-xl leading-relaxed;
 		}
 
-		:global(.verse-note > a) {
-			--uno: px-2px rounded-lg decoration-none text-blue-500;
+		:global(.verse-note > button) {
+			--uno: px-2px rounded-lg decoration-none text-blue-500 border-none outline-none bg-transparent;
 			&:hover {
 				--uno: bg-gray-800 text-white cursor-pointer;
 			}
