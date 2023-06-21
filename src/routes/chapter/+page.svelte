@@ -7,7 +7,7 @@
 
 <div
 	class="p-5 gap-3 lg:gap-y-6 lg:gap-x-10"
-	grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-6"
+	grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-5 2xl:cols-6"
 >
 	{#if !chapters}
 		<div flex="~ col items-center justify-center">

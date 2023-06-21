@@ -6,7 +6,8 @@
 <div flex="~ col items-center" class="title-container">
 	<strong text-3xl>{chapter.number}</strong>
 	<p class:minimal>
-		{chapter.name.arabic} | <i>{chapter.name.transliteration}</i>
+		{chapter.name.arabic} <span>|</span>
+		{chapter.name.transliteration}
 	</p>
 	<strong mb-4 text-2xl class:text-xl={minimal}>{chapter.name.english}</strong>
 </div>
@@ -14,18 +15,15 @@
 <style lang="scss">
 	.title-container {
 		strong {
-			--uno: prose text-center;
+			--uno: text-center font-bold;
 		}
 		p {
-			--uno: prose prose-slate my-2 text-center text-2xl font-bold;
-			i {
-				--uno: text-xl;
-			}
+			--uno: text-stone-600 my-2 text-center text-2xl;
 			&.minimal {
 				--uno: text-xl;
-				i {
-					--uno: text-lg;
-				}
+			}
+			span {
+				--uno: text-stone-300;
 			}
 		}
 	}

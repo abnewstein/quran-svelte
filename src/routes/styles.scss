@@ -1,11 +1,13 @@
-@use '@fontsource/noto-naskh-arabic';
+@use '@fontsource-variable/noto-naskh-arabic';
 
 :root {
 	color: black;
+	--font-body: 'Noto Naskh Arabic Variable', sans-serif;
+	font-family: var(--font-body);
+	--uno: antialiased;
 }
 
 body {
-	--font-body: 'Noto Naskh Arabic', serif;
 	font-family: var(--font-body);
 	min-height: 100vh;
 	margin: 0;

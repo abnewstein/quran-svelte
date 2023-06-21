@@ -6,6 +6,12 @@ dependencies:
     version: 1.0.7
 
 devDependencies:
+  '@fontsource-variable/noto-naskh-arabic':
+    specifier: ^5.0.3
+    version: 5.0.3
+  '@fontsource/lateef':
+    specifier: ^5.0.3
+    version: 5.0.3
   '@fontsource/noto-naskh-arabic':
     specifier: ^5.0.3
     version: 5.0.3
@@ -345,6 +351,14 @@ packages:
   /@eslint/js@8.43.0:
     resolution: {integrity: sha512-s2UHCoiXfxMvmfzqoN+vrQ84ahUSYde9qNO1MdxmoEhyHWsfmwOpFlwYV+ePJEVc7gFnATGUi376WowX1N7tFg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  /@fontsource-variable/noto-naskh-arabic@5.0.3:
+    resolution: {integrity: sha512-ICDuxFdV8P5hjRe3j8RCDEip9hqepb57F6mIXqlHzwA0LqOwMX5A6nS+lV3wdr4SdoF4vQP08A6rB8x9pumK3A==}
+    dev: true
+
+  /@fontsource/lateef@5.0.3:
+    resolution: {integrity: sha512-y3Hl68js7/j2GglMthUDxjpVBH/V+Vo5GDdMUG+UdDpemerpSao+56+KPdjPnrQvP01HagWcENYO+61T7MAb4Q==}
     dev: true
 
   /@fontsource/noto-naskh-arabic@5.0.3:
