@@ -65,6 +65,7 @@ const formatVerse = (
 		chapterNumber: Number(chapterNumber),
 		verseNumber: Number(verseNumber),
 		text: verseText,
+		cleanText: verseText.replace(/<[^>]*>?/gm, ''),
 		notes: verseNotes
 	};
 };

@@ -27,7 +27,13 @@ declare namespace Quran {
 		chapterNumber: number;
 		verseNumber: number;
 		text: string;
+		cleanText?: string;
 		notes?: NoteDetails;
+	}
+
+	export interface VersePair {
+		ar: Verse;
+		en: Verse;
 	}
 
 	export interface TranslationMetadata {
@@ -44,9 +50,7 @@ declare namespace Quran {
 	export interface SearchResult {
 		query: string;
 		chapters: Chapter[];
-		translations: Translation[];
-		currentPage?: number;
-		totalPages?: number;
+		verses: Record<string, Verse[]>;
 	}
 }
 

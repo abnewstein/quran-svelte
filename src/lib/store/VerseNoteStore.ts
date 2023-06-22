@@ -6,17 +6,12 @@ type VerseNoteStoreState = {
 	collapsed: Set<Quran.VerseNoteKey>;
 };
 
-/* 
-  We want to take advantage of the Set data structure to store the active verse notes.
-  We add another complexity by allowing wildcards in the verse note keys.
-  
-  User may do the following:
-  1. Click on a verse note link -> toggle the verse note.
-  2. Click on expand/collapse all in verse -> toggle all verse notes in the verse with wildcard in place of noteNumber.
-  3. Click on expand/collapse all in chapter -> toggle all verse notes in the chapter with wildcard in place of verseNumber.
-  4. Click on close button in verse note panel -> close only the clicked verse note.
+/**
+	This store maintains a state for the expansion and collapse of the Quran verse notes.
+	It accommodates for different levels of verse note expansion and collapse - individual verse notes, 
+	all verse notes in a verse, or all verse notes in a chapter. It also tracks which verse notes 
+	have been explicitly collapsed by the user.
 */
-
 function CreateVerseNoteStore() {
 	const { subscribe, set, update } = writable<VerseNoteStoreState>({
 		expanded: new Set<Quran.VerseNoteKey>(),
@@ -29,15 +24,14 @@ function CreateVerseNoteStore() {
 		subscribe,
 		toggle: (verseNoteKey: Quran.VerseNoteKey) => {
 			update((state) => {
-				if (VerseNoteKeyUtils.isWildcardKey(verseNoteKey)) {
-					if (VerseNoteKeyUtils.removeAllMatchingWildcard(verseNoteKey, state.collapsed) > 0) {
-						VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
-					} else {
-						VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.collapsed);
+				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)) {
+					VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed);
+				} else {
+					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
+					if (VerseNoteKeyUtils.matchesExact(verseNoteKey, state.collapsed)) {
+						VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
 					}
 				}
-				VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
-				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
 				return state;
 			});
 		},
@@ -89,10 +83,10 @@ function CreateVerseNoteStore() {
 		},
 		matches: (verseNoteKey: Quran.VerseNoteKey) => {
 			const { expanded, collapsed } = activeVerseNotes;
-			if (VerseNoteKeyUtils.matchesAny(verseNoteKey, [...collapsed])) {
+			if (VerseNoteKeyUtils.matchesAny(verseNoteKey, collapsed)) {
 				return false;
 			}
-			return VerseNoteKeyUtils.matchesAny(verseNoteKey, [...expanded]);
+			return VerseNoteKeyUtils.matchesAny(verseNoteKey, expanded);
 		},
 		clear: () => {
 			set({

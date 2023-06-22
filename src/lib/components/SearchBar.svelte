@@ -1,13 +1,13 @@
 <script lang="ts">
-	let searchQuery = '';
+	import { goto } from '$app/navigation';
 
+	let searchTerm = '';
 	const search = () => {
-		if (!searchQuery.trim()) {
+		if (!searchTerm.trim()) {
 			console.warn('Cannot search with an empty query');
 			return;
 		}
-
-		console.log(`Searching for "${searchQuery}"`);
+		goto(`/search?q=${searchTerm}`);
 	};
 
 	const handleKeydown = (event: KeyboardEvent) => {
@@ -20,7 +20,7 @@
 <div class="search-bar" flex="~ items-center" border="1 solid black rounded-lg">
 	<input
 		type="text"
-		bind:value={searchQuery}
+		bind:value={searchTerm}
 		on:keydown={handleKeydown}
 		placeholder="Search across the Quran"
 	/>

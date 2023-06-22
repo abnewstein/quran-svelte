@@ -7,7 +7,7 @@
 	export let highlightVerseNumber: number | null = null;
 	const verseDataEn = QuranStore.getVersesEn(chapterNumber);
 	const verseDataAr = QuranStore.getVersesAr(chapterNumber);
-	const firstVerse = $QuranStore.firstVersePair;
+	const firstVerse = QuranStore.firstVersePair;
 
 	onMount(() => {
 		if (highlightVerseNumber) {

@@ -24,8 +24,27 @@ export const VerseNoteKeyUtils = {
 		);
 	},
 
-	matchesAny(key: Quran.VerseNoteKey, keys: Quran.VerseNoteKey[]): boolean {
-		return keys.some((key2) => VerseNoteKeyUtils.matches(key, key2));
+	matchesExact(key: Quran.VerseNoteKey, keys: Set<Quran.VerseNoteKey>): boolean {
+		return keys.has(key);
+	},
+
+	matchesAny(key: Quran.VerseNoteKey, keys: Set<Quran.VerseNoteKey>): boolean {
+		return [...keys].some((key2) => VerseNoteKeyUtils.matches(key, key2));
+	},
+
+	matchesOnlyWildcard(key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): boolean {
+		const [chapter1, verse1, note1] = VerseNoteKeyUtils.split(key);
+		for (const key2 of set) {
+			const [chapter2, verse2, note2] = VerseNoteKeyUtils.split(key2);
+			if (
+				chapter1 === chapter2 &&
+				(verse1 === verse2 || verse1 === '*' || verse2 === '*') &&
+				(note1 === '*' || note2 === '*')
+			) {
+				return true;
+			}
+		}
+		return false;
 	},
 
 	addKeyToSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): Set<Quran.VerseNoteKey> => {
@@ -74,22 +93,12 @@ export const VerseNoteKeyUtils = {
 		return key.includes('*');
 	},
 
-	/** Returns true if key1 is more specific than key2
-	 * i.e key1 = 1:1:* and key2 = 1:1:1
-	 * then key2 is more specific than key1
-	 */
-
 	isMoreSpecificKey(key1: Quran.VerseNoteKey, key2: Quran.VerseNoteKey): boolean {
-		const [chapter1, verse1, note1] = VerseNoteKeyUtils.split(key1);
-		const [chapter2, verse2, note2] = VerseNoteKeyUtils.split(key2);
+		// Count the number of wildcards in each key
+		const score1 = (key1.match(/\*/g) || []).length;
+		const score2 = (key2.match(/\*/g) || []).length;
 
-		if (key1.includes('*')) {
-			return false;
-		}
-
-		if (key2.includes('*')) {
-			return true;
-		}
-		return false;
+		// The key with fewer wildcards is more specific
+		return score1 < score2;
 	}
 };
