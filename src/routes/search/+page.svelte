@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { QuranStore, VerseDb, OramaStore } from '$lib/store';
-	import { search as searchOrama } from '@orama/orama';
+	import { VerseDb, OramaStore } from '$lib/store';
 	import VerseGrid from '$lib/components/VerseGrid.svelte';
 	import { writable } from 'svelte/store';
 
@@ -26,6 +25,7 @@
 		const resultsAr = await OramaStore.search(VerseDb.ArOriginal, searchTerm);
 		const resultsEn = await OramaStore.search(VerseDb.EnSamGerrans, searchTerm);
 		const resultsArEn = [...resultsAr].concat(resultsEn);
+		resultsArEn.sort((a, b) => a.ar.id - b.ar.id);
 		$results = resultsArEn;
 	};
 
@@ -38,22 +38,7 @@
 <div class="flex flex-col items-center py-2 md:py-10">
 	<container class="w-8/9">
 		{#if $results.length}
-			<!-- <VerseGrid verses={$results} /> -->
-			{#each $results as verse}
-				<div
-					class="flex flex-col items-center justify-center p-4 my-4 bg-white rounded-lg shadow-lg"
-				>
-					<div class="flex flex-row items-center justify-center w-full">
-						<div class="flex flex-col items-center justify-center w-1/2">
-							<h1 class="text-2xl font-bold text-center">
-								{verse.ar.chapterNumber}:{verse.ar.verseNumber}
-							</h1>
-							<h2 class="text-lg font-bold text-center">{verse.ar.text}</h2>
-							<h3 class="text-lg font-bold text-center">{@html verse.en.text}</h3>
-						</div>
-					</div>
-				</div>
-			{/each}
+			<VerseGrid verses={$results} showChapterNumber />
 		{:else}
 			<div class="text-center">
 				<h1 class="text-2xl font-bold">No results found</h1>

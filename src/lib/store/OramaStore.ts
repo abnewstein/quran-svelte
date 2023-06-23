@@ -71,7 +71,7 @@ function createOramaStore() {
 		search: async (id: VerseDb, query: string): Promise<Quran.VersePair[]> => {
 			const db = state[id];
 			if (!db) return [];
-			const results = await search(db, { term: query, limit: 10 });
+			const results = await search(db, { term: query, limit: 100 });
 			const verses = results.hits.map((hit) => QuranStore.getVerse(hit.document.id as number));
 			return verses;
 		}

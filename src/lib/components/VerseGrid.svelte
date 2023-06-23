@@ -1,13 +1,12 @@
 <script lang="ts">
 	import VerseGridItem from './VerseGridItem.svelte';
-	import { QuranStore, VerseNoteStore } from '$lib/store';
 	import { onMount } from 'svelte';
 
-	export let chapterNumber: number;
+	export let chapterNumber: number | null = null;
+	export let verses: Quran.VersePair[];
 	export let highlightVerseNumber: number | null = null;
-	const verseDataEn = QuranStore.getVersesEn(chapterNumber);
-	const verseDataAr = QuranStore.getVersesAr(chapterNumber);
-	const firstVerse = QuranStore.firstVersePair;
+	export let hideVerseNumber: boolean = false;
+	export let showChapterNumber: boolean = false;
 
 	onMount(() => {
 		if (highlightVerseNumber) {
@@ -19,27 +18,14 @@
 	});
 </script>
 
-<button on:click={() => VerseNoteStore.addAllInChapter(chapterNumber)}>Expand</button>
-<button on:click={() => VerseNoteStore.removeAllInChapter(chapterNumber)}>Collapse</button>
 <ul p-0>
-	{#if chapterNumber !== 1 && chapterNumber !== 9}
-		<li>
-			<VerseGridItem
-				verseAr={firstVerse.ar}
-				verseEn={firstVerse.en}
-				verseNotes={firstVerse.en.notes ?? []}
-				hideVerseNumber
-			/>
-		</li>
-	{/if}
-	{#each verseDataAr as verse, index (verse.id)}
-		{@const verseEn = verseDataEn[index]}
-		{@const verseNotes = verseEn?.notes ?? []}
+	{#each verses as verse, index (verse.ar.id)}
+		{@const verseNotes = verse?.en?.notes ?? []}
 		<li
-			id="verse-{verse.chapterNumber}:{verse.verseNumber}"
-			class:highlight={verse.verseNumber == highlightVerseNumber}
+			id="verse-{verse.ar.chapterNumber}:{verse.ar.verseNumber}"
+			class:highlight={verse.ar.verseNumber == highlightVerseNumber}
 		>
-			<VerseGridItem verseAr={verse} {verseEn} {verseNotes} />
+			<VerseGridItem {verse} {verseNotes} {hideVerseNumber} {showChapterNumber} />
 		</li>
 	{/each}
 </ul>

@@ -50,10 +50,14 @@ function CreateVerseNoteStore() {
 				return state;
 			});
 		},
-		addAllInChapter: (chapterNumber: number) => {
+		addAllInChapter: (chapterNumber: number | null) => {
 			update((state) => {
+				if (chapterNumber === null) {
+					return state;
+				}
 				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
 				VerseNoteKeyUtils.addKeyToSet(chapterWildcardKey, state.expanded);
+				VerseNoteKeyUtils.addKeyToSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
 				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
 				return state;
 			});
@@ -73,9 +77,13 @@ function CreateVerseNoteStore() {
 				return state;
 			});
 		},
-		removeAllInChapter: (chapterNumber: number) => {
+		removeAllInChapter: (chapterNumber: number | null) => {
 			update((state) => {
+				if (chapterNumber === null) {
+					return state;
+				}
 				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
+				VerseNoteKeyUtils.removeKeyFromSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
 				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.expanded);
 				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
 				return state;

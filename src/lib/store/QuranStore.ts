@@ -32,6 +32,24 @@ function createQuranStore() {
 				en: state.translations[TranslationEnum.ENGLISH_SAM_GERRANS].verses.flat()[verseId - 1]
 			} as Quran.VersePair;
 		},
+		getVerses: (chapterNumber: number): Quran.VersePair[] => {
+			const versesAr =
+				state.translations[TranslationEnum.ARABIC_ORIGINAL].verses[chapterNumber - 1];
+			const versesEn =
+				state.translations[TranslationEnum.ENGLISH_SAM_GERRANS].verses[chapterNumber - 1];
+			return versesAr.map((verse, index) => ({
+				ar: verse,
+				en: versesEn[index]
+			}));
+		},
+		getAllVerses: (): Quran.VersePair[] => {
+			const versesAr = state.translations[TranslationEnum.ARABIC_ORIGINAL].verses.flat();
+			const versesEn = state.translations[TranslationEnum.ENGLISH_SAM_GERRANS].verses.flat();
+			return versesAr.map((verse, index) => ({
+				ar: verse,
+				en: versesEn[index]
+			}));
+		},
 		getVerseAr: (chapterNumber: number, verseNumber: number): Quran.Verse =>
 			state.translations[TranslationEnum.ARABIC_ORIGINAL].verses[chapterNumber - 1][
 				verseNumber - 1

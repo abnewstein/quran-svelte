@@ -2,20 +2,25 @@
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked';
 	import { VerseNoteStore } from '$lib/store';
 	import VerseNotes from './VerseNotes.svelte';
-	export let verseAr: Quran.Verse;
-	export let verseEn: Quran.Verse;
+	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
 	export let hideVerseNumber: boolean = false;
+	export let showChapterNumber: boolean = false;
+
+	const chapterNumber = verse.ar.chapterNumber;
+	const verseNumber = verse.ar.verseNumber;
 </script>
 
 <p class="ar-text" dir="rtl">
-	{verseAr.text}
+	{verse.ar.text}
 </p>
 <p class="en-text" use:VerseNoteClicked={(key) => VerseNoteStore.toggle(key)}>
-	{#if !hideVerseNumber}
-		<sup class="font-bold mr-1">{verseEn.verseNumber}</sup>
+	{#if showChapterNumber}
+		<sup class="font-bold mr-1">{chapterNumber} : {verseNumber}</sup>
+	{:else if !hideVerseNumber}
+		<sup class="font-bold mr-1">{verseNumber}</sup>
 	{/if}
-	{@html verseEn.text}
+	{@html verse.en.text}
 </p>
 {#if verseNotes && verseNotes.length > 0}
 	{#if $VerseNoteStore.expanded.size > 0}
