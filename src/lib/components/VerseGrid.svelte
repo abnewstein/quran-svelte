@@ -1,16 +1,23 @@
-<script lang="ts">
+<script lang="ts" context="module">
 	import VerseGridItem from './VerseGridItem.svelte';
 	import { onMount } from 'svelte';
 
+	export enum DisplayVerseInfo {
+		None,
+		VerseNumber,
+		ChapterAndVerseNumber
+	}
+</script>
+
+<script lang="ts">
 	export let chapterNumber: number | null = null;
 	export let verses: Quran.VersePair[];
 	export let highlightVerseNumber: number | null = null;
-	export let hideVerseNumber: boolean = false;
-	export let showChapterNumber: boolean = false;
+	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 
 	onMount(() => {
 		if (highlightVerseNumber) {
-			const verse = document.getElementById(`verse-${chapterNumber}:${highlightVerseNumber}`);
+			const verse = document.getElementById(`${chapterNumber}:${highlightVerseNumber}`);
 			if (verse) {
 				verse.scrollIntoView({ behavior: 'smooth' });
 			}
@@ -18,14 +25,14 @@
 	});
 </script>
 
-<ul p-0>
+<ul class="p-0">
 	{#each verses as verse, index (verse.ar.id)}
 		{@const verseNotes = verse?.en?.notes ?? []}
 		<li
-			id="verse-{verse.ar.chapterNumber}:{verse.ar.verseNumber}"
+			id="{verse.ar.chapterNumber}:{verse.ar.verseNumber}"
 			class:highlight={verse.ar.verseNumber == highlightVerseNumber}
 		>
-			<VerseGridItem {verse} {verseNotes} {hideVerseNumber} {showChapterNumber} />
+			<VerseGridItem {verse} {verseNotes} {displayMode} />
 		</li>
 	{/each}
 </ul>

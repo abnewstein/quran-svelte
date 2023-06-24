@@ -103,24 +103,24 @@ describe('VerseNoteKeyUtils', () => {
 		test('VerseNoteKeyUtils.addKeyToSet', () => {
 			const key = '1:2:3';
 			const set = new Set(['1:2:4'] as Quran.VerseNoteKey[]);
-			const result = VerseNoteKeyUtils.addKeyToSet(key, set);
-			expect(result).toEqual(new Set(['1:2:4', '1:2:3']));
+			VerseNoteKeyUtils.addKeyToSet(key, set);
+			expect(set).toEqual(new Set(['1:2:4', '1:2:3']));
 		});
 
 		test('VerseNoteKeyUtils.removeKeyFromSet', () => {
 			const key = '1:2:3';
 			const set = new Set(['1:2:3', '1:2:4'] as Quran.VerseNoteKey[]);
-			const result = VerseNoteKeyUtils.removeKeyFromSet(key, set);
-			expect(result).toEqual(new Set(['1:2:4']));
+			VerseNoteKeyUtils.removeKeyFromSet(key, set);
+			expect(set).toEqual(new Set(['1:2:4']));
 		});
 
 		test('VerseNoteKeyUtils.toggleKeyInSet', () => {
 			const key = '1:2:3';
 			const set = new Set(['1:2:4'] as Quran.VerseNoteKey[]);
-			const result1 = VerseNoteKeyUtils.toggleKeyInSet(key, set);
-			expect(result1).toEqual(new Set(['1:2:4', '1:2:3']));
-			const result2 = VerseNoteKeyUtils.toggleKeyInSet(key, result1);
-			expect(result2).toEqual(new Set(['1:2:4']));
+			VerseNoteKeyUtils.toggleKeyInSet(key, set);
+			expect(set).toEqual(new Set(['1:2:4', '1:2:3']));
+			VerseNoteKeyUtils.toggleKeyInSet(key, set);
+			expect(set).toEqual(new Set(['1:2:4']));
 		});
 	});
 
@@ -128,22 +128,22 @@ describe('VerseNoteKeyUtils', () => {
 		test('VerseNoteKeyUtils.removeAllMatchingWildcard', () => {
 			const wildcardKey = '1:2:*';
 			const set = new Set(['1:2:3', '1:2:4', '1:3:3'] as Quran.VerseNoteKey[]);
-			const result = VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
-			expect(result).toEqual(2);
+			VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
+			expect(set).toEqual(new Set(['1:3:3']));
 		});
 
 		test('VerseNoteKeyUtils.removeAllMatchingWildcard with no match', () => {
 			const wildcardKey = '1:2:*';
 			const set = new Set(['1:3:3'] as Quran.VerseNoteKey[]);
-			const result = VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
-			expect(result).toEqual(0);
+			VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
+			expect(set).toEqual(new Set(['1:3:3']));
 		});
 
 		test('VerseNoteKeyUtils.removeAllMatchingWildcard with no wildcard', () => {
 			const wildcardKey = '1:2:3';
 			const set = new Set(['1:3:3', '1:2:3'] as Quran.VerseNoteKey[]);
-			const result = VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
-			expect(result).toEqual(1);
+			VerseNoteKeyUtils.removeAllMatchingWildcard(wildcardKey, set);
+			expect(set).toEqual(new Set(['1:3:3']));
 		});
 
 		test('VerseNoteKeyUtils.isWildcardKey', () => {

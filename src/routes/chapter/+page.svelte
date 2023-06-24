@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { QuranStore } from '$lib/store/QuranStore';
+	import { QuranStore } from '$lib/store/QuranStore.js';
 	import ChapterCard from '$lib/components/ChapterCard.svelte';
 
 	const { chapters } = $QuranStore;

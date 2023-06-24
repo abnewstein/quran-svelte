@@ -1,8 +1,7 @@
-import versesArOriginal from '../lib/data/verses_ar_original.json';
-import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json';
-import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json';
+import versesArOriginal from '../lib/data/verses_ar_original.json' assert { type: 'json' };
+import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json' assert { type: 'json' };
+import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json' assert { type: 'json' };
 
-console.time('Data Files parsing');
 export enum TranslationEnum {
 	ARABIC_ORIGINAL = 'ar_original',
 	ENGLISH_SAM_GERRANS = 'en_sam-gerrans'
@@ -125,5 +124,3 @@ export const translationsData: Record<TranslationEnum, Quran.Translation> = {
 	}
 	// Add more translations here
 };
-
-console.timeEnd('Data Files parsing');

@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { VerseNoteKeyUtils } from '../utils/VerseNoteKeyUtils';
+import { VerseNoteKeyUtils } from '../utils/VerseNoteKeyUtils.js';
 
 type VerseNoteStoreState = {
 	expanded: Set<Quran.VerseNoteKey>;
@@ -24,13 +24,12 @@ function CreateVerseNoteStore() {
 		subscribe,
 		toggle: (verseNoteKey: Quran.VerseNoteKey) => {
 			update((state) => {
-				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)) {
-					VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed);
-				} else {
-					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
-					if (VerseNoteKeyUtils.matchesExact(verseNoteKey, state.collapsed)) {
-						VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
-					}
+				VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)
+					? VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed)
+					: VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
+
+				if (VerseNoteKeyUtils.matchesExact(verseNoteKey, state.collapsed)) {
+					VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
 				}
 				return state;
 			});
@@ -39,6 +38,13 @@ function CreateVerseNoteStore() {
 			update((state) => {
 				VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.expanded);
 				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
+				return state;
+			});
+		},
+		remove: (verseNoteKey: Quran.VerseNoteKey) => {
+			update((state) => {
+				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.expanded);
+				VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed);
 				return state;
 			});
 		},
@@ -59,13 +65,6 @@ function CreateVerseNoteStore() {
 				VerseNoteKeyUtils.addKeyToSet(chapterWildcardKey, state.expanded);
 				VerseNoteKeyUtils.addKeyToSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
 				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
-				return state;
-			});
-		},
-		remove: (verseNoteKey: Quran.VerseNoteKey) => {
-			update((state) => {
-				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.expanded);
-				VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed);
 				return state;
 			});
 		},

@@ -47,46 +47,27 @@ export const VerseNoteKeyUtils = {
 		return false;
 	},
 
-	addKeyToSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): Set<Quran.VerseNoteKey> => {
+	addKeyToSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): void => {
 		set.add(key);
-		set = new Set(set);
-		return set;
 	},
 
-	removeKeyFromSet: (
-		key: Quran.VerseNoteKey,
-		set: Set<Quran.VerseNoteKey>
-	): Set<Quran.VerseNoteKey> => {
+	removeKeyFromSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): void => {
 		set.delete(key);
-		set = new Set(set);
-		return set;
 	},
 
-	toggleKeyInSet: (
-		key: Quran.VerseNoteKey,
-		set: Set<Quran.VerseNoteKey>
-	): Set<Quran.VerseNoteKey> => {
-		if (set.has(key)) {
-			set.delete(key);
-		} else {
-			set.add(key);
-		}
-		set = new Set(set);
-		return set;
+	toggleKeyInSet: (key: Quran.VerseNoteKey, set: Set<Quran.VerseNoteKey>): void => {
+		set.has(key) ? set.delete(key) : set.add(key);
 	},
 
 	removeAllMatchingWildcard: (
 		wildcardKey: Quran.VerseNoteKey,
 		set: Set<Quran.VerseNoteKey>
-	): number => {
-		let count = 0;
+	): void => {
 		for (const key of set) {
 			if (VerseNoteKeyUtils.matches(wildcardKey, key)) {
 				set.delete(key);
-				count++;
 			}
 		}
-		return count;
 	},
 
 	isWildcardKey(key: Quran.VerseNoteKey): boolean {

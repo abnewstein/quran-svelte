@@ -1,11 +1,12 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked';
 	import { VerseNoteStore } from '$lib/store';
+	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import VerseNotes from './VerseNotes.svelte';
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
-	export let hideVerseNumber: boolean = false;
-	export let showChapterNumber: boolean = false;
+	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 
 	const chapterNumber = verse.ar.chapterNumber;
 	const verseNumber = verse.ar.verseNumber;
@@ -15,9 +16,15 @@
 	{verse.ar.text}
 </p>
 <p class="en-text" use:VerseNoteClicked={(key) => VerseNoteStore.toggle(key)}>
-	{#if showChapterNumber}
-		<sup class="font-bold mr-1">{chapterNumber} : {verseNumber}</sup>
-	{:else if !hideVerseNumber}
+	{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
+		<a
+			href="/chapter/{chapterNumber}?verse={verseNumber}"
+			target="_blank"
+			on:click={() => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`)}
+		>
+			<sup class="font-bold mr-1 text-xl">{chapterNumber}:{verseNumber}</sup>
+		</a>
+	{:else if displayMode == DisplayVerseInfo.VerseNumber}
 		<sup class="font-bold mr-1">{verseNumber}</sup>
 	{/if}
 	{@html verse.en.text}

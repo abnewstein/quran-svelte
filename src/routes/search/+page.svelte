@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { VerseDb, OramaStore } from '$lib/store';
-	import VerseGrid from '$lib/components/VerseGrid.svelte';
+	import { VerseDb, OramaStore } from '$lib/store/index.js';
+	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
 	import { writable } from 'svelte/store';
 
 	let searchTerm: string = '';
@@ -38,7 +38,7 @@
 <div class="flex flex-col items-center py-2 md:py-10">
 	<container class="w-8/9">
 		{#if $results.length}
-			<VerseGrid verses={$results} showChapterNumber />
+			<VerseGrid verses={$results} displayMode={DisplayVerseInfo.ChapterAndVerseNumber} />
 		{:else}
 			<div class="text-center">
 				<h1 class="text-2xl font-bold">No results found</h1>

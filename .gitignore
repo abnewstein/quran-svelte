@@ -14,3 +14,5 @@ vite.config.ts.timestamp-*
 .vercel
 .idea/vcs.xml
 .vscode/settings.json
+src/lib/data/compiled/verses_ar_original_orama_index.json
+src/lib/data/compiled/verses_en_sam-gerrans_orama_index.json

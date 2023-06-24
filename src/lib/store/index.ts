@@ -1,3 +1,3 @@
-export * from './QuranStore';
-export * from './VerseNoteStore';
-export * from './OramaStore';
+export * from './QuranStore.js';
+export * from './VerseNoteStore.js';
+export * from './OramaStore.js';

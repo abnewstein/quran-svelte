@@ -1,7 +1,7 @@
 import { readable } from 'svelte/store';
-import chaptersData from '../data/chapters-data.json';
-import { TranslationEnum, translationsData } from '../../scripts/DataFileParser';
-import enSamGerransData from '../data/verses_en_sam-gerrans.json';
+import chaptersData from '../data/chapters-data.json' assert { type: 'json' };
+import enSamGerransData from '../data/verses_en_sam-gerrans.json' assert { type: 'json' };
+import { TranslationEnum, translationsData } from '../../scripts/DataFileParser.js';
 
 type QuranStoreState = {
 	chapters: Quran.Chapter[];
