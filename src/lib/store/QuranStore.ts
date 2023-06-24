@@ -26,7 +26,8 @@ function createQuranStore() {
 		cleanVerses: [enSamGerransData],
 		getChapter: (chapterNumber: number): Quran.Chapter =>
 			state.chapters.find((chapter) => chapter.number === chapterNumber) as Quran.Chapter,
-		getVerse: (verseId: number): Quran.VersePair => {
+		getVersePair: (chatperVersekey: string): Quran.VersePair => {
+			const verseId = chatperVersekey.split(':').map(Number)[1];
 			return {
 				ar: state.translations[TranslationEnum.ARABIC_ORIGINAL].verses.flat()[verseId - 1],
 				en: state.translations[TranslationEnum.ENGLISH_SAM_GERRANS].verses.flat()[verseId - 1]

@@ -1,3 +1,4 @@
+import path from 'path';
 import fs from 'fs';
 import { create, insertMultiple, count, save } from '@orama/orama';
 import { stemmer as stemmerAr } from '@orama/stemmers/arabic';
@@ -5,30 +6,22 @@ import { VerseDb } from '../lib/store/OramaStore.js';
 import versesArOriginal from '../lib/data/verses_ar_original.json' assert { type: 'json' };
 import versesEnSamGerrans from '../lib/data/verses_en_sam-gerrans.json' assert { type: 'json' };
 
-const cleanUpVerse = (
-	[chapterNumber, verseNumber, text]: (string | number)[],
-	verseId: number
-): Quran.Verse => {
+type Verse = {
+	id: string;
+	text: string;
+};
+const cleanUpVerse = ([chapterNumber, verseNumber, text]: (string | number)[]): Verse => {
 	let verseText = text as string;
 	verseText = verseText.replace(/<[^>]*>?/gm, '');
-
 	return {
-		id: verseId,
-		chapterNumber: Number(chapterNumber),
-		verseNumber: Number(verseNumber),
+		id: `${chapterNumber}:${verseNumber}`,
 		text: verseText
 	};
 };
 
-/**
- *
- * @param {string} id The id of the database
- * @param {Quran.Verse[]} verses The verses to be stored in the database
- * @returns OramaDb instance
- */
-const createOramaSearchDb = async (id: VerseDb, verses: Quran.Verse[]) => {
-	console.log('createOramaSearchDb started ', id, verses.length);
-	console.time(`createVersesDb ${id}`);
+const createOramaSearchDb = async (dbId: VerseDb, verses: Verse[]) => {
+	console.log('createOramaSearchDb started ', dbId, verses.length);
+	console.time(`createVersesDb ${dbId}`);
 
 	const verseDb = await create({
 		schema: {
@@ -37,17 +30,17 @@ const createOramaSearchDb = async (id: VerseDb, verses: Quran.Verse[]) => {
 		},
 		components: {
 			tokenizer: {
-				language: id === VerseDb.ArOriginal ? 'arabic' : 'english',
+				language: dbId === VerseDb.ArOriginal ? 'arabic' : 'english',
 				stemming: true,
-				stemmer: id === VerseDb.ArOriginal ? stemmerAr : undefined
+				stemmer: dbId === VerseDb.ArOriginal ? stemmerAr : undefined
 			}
 		},
-		id
+		id: dbId
 	});
 
 	const verseDocs = verses.map((verse) => ({
 		id: verse.id + '',
-		text: verse.cleanText || verse.text
+		text: verse.text
 	}));
 	if ((await count(verseDb)) == 0) {
 		await insertMultiple(verseDb, verseDocs);
@@ -58,23 +51,37 @@ const createOramaSearchDb = async (id: VerseDb, verses: Quran.Verse[]) => {
 
 	// save the translations data to a file
 	try {
-		fs.writeFileSync(`../lib/data/compiled/verses_${id}_orama_index.json`, index, {
+		const dirname = path.dirname(new URL(import.meta.url).pathname);
+		const filePath = path.join(dirname, `../lib/data/compiled/search_index_${dbId}.json`);
+		fs.writeFileSync(filePath.slice(1), index, {
 			encoding: 'utf8',
-			flag: 'a+'
+			flag: 'w+'
 		});
+
+		console.log(`Saved index to file for ${dbId}`);
 	} catch (err) {
-		console.error(err);
+		console.error(`Failed to write index to file for ${dbId}`, err);
 	}
 
-	console.timeEnd(`createVersesDb ${id}`);
+	console.timeEnd(`createVersesDb ${dbId}`);
 	return verseDb;
 };
 
-// create the search indices
-const arOriginalVerses = versesArOriginal.map(cleanUpVerse);
-const enSamGerransVerses = versesEnSamGerrans.map(cleanUpVerse);
+const createSearchDatabases = async () => {
+	try {
+		// create the search indices
+		const arOriginalVerses = versesArOriginal.map((verse) => cleanUpVerse(verse));
+		const enSamGerransVerses = versesEnSamGerrans.map((verse) => cleanUpVerse(verse));
 
-await createOramaSearchDb(VerseDb.ArOriginal, arOriginalVerses);
-await createOramaSearchDb(VerseDb.EnSamGerrans, enSamGerransVerses);
+		await Promise.all([
+			await createOramaSearchDb(VerseDb.ArOriginal, arOriginalVerses),
+			await createOramaSearchDb(VerseDb.EnSamGerrans, enSamGerransVerses)
+		]);
 
-console.log('createOramaIndex finished');
+		console.log('createOramaIndex finished');
+	} catch (err) {
+		console.error('Failed to create search databases', err);
+	}
+};
+
+createSearchDatabases();

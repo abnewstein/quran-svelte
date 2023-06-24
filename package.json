@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "ts-node --esm ./src/scripts/CreateOramaIndex.ts && vite build",
 		"preview": "vite preview",
 		"test": "vitest --ui",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",

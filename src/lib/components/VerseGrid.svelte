@@ -1,7 +1,4 @@
 <script lang="ts" context="module">
-	import VerseGridItem from './VerseGridItem.svelte';
-	import { onMount } from 'svelte';
-
 	export enum DisplayVerseInfo {
 		None,
 		VerseNumber,
@@ -10,6 +7,8 @@
 </script>
 
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import VerseGridItem from './VerseGridItem.svelte';
 	export let chapterNumber: number | null = null;
 	export let verses: Quran.VersePair[];
 	export let highlightVerseNumber: number | null = null;
@@ -26,10 +25,10 @@
 </script>
 
 <ul class="p-0">
-	{#each verses as verse, index (verse.ar.id)}
+	{#each verses as verse (`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`)}
 		{@const verseNotes = verse?.en?.notes ?? []}
 		<li
-			id="{verse.ar.chapterNumber}:{verse.ar.verseNumber}"
+			id={`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
 			class:highlight={verse.ar.verseNumber == highlightVerseNumber}
 		>
 			<VerseGridItem {verse} {verseNotes} {displayMode} />

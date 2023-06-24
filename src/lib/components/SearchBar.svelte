@@ -7,7 +7,7 @@
 			console.warn('Cannot search with an empty query');
 			return;
 		}
-		goto(`/search?q=${searchTerm}`);
+		goto(`/search?q=${searchTerm}`, { replaceState: true });
 	};
 
 	const handleKeydown = (event: KeyboardEvent) => {

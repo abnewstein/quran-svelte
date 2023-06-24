@@ -8,8 +8,8 @@ import {
 	type RawData
 } from '@orama/orama';
 import { stemmer as stemmerAr } from '@orama/stemmers/arabic';
-import versesOramaArIndex from '../data/compiled/verses_ar_original_orama_index.json' assert { type: 'json' };
-import versesOramaEnIndex from '../data/compiled/verses_en_sam-gerrans_orama_index.json' assert { type: 'json' };
+import searchIndexAr from '../data/compiled/search_index_ar_original.json' assert { type: 'json' };
+import searchIndexEn from '../data/compiled/search_index_en_sam-gerrans.json' assert { type: 'json' };
 
 import { writable } from 'svelte/store';
 import { QuranStore } from './QuranStore.js';
@@ -53,7 +53,7 @@ function createOramaStore() {
 		load: async (id: VerseDb) => {
 			if (state[id]) return;
 			const db = await createVerseDb(id);
-			const rawData = id === VerseDb.ArOriginal ? versesOramaArIndex : versesOramaEnIndex;
+			const rawData = id === VerseDb.ArOriginal ? searchIndexAr : searchIndexEn;
 			await load(db, rawData as RawData);
 			update((s) => ({ ...s, [id]: db }));
 		},
@@ -70,8 +70,8 @@ function createOramaStore() {
 		search: async (id: VerseDb, query: string): Promise<Quran.VersePair[]> => {
 			const db = state[id];
 			if (!db) return [];
-			const results = await search(db, { term: query, limit: 100, sortBy: { property: 'id' } });
-			const verses = results.hits.map((hit) => QuranStore.getVerse(hit.document.id as number));
+			const results = await search(db, { term: query, limit: 200, sortBy: { property: 'id' } });
+			const verses = results.hits.map((hit) => QuranStore.getVersePair(hit.document.id as string));
 			return verses;
 		}
 	};

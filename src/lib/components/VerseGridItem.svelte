@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked';
-	import { VerseNoteStore } from '$lib/store';
+	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
+	import { VerseNoteStore } from '$lib/store/index.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import VerseNotes from './VerseNotes.svelte';
 	export let verse: Quran.VersePair;

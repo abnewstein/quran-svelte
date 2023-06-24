@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { VerseNoteStore } from '$lib/store';
+	import { VerseNoteStore } from '$lib/store/index.js';
 	export let verseNotes: Quran.NoteDetails = [];
 </script>
 

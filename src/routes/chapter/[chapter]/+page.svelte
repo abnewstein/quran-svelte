@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { QuranStore, VerseNoteStore } from '$lib/store';
+	import { QuranStore, VerseNoteStore } from '$lib/store/index.js';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
 
