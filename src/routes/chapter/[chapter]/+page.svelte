@@ -8,7 +8,7 @@
 	const chapterNumber = Number($page.params.chapter);
 	const chapter = QuranStore.getChapter(chapterNumber);
 	const verses = QuranStore.getVerses(chapterNumber);
-	const firstVerse = QuranStore.firstVersePair;
+	const firstVerse = QuranStore.getFirstVersePair();
 
 	let highlightVerseNumber: number | null = null;
 

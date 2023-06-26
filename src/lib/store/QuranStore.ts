@@ -18,10 +18,10 @@ function createQuranStore() {
 
 	return {
 		subscribe,
-		firstVersePair: {
-			ar: translationsData[TranslationEnum.ARABIC_ORIGINAL]?.verses[0][0],
-			en: translationsData[TranslationEnum.ENGLISH_SAM_GERRANS]?.verses[0][0]
-		} as Quran.VersePair,
+		getFirstVersePair: (): Quran.VersePair => ({
+			ar: state.translations[TranslationEnum.ARABIC_ORIGINAL]?.verses[0][0],
+			en: state.translations[TranslationEnum.ENGLISH_SAM_GERRANS]?.verses[0][0]
+		}),
 		getChapter: (chapterNumber: number): Quran.Chapter =>
 			state.chapters.find((chapter) => chapter.number === chapterNumber) as Quran.Chapter,
 		getVerse: (chapterNumber: number, verseNumber: number): Quran.VersePair => {

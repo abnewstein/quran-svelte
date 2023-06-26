@@ -1,8 +1,6 @@
-const versesArOriginal = (await import('../lib/data/verses_ar_original.json')).default;
-const versesEnSamGerransWithNotes = (
-	await import('../lib/data/verses_en_sam-gerrans_with-notes.json')
-).default;
-const notesEnSamGerrans = (await import('../lib/data/notes_en_sam-gerrans.json')).default;
+import versesArOriginal from '../lib/data/verses_ar_original.json';
+import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json';
+import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json';
 
 export enum TranslationEnum {
 	ARABIC_ORIGINAL = 'ar_original',
