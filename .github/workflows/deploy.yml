@@ -28,6 +28,6 @@ jobs:
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
-          project: "salty-dragonfly-23"
-          entrypoint: "mod.ts" # 📝 Update the entrypoint
-          root: "build"
+          project: 'salty-dragonfly-23'
+          entrypoint: 'index.html' # 📝 Update the entrypoint
+          root: 'build'

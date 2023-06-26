@@ -52,9 +52,3 @@ declare namespace Quran {
 		verses: Record<string, Verse[]>;
 	}
 }
-
-declare namespace svelteHTML {
-	import type { AttributifyAttributes } from '@unocss/preset-attributify';
-
-	type HTMLAttributes = AttributifyAttributes;
-}
