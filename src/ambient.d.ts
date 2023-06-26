@@ -27,7 +27,6 @@ declare namespace Quran {
 		chapterNumber: number;
 		verseNumber: number;
 		text: string;
-		cleanText?: string;
 		notes?: NoteDetails;
 	}
 

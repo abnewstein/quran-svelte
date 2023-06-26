@@ -11,19 +11,14 @@
 
 	const results = writable<Quran.VersePair[]>([]);
 
-	// wait until oramastore is ready and then give the search result
 	const search = async () => {
-		if (!searchTerm.trim()) {
-			console.warn('Cannot search with an empty query');
-			return;
-		}
-		if (!OramaStore.isReady()) {
-			console.log('OramaStore is not ready yet, waiting for it to be ready');
-			setTimeout(search, 1000);
-			return;
-		}
 		console.log(`Searching for "${searchTerm}"`);
 
+		if (!searchTerm) return;
+		if (!(await OramaStore.isReady())) {
+			console.log('OramaStore is not ready yet');
+			return;
+		}
 		const resultsAr = await OramaStore.search(VerseDb.ArOriginal, searchTerm);
 		const resultsEn = await OramaStore.search(VerseDb.EnSamGerrans, searchTerm);
 		console.log(
@@ -35,16 +30,12 @@
 
 	$: if (browser) {
 		searchTerm = $page.url.searchParams.get('q') as string;
-		search();
+		if (searchTerm.trim() && isSearchIndexReady) search();
 	}
 
 	onMount(async () => {
-		console.log('Starting Indexing verses');
-		console.time('Indexing verses');
-		await OramaStore.load(VerseDb.ArOriginal);
-		await OramaStore.load(VerseDb.EnSamGerrans);
+		await OramaStore.init();
 		isSearchIndexReady = true;
-		console.timeEnd('Indexing verses');
 	});
 </script>
 

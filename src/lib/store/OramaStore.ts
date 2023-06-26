@@ -1,41 +1,14 @@
-import {
-	create,
-	count,
-	search,
-	type ProvidedTypes,
-	type Orama,
-	load,
-	type RawData
-} from '@orama/orama';
-import { stemmer as stemmerAr } from '@orama/stemmers/arabic';
-import searchIndexAr from '../data/compiled/search_index_ar_original.json' assert { type: 'json' };
-import searchIndexEn from '../data/compiled/search_index_en_sam-gerrans.json' assert { type: 'json' };
-
+import { search, type ProvidedTypes, type Orama } from '@orama/orama';
 import { writable } from 'svelte/store';
 import { QuranStore } from './QuranStore.js';
+import { createSearchDatabases } from '../utils/CreateOramaIndex.js';
 
 export enum VerseDb {
 	ArOriginal = 'ar_original',
 	EnSamGerrans = 'en_sam-gerrans'
 }
 
-type OramaStoreState = Record<VerseDb, Orama<ProvidedTypes> | null>;
-
-const createVerseDb = async (id: VerseDb) =>
-	await create({
-		schema: {
-			id: 'string',
-			text: 'string'
-		},
-		components: {
-			tokenizer: {
-				language: id === VerseDb.ArOriginal ? 'arabic' : 'english',
-				stemming: true,
-				stemmer: id === VerseDb.ArOriginal ? stemmerAr : undefined
-			}
-		},
-		id
-	});
+export type OramaStoreState = Record<VerseDb, Orama<ProvidedTypes> | null>;
 
 function createOramaStore() {
 	const { subscribe, set, update } = writable<OramaStoreState>({
@@ -50,28 +23,25 @@ function createOramaStore() {
 		subscribe,
 		set,
 		update,
-		load: async (id: VerseDb) => {
-			if (state[id]) return;
-			const db = await createVerseDb(id);
-			const rawData = id === VerseDb.ArOriginal ? searchIndexAr : searchIndexEn;
-			await load(db, rawData as RawData);
-			update((s) => ({ ...s, [id]: db }));
+		init: async () => {
+			OramaStore.set(await createSearchDatabases());
 		},
 		isReady: async () => {
-			const isArOriginalReady = state[VerseDb.ArOriginal]
-				? (await count(state[VerseDb.ArOriginal])) === 6236
-				: false;
-			const isEnSamGerransReady = state[VerseDb.EnSamGerrans]
-				? (await count(state[VerseDb.EnSamGerrans])) === 6236
-				: false;
-			return isArOriginalReady && isEnSamGerransReady;
+			return state[VerseDb.ArOriginal] && state[VerseDb.EnSamGerrans];
 		},
 		get: (id: VerseDb) => state[id],
 		search: async (id: VerseDb, query: string): Promise<Quran.VersePair[]> => {
 			const db = state[id];
-			if (!db) return [];
+			if (!db) {
+				return [];
+			}
 			const results = await search(db, { term: query, limit: 200, sortBy: { property: 'id' } });
-			const verses = results.hits.map((hit) => QuranStore.getVersePair(hit.document.id as string));
+			const verses = results.hits
+				.map((hit) => {
+					const [chapterNumber, verseNumber] = hit.id.split(':').map(Number);
+					return QuranStore.getVerse(chapterNumber, verseNumber);
+				})
+				.sort((a, b) => a.ar.id - b.ar.id);
 			return verses;
 		}
 	};

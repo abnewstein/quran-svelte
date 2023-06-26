@@ -4,7 +4,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "ts-node --esm ./src/scripts/CreateOramaIndex.ts && vite build",
+		"build": "vite build",
 		"preview": "vite preview",
 		"test": "vitest --ui",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -17,7 +17,7 @@
 		"@iconify-json/ph": "^1.1.5",
 		"@playwright/test": "^1.35.1",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.20.4",
+		"@sveltejs/kit": "^1.20.5",
 		"@sveltejs/vite-plugin-svelte": "^2.4.2",
 		"@types/cookie": "^0.5.1",
 		"@typescript-eslint/eslint-plugin": "^5.60.0",
@@ -30,7 +30,7 @@
 		"autoprefixer": "^10.4.14",
 		"eslint": "^8.43.0",
 		"eslint-config-prettier": "^8.8.0",
-		"eslint-plugin-svelte": "^2.31.0",
+		"eslint-plugin-svelte": "^2.31.1",
 		"prettier": "^2.8.8",
 		"prettier-plugin-svelte": "^2.10.1",
 		"sass": "^1.63.6",
@@ -44,6 +44,7 @@
 	},
 	"dependencies": {
 		"@orama/orama": "^1.0.8",
-		"@orama/stemmers": "^1.0.8"
+		"@orama/stemmers": "^1.0.8",
+		"localforage": "^1.10.0"
 	}
 }
