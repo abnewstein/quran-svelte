@@ -49,6 +49,8 @@ declare namespace Quran {
 	export interface SearchResult {
 		query: string;
 		chapters: Chapter[];
-		verses: Record<string, Verse[]>;
+		verses: VersePair[];
+		chapterCount: number;
+		verseCount: number;
 	}
 }

@@ -4,6 +4,7 @@
 	import { QuranStore, VerseNoteStore } from '$lib/store/index.js';
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
+	import Button from '$lib/components/ToggleButton.svelte';
 
 	const chapterNumber = Number($page.params.chapter);
 	const chapter = QuranStore.getChapter(chapterNumber);
@@ -22,8 +23,7 @@
 		<ChapterTitle {chapter} />
 		<hr />
 
-		<button on:click={() => VerseNoteStore.addAllInChapter(chapterNumber)}>Expand</button>
-		<button on:click={() => VerseNoteStore.removeAllInChapter(chapterNumber)}>Collapse</button>
+		<Button onClick={() => VerseNoteStore.toggleAllInChapter(chapterNumber)} />
 		{#if chapterNumber !== 1 && chapterNumber !== 9}
 			<VerseGrid {chapterNumber} verses={[firstVerse]} />
 		{/if}

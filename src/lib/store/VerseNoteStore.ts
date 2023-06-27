@@ -24,12 +24,41 @@ function CreateVerseNoteStore() {
 		subscribe,
 		toggle: (verseNoteKey: Quran.VerseNoteKey) => {
 			update((state) => {
-				VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)
-					? VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed)
-					: VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
-
-				if (VerseNoteKeyUtils.matchesExact(verseNoteKey, state.collapsed)) {
-					VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
+				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)) {
+					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.collapsed);
+				} else {
+					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
+				}
+				return state;
+			});
+		},
+		toggleAllInVerse: (chapterNumber: number, verseNumber: number) => {
+			update((state) => {
+				const verseWildcardKey = VerseNoteKeyUtils.join([chapterNumber, verseNumber, '*']);
+				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseWildcardKey, state.expanded)) {
+					VerseNoteKeyUtils.removeKeyFromSet(verseWildcardKey, state.expanded);
+					VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
+				} else {
+					VerseNoteKeyUtils.addKeyToSet(verseWildcardKey, state.expanded);
+					VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
+				}
+				return state;
+			});
+		},
+		toggleAllInChapter: (chapterNumber: number | null) => {
+			update((state) => {
+				if (chapterNumber === null) {
+					return state;
+				}
+				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
+				if (VerseNoteKeyUtils.matchesOnlyWildcard(chapterWildcardKey, state.expanded)) {
+					VerseNoteKeyUtils.removeKeyFromSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
+					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.expanded);
+					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
+				} else {
+					VerseNoteKeyUtils.addKeyToSet(chapterWildcardKey, state.expanded);
+					VerseNoteKeyUtils.addKeyToSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
+					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
 				}
 				return state;
 			});

@@ -15,10 +15,7 @@ type Verse = {
 	text: string;
 };
 
-const cleanUpVerse = (
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	[chapterNumber, verseNumber, text]: (string | number)[]
-): Verse => {
+const cleanUpVerse = ([chapterNumber, verseNumber, text]: (string | number)[]): Verse => {
 	let verseText = text as string;
 	verseText = verseText.replace(/<[^>]*>?/gm, '');
 	return {
@@ -33,10 +30,11 @@ export const createVerseDb = async (dbId: VerseDb) =>
 			id: 'string',
 			text: 'string'
 		},
+		language: dbId === VerseDb.ArOriginal ? 'arabic' : 'english',
 		id: dbId
 	});
 
-const createOramaSearchDb = async (verseDb: Orama<ProvidedTypes>, verses: Verse[]) => {
+const loadVersesIntoDb = async (verseDb: Orama<ProvidedTypes>, verses: Verse[]) => {
 	const verseDocs = verses.map(({ id, text }) => ({ id, text }));
 	if ((await count(verseDb)) == 0) {
 		await insertMultiple(verseDb, verseDocs, 50);
@@ -50,29 +48,29 @@ export const createSearchDatabases = async (): Promise<OramaStoreState> => {
 		[VerseDb.EnSamGerrans]: null
 	};
 	try {
-		const arOriginalIndex = (await localforage.getItem(VerseDb.ArOriginal)) as string | null;
-		const enSamGerransIndex = (await localforage.getItem(VerseDb.EnSamGerrans)) as string | null;
+		const arOriginalIndex = await localforage.getItem(VerseDb.ArOriginal);
+		const enSamGerransIndex = await localforage.getItem(VerseDb.EnSamGerrans);
 
 		const verseArDb = await createVerseDb(VerseDb.ArOriginal);
 		const verseEnDb = await createVerseDb(VerseDb.EnSamGerrans);
 
 		if (arOriginalIndex && enSamGerransIndex) {
-			await load(verseArDb, JSON.parse(arOriginalIndex));
-			await load(verseEnDb, JSON.parse(enSamGerransIndex));
-			state[VerseDb.ArOriginal] = verseArDb;
-			state[VerseDb.EnSamGerrans] = verseEnDb;
+			await load(verseArDb, JSON.parse(arOriginalIndex as string));
+			await load(verseEnDb, JSON.parse(enSamGerransIndex as string));
 		} else {
 			const versesArOriginal = (await import('../data/verses_ar_original.json')).default;
 			const versesEnSamGerrans = (await import('../data/verses_en_sam-gerrans.json')).default;
 			const arOriginalVerses = versesArOriginal.map(cleanUpVerse);
 			const enSamGerransVerses = versesEnSamGerrans.map(cleanUpVerse);
 
-			state[VerseDb.ArOriginal] = await createOramaSearchDb(verseArDb, arOriginalVerses);
-			state[VerseDb.EnSamGerrans] = await createOramaSearchDb(verseEnDb, enSamGerransVerses);
+			await loadVersesIntoDb(verseArDb, arOriginalVerses);
+			await loadVersesIntoDb(verseEnDb, enSamGerransVerses);
 
 			localforage.setItem(VerseDb.ArOriginal, JSON.stringify(await save(verseArDb)));
 			localforage.setItem(VerseDb.EnSamGerrans, JSON.stringify(await save(verseEnDb)));
 		}
+		state[VerseDb.ArOriginal] = verseArDb;
+		state[VerseDb.EnSamGerrans] = verseEnDb;
 
 		console.log('createOramaIndex finished');
 	} catch (err) {

@@ -17,7 +17,7 @@
 	};
 </script>
 
-<div class="search-bar" flex="~ items-center" border="1 solid black rounded-lg">
+<div class="search-bar">
 	<input
 		type="text"
 		bind:value={searchTerm}
@@ -33,6 +33,9 @@
 	.search-bar {
 		background-color: #fff;
 		height: 2.25rem;
+		--uno: flex items-center;
+		--uno: border-1 border-solid border-black rounded-lg;
+
 		input {
 			--uno: m-1 outline-none border-none text-md;
 		}

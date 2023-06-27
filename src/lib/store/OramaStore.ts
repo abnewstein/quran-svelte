@@ -30,19 +30,49 @@ function createOramaStore() {
 			return state[VerseDb.ArOriginal] && state[VerseDb.EnSamGerrans];
 		},
 		get: (id: VerseDb) => state[id],
-		search: async (id: VerseDb, query: string): Promise<Quran.VersePair[]> => {
-			const db = state[id];
-			if (!db) {
-				return [];
+		search: async (query: string): Promise<Quran.SearchResult> => {
+			const arDb = state[VerseDb.ArOriginal];
+			const enDb = state[VerseDb.EnSamGerrans];
+			const searchResult = {
+				query,
+				chapters: [],
+				verses: [],
+				chapterCount: 0,
+				verseCount: 0
+			} as Quran.SearchResult;
+
+			if (!arDb || !enDb) {
+				return searchResult;
 			}
-			const results = await search(db, { term: query, limit: 200, sortBy: { property: 'id' } });
-			const verses = results.hits
-				.map((hit) => {
-					const [chapterNumber, verseNumber] = hit.id.split(':').map(Number);
+
+			// parse the query and decide which database to search
+
+			const chaptersAr = await search(arDb, { term: query, limit: 114 });
+			const chapterArIds = chaptersAr.hits.map((hit) => hit.id);
+			const versesAr = await search(arDb, { term: query, limit: 200 });
+			const verseArIds = versesAr.hits.map((hit) => hit.id);
+			const chaptersEn = await search(enDb, { term: query, limit: 114 });
+			const chapterEnIds = chaptersEn.hits.map((hit) => hit.id);
+			const versesEn = await search(enDb, { term: query, limit: 200 });
+			const verseEnIds = versesEn.hits.map((hit) => hit.id);
+
+			// merge the chapter and verse ids
+			const chapterIds = [...chapterArIds, ...chapterEnIds];
+			const verseIds = [...verseArIds, ...verseEnIds];
+
+			searchResult.chapters = chapterIds
+				.map((id) => QuranStore.getChapter(Number(id)))
+				.sort((a, b) => a.number - b.number);
+			searchResult.verses = verseIds
+				.map((id) => {
+					const [chapterNumber, verseNumber] = id.split(':').map(Number);
 					return QuranStore.getVerse(chapterNumber, verseNumber);
 				})
 				.sort((a, b) => a.ar.id - b.ar.id);
-			return verses;
+			searchResult.chapterCount = chapterIds.length;
+			searchResult.verseCount = verseIds.length;
+
+			return searchResult;
 		}
 	};
 }

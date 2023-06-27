@@ -3,6 +3,7 @@
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
 	import { VerseNoteStore } from '$lib/store/index.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
+	import Button from './ToggleButton.svelte';
 	import VerseNotes from './VerseNotes.svelte';
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
@@ -28,13 +29,14 @@
 		<sup class="font-bold mr-1">{verseNumber}</sup>
 	{/if}
 	{@html verse.en.text}
+	<Button onClick={() => VerseNoteStore.toggleAllInVerse(chapterNumber, verseNumber)} />
 </p>
 {#if verseNotes && verseNotes.length > 0}
 	{#if $VerseNoteStore.expanded.size > 0}
 		{@const notes = verseNotes?.filter((note) => {
 			return (
-				($VerseNoteStore.expanded.has(note.id) && !$VerseNoteStore.collapsed.has(note.id)) ||
-				VerseNoteStore.matches(note.id)
+				!$VerseNoteStore.collapsed.has(note.id) &&
+				($VerseNoteStore.expanded.has(note.id) || VerseNoteStore.matches(note.id))
 			);
 		})}
 		<VerseNotes verseNotes={notes} />
