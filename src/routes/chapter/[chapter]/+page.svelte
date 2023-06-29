@@ -23,16 +23,23 @@
 		<ChapterTitle {chapter} />
 		<hr />
 
-		<Button onClick={() => VerseNoteStore.toggleAllInChapter(chapterNumber)} />
-		{#if chapterNumber !== 1 && chapterNumber !== 9}
-			<VerseGrid {chapterNumber} verses={[firstVerse]} />
-		{/if}
+		<div class="flex flex-col">
+			<Button
+				class="self-end mr-1"
+				onClick={() => VerseNoteStore.toggleAllInChapter(chapterNumber)}
+			/>
+			{#key $VerseNoteStore}
+				{#if chapterNumber !== 1 && chapterNumber !== 9}
+					<VerseGrid {chapterNumber} verses={[firstVerse]} />
+				{/if}
 
-		<VerseGrid
-			{chapterNumber}
-			{verses}
-			{highlightVerseNumber}
-			displayMode={DisplayVerseInfo.VerseNumber}
-		/>
+				<VerseGrid
+					{chapterNumber}
+					{verses}
+					{highlightVerseNumber}
+					displayMode={DisplayVerseInfo.VerseNumber}
+				/>
+			{/key}
+		</div>
 	</container>
 </div>

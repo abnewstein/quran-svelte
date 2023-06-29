@@ -7,10 +7,7 @@
 	};
 </script>
 
-<nav
-	class={`top-0 z-50 p-5 bg-gray-100 ${$$props.class}`}
-	grid="~ cols-1 gap-4 justify-items-center"
->
+<nav class={`top-0 z-50 p-5 bg-gray-100 ${$$props.class}`}>
 	<div>
 		<a href="/" class="font-bold no-underline text-current text-3xl p-2">القرآن - Al Qur'an</a>
 	</div>
@@ -23,4 +20,7 @@
 </nav>
 
 <style lang="scss">
+	nav {
+		--uno: grid grid-cols-1 gap-4 justify-items-center;
+	}
 </style>

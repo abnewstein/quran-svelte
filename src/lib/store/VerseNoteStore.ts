@@ -1,10 +1,6 @@
 import { writable } from 'svelte/store';
-import { VerseNoteKeyUtils } from '../utils/VerseNoteKeyUtils.js';
 
-type VerseNoteStoreState = {
-	expanded: Set<Quran.VerseNoteKey>;
-	collapsed: Set<Quran.VerseNoteKey>;
-};
+type VerseNoteStoreState = Set<number | Quran.ChapterVerseKey | Quran.VerseNoteKey>;
 
 /**
 	This store maintains a state for the expansion and collapse of the Quran verse notes.
@@ -13,122 +9,82 @@ type VerseNoteStoreState = {
 	have been explicitly collapsed by the user.
 */
 function CreateVerseNoteStore() {
-	const { subscribe, set, update } = writable<VerseNoteStoreState>({
-		expanded: new Set<Quran.VerseNoteKey>(),
-		collapsed: new Set<Quran.VerseNoteKey>()
-	});
-	let activeVerseNotes: VerseNoteStoreState;
-	subscribe((value) => (activeVerseNotes = value));
+	const { subscribe, set, update } = writable<VerseNoteStoreState>(new Set());
+	let activeVerseNoteKeys: VerseNoteStoreState;
+	subscribe((value) => (activeVerseNoteKeys = value));
 
 	return {
 		subscribe,
 		toggle: (verseNoteKey: Quran.VerseNoteKey) => {
 			update((state) => {
-				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseNoteKey, state.expanded)) {
-					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.collapsed);
+				if (state.has(verseNoteKey)) {
+					state.delete(verseNoteKey);
 				} else {
-					VerseNoteKeyUtils.toggleKeyInSet(verseNoteKey, state.expanded);
+					state.add(verseNoteKey);
 				}
+				state = new Set(state);
 				return state;
 			});
 		},
 		toggleAllInVerse: (chapterNumber: number, verseNumber: number) => {
 			update((state) => {
-				const verseWildcardKey = VerseNoteKeyUtils.join([chapterNumber, verseNumber, '*']);
-				if (VerseNoteKeyUtils.matchesOnlyWildcard(verseWildcardKey, state.expanded)) {
-					VerseNoteKeyUtils.removeKeyFromSet(verseWildcardKey, state.expanded);
-					VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
+				const verseNumberKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
+				if (state.has(verseNumberKey)) {
+					state.delete(verseNumberKey);
 				} else {
-					VerseNoteKeyUtils.addKeyToSet(verseWildcardKey, state.expanded);
-					VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
+					state.add(verseNumberKey);
 				}
+				state = new Set(state);
 				return state;
 			});
 		},
-		toggleAllInChapter: (chapterNumber: number | null) => {
+		toggleAllInChapter: (chapterNumber: number) => {
 			update((state) => {
-				if (chapterNumber === null) {
-					return state;
+				if (chapterNumber !== 1 && chapterNumber !== 9) {
+					const chapterVerseKey = '1:1' as Quran.ChapterVerseKey;
+					if (state.has(chapterVerseKey)) {
+						state.delete(chapterVerseKey);
+					} else {
+						state.add(chapterVerseKey);
+					}
 				}
-				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
-				if (VerseNoteKeyUtils.matchesOnlyWildcard(chapterWildcardKey, state.expanded)) {
-					VerseNoteKeyUtils.removeKeyFromSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
-					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.expanded);
-					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
+				if (state.has(chapterNumber)) {
+					state = new Set();
+					return state;
 				} else {
-					VerseNoteKeyUtils.addKeyToSet(chapterWildcardKey, state.expanded);
-					VerseNoteKeyUtils.addKeyToSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
-					VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
+					state.add(chapterNumber);
 				}
+				state = new Set(state);
 				return state;
 			});
 		},
-		add: (verseNoteKey: Quran.VerseNoteKey) => {
+		remove(verseNoteKey: Quran.VerseNoteKey) {
 			update((state) => {
-				VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.expanded);
-				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.collapsed);
-				return state;
-			});
-		},
-		remove: (verseNoteKey: Quran.VerseNoteKey) => {
-			update((state) => {
-				VerseNoteKeyUtils.removeKeyFromSet(verseNoteKey, state.expanded);
-				VerseNoteKeyUtils.addKeyToSet(verseNoteKey, state.collapsed);
-				return state;
-			});
-		},
-		addAllInVerse: (chapterNumber: number, verseNumber: number) => {
-			update((state) => {
-				const verseWildcardKey = VerseNoteKeyUtils.join([chapterNumber, verseNumber, '*']);
-				VerseNoteKeyUtils.addKeyToSet(verseWildcardKey, state.expanded);
-				VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
-				return state;
-			});
-		},
-		addAllInChapter: (chapterNumber: number | null) => {
-			update((state) => {
-				if (chapterNumber === null) {
-					return state;
-				}
-				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
-				VerseNoteKeyUtils.addKeyToSet(chapterWildcardKey, state.expanded);
-				VerseNoteKeyUtils.addKeyToSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
-				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
-				return state;
-			});
-		},
-		removeAllInVerse: (chapterNumber: number, verseNumber: number) => {
-			update((state) => {
-				const verseWildcardKey = VerseNoteKeyUtils.join([chapterNumber, verseNumber, '*']);
-				VerseNoteKeyUtils.removeKeyFromSet(verseWildcardKey, state.expanded);
-				VerseNoteKeyUtils.removeAllMatchingWildcard(verseWildcardKey, state.collapsed);
-				return state;
-			});
-		},
-		removeAllInChapter: (chapterNumber: number | null) => {
-			update((state) => {
-				if (chapterNumber === null) {
-					return state;
-				}
-				const chapterWildcardKey = VerseNoteKeyUtils.join([chapterNumber, '*', '*']);
-				VerseNoteKeyUtils.removeKeyFromSet(VerseNoteKeyUtils.join([1, 1, 1]), state.expanded);
-				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.expanded);
-				VerseNoteKeyUtils.removeAllMatchingWildcard(chapterWildcardKey, state.collapsed);
+				state.delete(verseNoteKey);
+				state = new Set(state);
 				return state;
 			});
 		},
 		matches: (verseNoteKey: Quran.VerseNoteKey) => {
-			const { expanded, collapsed } = activeVerseNotes;
-			if (VerseNoteKeyUtils.matchesAny(verseNoteKey, collapsed)) {
-				return false;
+			const [chapterNumber, verseNumber] = verseNoteKey.split(':');
+			// Prepare the keys that would affect the visibility of the note
+			const keys = [
+				verseNoteKey,
+				`${chapterNumber}:${verseNumber}` as Quran.VerseNoteKey,
+				chapterNumber
+			];
+
+			// Count how many of them are in the set
+			let matches = 0;
+			for (const key of keys) {
+				matches += Array.from(activeVerseNoteKeys).filter((k) => k == key).length;
 			}
-			return VerseNoteKeyUtils.matchesAny(verseNoteKey, expanded);
+			activeVerseNoteKeys = new Set(activeVerseNoteKeys);
+			// The note is visible if there's an odd number of matches
+			return matches % 2 === 1;
 		},
 		clear: () => {
-			set({
-				expanded: new Set<Quran.VerseNoteKey>(),
-				collapsed: new Set<Quran.VerseNoteKey>()
-			});
+			set(new Set());
 		}
 	};
 }

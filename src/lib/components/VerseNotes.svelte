@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { VerseNoteStore } from '$lib/store/index.js';
-	export let verseNotes: Quran.NoteDetails = [];
+	export let activeVerseNotes: Quran.NoteDetails = [];
 </script>
 
-{#if verseNotes.length > 0}
+{#if activeVerseNotes.length > 0}
 	<ul>
-		{#each verseNotes as note}
+		{#each activeVerseNotes as note}
 			<li>
 				{@html note.text}
-				<button on:click={() => VerseNoteStore.remove(note.id)}>X</button>
+				<button
+					on:click={() => {
+						VerseNoteStore.toggle(note.id);
+					}}>X</button
+				>
 			</li>
 		{/each}
 	</ul>
