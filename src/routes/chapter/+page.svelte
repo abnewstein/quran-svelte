@@ -5,12 +5,9 @@
 	const { chapters } = $QuranStore;
 </script>
 
-<div
-	class="p-5 gap-3 lg:gap-y-6 lg:gap-x-10"
-	grid="~ cols-1 sm:cols-2 md:cols-3 lg:cols-4 xl:cols-5 2xl:cols-6"
->
+<div class="outer">
 	{#if !chapters}
-		<div flex="~ col items-center justify-center">
+		<div class="flex flex-col items-center justify-center">
 			<span>Loading...</span>
 		</div>
 	{:else}
@@ -19,3 +16,10 @@
 		{/each}
 	{/if}
 </div>
+
+<style lang="scss">
+	.outer {
+		--uno: grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6;
+		--uno: p-5 gap-3 lg:gap-y-6 lg:gap-x-10;
+	}
+</style>

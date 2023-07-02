@@ -3,17 +3,18 @@
 	export let minimal: boolean = false;
 </script>
 
-<div flex="~ col items-center" class="title-container">
-	<strong text-3xl>{chapter.number}</strong>
+<div class="title-container">
+	<strong class="text-3xl">{chapter.number}</strong>
 	<p class:minimal>
 		{chapter.name.arabic} <span>|</span>
 		{chapter.name.transliteration}
 	</p>
-	<strong mb-4 text-2xl class:text-xl={minimal}>{chapter.name.english}</strong>
+	<strong class="mb-4 text-2xl" class:text-xl={minimal}>{chapter.name.english}</strong>
 </div>
 
 <style lang="scss">
 	.title-container {
+		--uno: flex flex-col items-center;
 		strong {
 			--uno: text-center font-bold;
 		}
