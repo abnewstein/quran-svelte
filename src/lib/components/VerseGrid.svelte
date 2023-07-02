@@ -38,16 +38,10 @@
 <style lang="scss">
 	li {
 		--uno: grid items-baseline gap-4 rounded-lg p-1 mb-2;
-
-		border-bottom: 1px solid grey;
-		border-top: 1px solid grey;
-		--uno: bg-bluegray-100;
-
 		grid-template-columns: 9fr 11fr;
 		@screen lt-sm {
 			grid-template-columns: 2fr 3fr;
 		}
-
 		&.highlight {
 			--uno: bg-yellow-200;
 		}
