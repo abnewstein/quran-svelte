@@ -1,30 +1,31 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
-	import { VerseNoteStore } from '$lib/store/index.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
-	import VerseNotes from './VerseNotes.svelte';
-	import { browser } from '$app/environment';
-	import { writable } from 'svelte/store';
+	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
+	import { derived } from 'svelte/store';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 
+	let toggleAllNotesInVerse: () => void;
+	let toggleNote: (key: number) => void;
+
 	const chapterNumber = verse.ar.chapterNumber;
 	const verseNumber = verse.ar.verseNumber;
+	const verseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
 
-	const activeVerseNotes = writable<Quran.NoteDetail[]>([]);
-	if (browser) {
-		$activeVerseNotes = verseNotes?.filter((note) => VerseNoteStore.matches(note.id));
-	}
+	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
+		$store[verseKey]?.every(Boolean)
+	);
 </script>
 
 <div class="ar-text" dir="rtl">
 	<p>{verse.ar.text}</p>
 </div>
-<div class="en-text" use:VerseNoteClicked={(key) => VerseNoteStore.toggle(key)}>
+<div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
 		{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
 			<a
@@ -32,7 +33,7 @@
 				target="_blank"
 				on:click={() => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`)}
 			>
-				<sup class="font-bold mr-1 text-xl">{chapterNumber}:{verseNumber}</sup>
+				<sup class="font-bold mr-1 text-xl">{verseKey}</sup>
 			</a>
 		{:else if displayMode == DisplayVerseInfo.VerseNumber}
 			<sup class="font-bold mr-1">{verseNumber}</sup>
@@ -40,17 +41,16 @@
 		{@html verse.en.text}
 	</p>
 	{#if verseNotes.length > 0}
-		{#key $VerseNoteStore}
-			<Button
-				class="self-end"
-				onClick={() => VerseNoteStore.toggleAllInVerse(chapterNumber, verseNumber)}
-				active={$activeVerseNotes.length > 0}
-			/>
-		{/key}
+		<Button
+			key={verseKey}
+			class="self-baseline"
+			onClick={toggleAllNotesInVerse}
+			active={$areAllNotesVisible}
+		/>
 	{/if}
 </div>
-{#if $activeVerseNotes.length > 0}
-	<VerseNotes activeVerseNotes={$activeVerseNotes} />
+{#if verseNotes.length > 0}
+	<VerseNotes id={verseKey} {verseNotes} bind:toggleAllNotesInVerse bind:toggleNote />
 {/if}
 
 <style lang="scss">

@@ -1,15 +1,10 @@
 <script lang="ts">
 	export let onClick: () => void;
-	export let active: boolean = false;
 	export let title: string = 'Toggle Notes';
-
-	const handleClick = () => {
-		active = !active;
-		onClick();
-	};
+	export let active: boolean = false;
 </script>
 
-<button on:click={handleClick} class="{active && 'active'} {$$props.class}" {title}>
+<button on:click={onClick} class={$$props.class} {title} class:active>
 	<div class="i-ph-notebook-duotone" />
 </button>
 
