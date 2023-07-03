@@ -2,9 +2,10 @@
 	export let onClick: () => void;
 	export let title: string = 'Toggle Notes';
 	export let active: boolean = false;
+	export let ref: HTMLButtonElement | null = null;
 </script>
 
-<button on:click={onClick} class={$$props.class} {title} class:active>
+<button on:click={onClick} class={$$props.class} {title} class:active bind:this={ref}>
 	<div class="i-ph-notebook-duotone" />
 </button>
 

@@ -7,20 +7,21 @@
 </script>
 
 <script lang="ts">
+	import { afterNavigate } from '$app/navigation';
 	import VerseGridItem from './VerseGridItem.svelte';
-	import { writable } from 'svelte/store';
 	export let chapterNumber: number | null = null;
 	export let verses: Quran.VersePair[];
 	export let highlightVerseNumber: number | null = null;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 
-	const highlightVerse = writable(highlightVerseNumber);
-	$: if ($highlightVerse) {
-		const verse = document.getElementById(`${chapterNumber}:${$highlightVerse}`);
-		if (verse) {
-			verse.scrollIntoView({ behavior: 'smooth' });
+	afterNavigate(() => {
+		if (highlightVerseNumber) {
+			const verse = document.getElementById(`${chapterNumber}:${highlightVerseNumber}`);
+			if (verse) {
+				verse.scrollIntoView({ behavior: 'smooth' });
+			}
 		}
-	}
+	});
 </script>
 
 <ul class="p-0 m-0">
@@ -28,7 +29,7 @@
 		{@const verseNotes = verse?.en?.notes ?? []}
 		<li
 			id={`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
-			class:highlight={verse.ar.verseNumber == $highlightVerse}
+			class:highlight={verse.ar.verseNumber == highlightVerseNumber}
 		>
 			<VerseGridItem {verse} {verseNotes} {displayMode} />
 		</li>
@@ -37,7 +38,7 @@
 
 <style lang="scss">
 	li {
-		--uno: grid items-baseline gap-4 rounded-lg p-1 mb-2;
+		--uno: grid gap-4 rounded-lg p-1 mb-2;
 		grid-template-columns: 9fr 11fr;
 		@screen lt-sm {
 			grid-template-columns: 2fr 3fr;
