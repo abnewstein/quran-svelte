@@ -1,35 +1,35 @@
 <script lang="ts" context="module">
 	import { writable } from 'svelte/store';
 
-	export const visibleNotesStore = writable<Record<string, Array<boolean>>>({});
-
-	function updateNotesForId(id: string, updater: (notes: Array<boolean>) => void) {
+	function updateStore(componentId: string, updater: (notes: boolean[]) => void) {
 		visibleNotesStore.update((store) => {
-			const notes = store[id];
+			const notes = store[componentId];
 			updater(notes);
 			return store;
 		});
 	}
 
-	function registerComponent(componentId: string, initialVisibleNotes: Array<boolean>) {
-		visibleNotesStore.update((store) => ({ ...store, [componentId]: initialVisibleNotes }));
-		return () =>
-			visibleNotesStore.update((store) => {
-				delete store[componentId];
-				return store;
-			});
-	}
+	export const visibleNotesStore = writable<Record<string, boolean[]>>({});
 
 	export function toggleAllNotesInChapter() {
 		visibleNotesStore.update((store) => {
-			const state = Object.values(store);
-			const firstVerseNotes = state[0];
-			const allVisible = firstVerseNotes.some(Boolean);
-			for (const verse of state) {
+			const allVisible = Object.values(store)[0].some(Boolean);
+			for (const verse of Object.values(store)) {
 				verse.fill(!allVisible);
 			}
 			return store;
 		});
+	}
+
+	export function registerComponent(componentId: string, initialVisibleNotes: boolean[]) {
+		visibleNotesStore.update((store) => ({ ...store, [componentId]: initialVisibleNotes }));
+
+		return () => {
+			visibleNotesStore.update((store) => {
+				delete store[componentId];
+				return store;
+			});
+		};
 	}
 </script>
 
@@ -43,22 +43,27 @@
 	const componentId = id.toString();
 	const initialVisibleNotes = Array(verseNotes.length).fill(false);
 
+	let anyNotesVisible = false;
+
 	const cleanup = registerComponent(componentId, initialVisibleNotes);
 
-	export function toggleNote(noteNumber: number) {
-		updateNotesForId(componentId, (notes) => {
-			notes[noteNumber - 1] = !notes[noteNumber - 1];
+	function toggleNoteVisibility(noteIndex: number) {
+		updateStore(componentId, (notes) => {
+			notes[noteIndex] = !notes[noteIndex];
 		});
 	}
 
+	export function toggleNote(noteNumber: number) {
+		toggleNoteVisibility(noteNumber - 1);
+	}
+
 	export function toggleAllNotesInVerse() {
-		updateNotesForId(componentId, (notes) => {
+		updateStore(componentId, (notes) => {
 			const allVisible = notes.every(Boolean);
 			notes.fill(!allVisible);
 		});
 	}
 
-	let anyNotesVisible = false;
 	$: if (browser) {
 		anyNotesVisible = $visibleNotesStore[componentId].some(Boolean);
 	}
