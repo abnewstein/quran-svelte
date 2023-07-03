@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { VerseDb, OramaStore } from '$lib/store/index.js';
+	import { OramaStore } from '$lib/store/index.js';
 	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
