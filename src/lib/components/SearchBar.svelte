@@ -7,7 +7,11 @@
 			console.warn('Cannot search with an empty query');
 			return;
 		}
-		goto(`/search?q=${searchTerm}`, { replaceState: true });
+		goto(`/search?q=${searchTerm}`);
+	};
+
+	const clearSearch = () => {
+		searchTerm = '';
 	};
 
 	const handleKeydown = (event: KeyboardEvent) => {
@@ -24,7 +28,12 @@
 		on:keydown={handleKeydown}
 		placeholder="Search across the Quran"
 	/>
-	<button on:click={search}>
+	{#if searchTerm.trim()}
+		<button on:click={clearSearch} class="clear-button">
+			<div class="i-ph-x-light" />
+		</button>
+	{/if}
+	<button on:click={search} class="search-button">
 		<div class="i-ph-magnifying-glass" />
 	</button>
 </div>
@@ -39,7 +48,7 @@
 		input {
 			--uno: m-1 outline-none border-none text-md;
 		}
-		button {
+		.search-button {
 			--uno: m-x-0.5 p-2 bg-white border-1 rounded-lg border-y-none;
 			&:hover {
 				--uno: bg-lime-500;
@@ -47,6 +56,18 @@
 			}
 			&:active {
 				--uno: color-lime-500 bg-black;
+				cursor: pointer;
+			}
+		}
+		.clear-button {
+			display: block;
+			--uno: m-x-0.5 p-2 bg-white border-none rounded-lg;
+			&:hover {
+				--uno: bg-red-100;
+				cursor: pointer;
+			}
+			&:active {
+				--uno: color-white bg-black;
 				cursor: pointer;
 			}
 		}

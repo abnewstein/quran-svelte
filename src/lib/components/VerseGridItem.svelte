@@ -5,6 +5,7 @@
 	import Button from './ToggleButton.svelte';
 	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
 	import { derived } from 'svelte/store';
+	import { base } from '$app/paths';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
@@ -28,11 +29,7 @@
 <div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
 		{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
-			<a
-				href="/chapter/{chapterNumber}?verse={verseNumber}"
-				target="_blank"
-				on:click={() => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`)}
-			>
+			<a href="{base}/chapter/{chapterNumber}?verse={verseNumber}" target="_blank">
 				<sup class="font-bold mr-1 text-xl">{verseKey}</sup>
 			</a>
 		{:else if displayMode == DisplayVerseInfo.VerseNumber}
