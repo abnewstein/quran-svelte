@@ -14,10 +14,10 @@
 	const verses = QuranStore.getVerses(chapterNumber);
 	const firstVerse = QuranStore.getFirstVersePair();
 
-	let highlightVerseNumber: number | null = null;
+	let highlightVerseNumber: Quran.VerseRange | null = null;
 
 	$: if (browser) {
-		highlightVerseNumber = $page.url.searchParams.get('verse') as number | null;
+		highlightVerseNumber = $page.url.searchParams.get('verse') as Quran.VerseRange;
 	}
 
 	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>

@@ -11,12 +11,22 @@
 	import VerseGridItem from './VerseGridItem.svelte';
 	export let chapterNumber: number | null = null;
 	export let verses: Quran.VersePair[];
-	export let highlightVerseNumber: number | null = null;
+	export let highlightVerseNumber: Quran.VerseRange | null = null;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
+	let startVerse: number | null = null;
+	let endVerse: number | null = null;
+
+	$: if (highlightVerseNumber) {
+		if (typeof highlightVerseNumber === 'string') {
+			[startVerse, endVerse] = highlightVerseNumber.split('-').map(Number);
+		} else {
+			startVerse = endVerse = highlightVerseNumber;
+		}
+	}
 
 	afterNavigate(() => {
-		if (highlightVerseNumber) {
-			const verse = document.getElementById(`${chapterNumber}:${highlightVerseNumber}`);
+		if (startVerse !== null && endVerse !== null) {
+			const verse = document.getElementById(`${chapterNumber}:${startVerse}`);
 			if (verse) {
 				verse.scrollIntoView({ behavior: 'smooth' });
 			}
@@ -29,7 +39,10 @@
 		{@const verseNotes = verse?.en?.notes ?? []}
 		<li
 			id={`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
-			class:highlight={verse.ar.verseNumber == highlightVerseNumber}
+			class:highlight={startVerse &&
+				endVerse &&
+				verse.ar.verseNumber >= startVerse &&
+				verse.ar.verseNumber <= endVerse}
 		>
 			<VerseGridItem {verse} {verseNotes} {displayMode} />
 		</li>
