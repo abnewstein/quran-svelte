@@ -15,7 +15,7 @@ declare namespace Quran {
 	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
 	export type VerseNoteKey = `${number}:${number | '*'}:${number | '*'}`;
 
-	export type VerseRange = `${number}-${number}` | number;
+	export type VerseRange = `${number}-${number}` | `${number}`;
 
 	export interface NoteDetail {
 		id: VerseNoteKey;

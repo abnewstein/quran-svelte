@@ -17,7 +17,7 @@
 	let highlightVerseNumber: Quran.VerseRange | null = null;
 
 	$: if (browser) {
-		highlightVerseNumber = $page.url.searchParams.get('verse') as Quran.VerseRange;
+		highlightVerseNumber = $page.url.searchParams.get('verse') as Quran.VerseRange | null;
 	}
 
 	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>

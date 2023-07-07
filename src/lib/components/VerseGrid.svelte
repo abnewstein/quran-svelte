@@ -17,10 +17,11 @@
 	let endVerse: number | null = null;
 
 	$: if (highlightVerseNumber) {
-		if (typeof highlightVerseNumber === 'string') {
+		if (highlightVerseNumber.includes('-')) {
 			[startVerse, endVerse] = highlightVerseNumber.split('-').map(Number);
 		} else {
-			startVerse = endVerse = highlightVerseNumber;
+			startVerse = Number(highlightVerseNumber);
+			endVerse = Number(highlightVerseNumber);
 		}
 	}
 
