@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
 	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
 	import { derived } from 'svelte/store';
-	import { base } from '$app/paths';
+	import { goto } from '$app/navigation';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
@@ -29,9 +28,9 @@
 <div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
 		{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
-			<a href="{base}/chapter/{chapterNumber}?verse={verseNumber}" target="_blank">
+			<button on:click={() => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`)}>
 				<sup class="font-bold mr-1 text-xl">{verseKey}</sup>
-			</a>
+			</button>
 		{:else if displayMode == DisplayVerseInfo.VerseNumber}
 			<sup class="font-bold mr-1">{verseNumber}</sup>
 		{/if}
@@ -61,6 +60,13 @@
 		&.en-text {
 			--uno: text-xl leading-relaxed;
 			--uno: flex justify-between;
+
+			button {
+				--uno: bg-transparent border-none p-0 cursor-pointer color-blue-700;
+				&:hover {
+					text-decoration: underline;
+				}
+			}
 		}
 
 		:global(.verse-note > button) {
