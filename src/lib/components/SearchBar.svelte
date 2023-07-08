@@ -58,13 +58,9 @@
 		}
 
 		button {
-			--uno: m-x-0.5 p-2 bg-white border-none rounded-lg;
-			&:hover {
-				cursor: pointer;
-			}
+			--uno: m-x-0.5 p-2 bg-white border-none rounded-lg cursor-pointer;
 			&:active {
 				--uno: color-white bg-black;
-				cursor: pointer;
 			}
 			&.search-button {
 				--uno: border-1 border-y-none;

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import VerseNumberInfo from './VerseNumberInfo.svelte';
+
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
@@ -27,13 +29,7 @@
 </div>
 <div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
-		{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
-			<button on:click={() => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`)}>
-				<sup class="font-bold mr-1 text-xl">{verseKey}</sup>
-			</button>
-		{:else if displayMode == DisplayVerseInfo.VerseNumber}
-			<sup class="font-bold mr-1">{verseNumber}</sup>
-		{/if}
+		<VerseNumberInfo {displayMode} {chapterNumber} {verseNumber} />
 		{@html verse.en.text}
 	</p>
 	{#if verseNotes.length > 0}
