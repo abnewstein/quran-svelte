@@ -9,10 +9,12 @@
 <script lang="ts">
 	import { afterNavigate } from '$app/navigation';
 	import VerseGridItem from './VerseGridItem.svelte';
-	export let chapterNumber: number | null = null;
+
 	export let verses: Quran.VersePair[];
-	export let highlightVerseNumber: Quran.VerseRange | null = null;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
+	export let highlightVerseNumber: Quran.VerseRange | null = null;
+	export let highlightWord: string | null = null;
+
 	let startVerse: number | null = null;
 	let endVerse: number | null = null;
 
@@ -27,6 +29,7 @@
 
 	afterNavigate(() => {
 		if (startVerse !== null && endVerse !== null) {
+			const chapterNumber = verses[0].ar.chapterNumber;
 			const verse = document.getElementById(`${chapterNumber}:${startVerse}`);
 			if (verse) {
 				verse.scrollIntoView({ behavior: 'smooth' });
@@ -45,7 +48,7 @@
 				verse.ar.verseNumber >= startVerse &&
 				verse.ar.verseNumber <= endVerse}
 		>
-			<VerseGridItem {verse} {verseNotes} {displayMode} />
+			<VerseGridItem {verse} {verseNotes} {displayMode} {highlightWord} />
 		</li>
 	{/each}
 </ul>

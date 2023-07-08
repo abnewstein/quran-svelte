@@ -46,7 +46,13 @@
 				<p class="text-lg">Found {$results.verseCount} verses</p>
 			</div>
 			{#if $results.verseCount > 0}
-				<VerseGrid verses={$results.verses} displayMode={DisplayVerseInfo.ChapterAndVerseNumber} />
+				{#key searchTerm}
+					<VerseGrid
+						verses={$results.verses}
+						displayMode={DisplayVerseInfo.ChapterAndVerseNumber}
+						highlightWord={searchTerm}
+					/>
+				{/key}
 			{:else}
 				<div class="text-center">
 					<h1 class="text-2xl font-bold">No verses found</h1>

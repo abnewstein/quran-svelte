@@ -97,4 +97,14 @@
 		box-shadow: 0 0 1px rgba(117, 0, 65, 0.793);
 		list-style: none;
 	}
+
+	:global(.verse-note > button) {
+		--uno: px-2px rounded-lg decoration-none text-blue-500 border-none outline-none bg-transparent;
+		&:hover {
+			--uno: bg-gray-800 text-white cursor-pointer;
+		}
+		&:active {
+			--uno: bg-gray-300 text-black;
+		}
+	}
 </style>

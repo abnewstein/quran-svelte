@@ -1,36 +1,49 @@
 <script lang="ts">
 	import VerseNumberInfo from './VerseNumberInfo.svelte';
-
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
 	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
 	import { derived } from 'svelte/store';
-	import { goto } from '$app/navigation';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
+	export let highlightWord: string | null = null;
 
 	let toggleAllNotesInVerse: () => void;
 	let toggleNote: (key: number) => void;
+	let highlightedVerse: string;
+
+	function highlightWordInText(text: string, word: string) {
+		return text.replace(new RegExp(word, 'gi'), `<mark>${word}</mark>`);
+	}
+
+	$: if (highlightWord) {
+		highlightedVerse = highlightWordInText(verseEnText, highlightWord);
+	}
 
 	const chapterNumber = verse.ar.chapterNumber;
 	const verseNumber = verse.ar.verseNumber;
 	const verseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
-
+	const verseArText = verse.ar.text;
+	const verseEnText = verse.en.text;
 	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
 		$store[verseKey]?.every(Boolean)
 	);
 </script>
 
 <div class="ar-text" dir="rtl">
-	<p>{verse.ar.text}</p>
+	<p>{verseArText}</p>
 </div>
 <div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
 		<VerseNumberInfo {displayMode} {chapterNumber} {verseNumber} />
-		{@html verse.en.text}
+		{#if highlightWord}
+			{@html highlightedVerse}
+		{:else}
+			{@html verseEnText}
+		{/if}
 	</p>
 	{#if verseNotes.length > 0}
 		<Button
@@ -56,23 +69,6 @@
 		&.en-text {
 			--uno: text-xl leading-relaxed;
 			--uno: flex justify-between;
-
-			button {
-				--uno: bg-transparent border-none p-0 cursor-pointer color-blue-700;
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-		}
-
-		:global(.verse-note > button) {
-			--uno: px-2px rounded-lg decoration-none text-blue-500 border-none outline-none bg-transparent;
-			&:hover {
-				--uno: bg-gray-800 text-white cursor-pointer;
-			}
-			&:active {
-				--uno: bg-gray-300 text-black;
-			}
 		}
 	}
 </style>

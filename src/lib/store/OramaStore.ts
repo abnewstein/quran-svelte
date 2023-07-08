@@ -47,29 +47,20 @@ function createOramaStore() {
 
 			// parse the query and decide which database to search
 
-			const chaptersAr = await search(arDb, { term: query, limit: 114 });
-			const chapterArIds = chaptersAr.hits.map((hit) => hit.id);
-			const versesAr = await search(arDb, { term: query, limit: 200 });
+			const versesAr = await search(arDb, { term: query, limit: 200, exact: true, threshold: 0 });
 			const verseArIds = versesAr.hits.map((hit) => hit.id);
-			const chaptersEn = await search(enDb, { term: query, limit: 114 });
-			const chapterEnIds = chaptersEn.hits.map((hit) => hit.id);
-			const versesEn = await search(enDb, { term: query, limit: 200 });
+			const versesEn = await search(enDb, { term: query, limit: 200, exact: true, threshold: 0 });
 			const verseEnIds = versesEn.hits.map((hit) => hit.id);
 
 			// merge the chapter and verse ids
-			const chapterIds = [...chapterArIds, ...chapterEnIds];
 			const verseIds = [...verseArIds, ...verseEnIds];
 
-			searchResult.chapters = chapterIds
-				.map((id) => QuranStore.getChapter(Number(id)))
-				.sort((a, b) => a.number - b.number);
 			searchResult.verses = verseIds
 				.map((id) => {
 					const [chapterNumber, verseNumber] = id.split(':').map(Number);
 					return QuranStore.getVerse(chapterNumber, verseNumber);
 				})
 				.sort((a, b) => a.ar.id - b.ar.id);
-			searchResult.chapterCount = chapterIds.length;
 			searchResult.verseCount = verseIds.length;
 
 			return searchResult;

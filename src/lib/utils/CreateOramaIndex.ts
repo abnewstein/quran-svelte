@@ -5,10 +5,12 @@ import {
 	save,
 	load,
 	type ProvidedTypes,
-	type Orama
+	type Orama,
+	type DefaultTokenizerConfig
 } from '@orama/orama';
 import localforage from 'localforage';
 import { VerseDb, type OramaStoreState } from '../store/OramaStore.js';
+import { stemmer as stemmerAr } from '@orama/stemmers/arabic';
 
 type Verse = {
 	id: string;
@@ -24,15 +26,24 @@ const cleanUpVerse = ([chapterNumber, verseNumber, text]: (string | number)[]): 
 	};
 };
 
-export const createVerseDb = async (dbId: VerseDb) =>
-	create({
+export const createVerseDb = async (dbId: VerseDb) => {
+	const tokenizer = {
+		language: dbId === VerseDb.ArOriginal ? 'arabic' : 'english',
+		stemming: true,
+		stemmer: dbId === VerseDb.ArOriginal ? stemmerAr : null
+	} as DefaultTokenizerConfig;
+
+	return create({
 		schema: {
 			id: 'string',
 			text: 'string'
 		},
-		language: dbId === VerseDb.ArOriginal ? 'arabic' : 'english',
+		components: {
+			tokenizer
+		},
 		id: dbId
 	});
+};
 
 const loadVersesIntoDb = async (verseDb: Orama<ProvidedTypes>, verses: Verse[]) => {
 	const verseDocs = verses.map(({ id, text }) => ({ id, text }));

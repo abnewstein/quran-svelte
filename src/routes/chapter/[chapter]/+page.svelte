@@ -38,15 +38,10 @@
 				active={$areAllNotesVisible}
 			/>
 			{#if chapterNumber !== 1 && chapterNumber !== 9}
-				<VerseGrid {chapterNumber} verses={[firstVerse]} />
+				<VerseGrid verses={[firstVerse]} />
 			{/if}
 
-			<VerseGrid
-				{chapterNumber}
-				{verses}
-				{highlightVerseNumber}
-				displayMode={DisplayVerseInfo.VerseNumber}
-			/>
+			<VerseGrid {verses} {highlightVerseNumber} displayMode={DisplayVerseInfo.VerseNumber} />
 		</div>
 	</container>
 </div>
