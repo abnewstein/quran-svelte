@@ -41,6 +41,7 @@
 <ul class="p-0 m-0">
 	{#each verses as verse (`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`)}
 		{@const verseNotes = verse?.en?.notes ?? []}
+		{@const verseKey = `${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
 		<li
 			id={`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
 			class:highlight={startVerse &&
@@ -48,7 +49,15 @@
 				verse.ar.verseNumber >= startVerse &&
 				verse.ar.verseNumber <= endVerse}
 		>
-			<VerseGridItem {verse} {verseNotes} {displayMode} {highlightWord} />
+			<VerseGridItem
+				{verse}
+				{displayMode}
+				{highlightWord}
+				showNotesToggle={verseNotes.length > 0}
+				let:VerseNotes
+			>
+				<VerseNotes id={verseKey} {verseNotes} />
+			</VerseGridItem>
 		</li>
 	{/each}
 </ul>

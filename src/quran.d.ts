@@ -10,7 +10,7 @@ declare namespace Quran {
 	}
 
 	/** StringFormat = `${chapterNumber}:${verseNumber}` */
-	export type ChapterVerseKey = `${number}:${number}`;
+	export type ChapterVerseKey = `${number}:${number}` | string;
 
 	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
 	export type VerseNoteKey = `${number}:${number | '*'}:${number | '*'}`;

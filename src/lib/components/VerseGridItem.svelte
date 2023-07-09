@@ -7,45 +7,42 @@
 	import { derived } from 'svelte/store';
 
 	export let verse: Quran.VersePair;
-	export let verseNotes: Quran.NoteDetails;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 	export let highlightWord: string | null = null;
+	export let showNotesToggle: boolean = false;
 
 	let toggleAllNotesInVerse: () => void;
 	let toggleNote: (key: number) => void;
-	let highlightedVerse: string;
+	let verseArText: string;
+	let verseEnText: string;
 
 	function highlightWordInText(text: string, word: string) {
 		return text.replace(new RegExp(word, 'gi'), `<mark>${word}</mark>`);
 	}
 
-	$: if (highlightWord) {
-		highlightedVerse = highlightWordInText(verseEnText, highlightWord);
-	}
-
 	const chapterNumber = verse.ar.chapterNumber;
 	const verseNumber = verse.ar.verseNumber;
 	const verseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
-	const verseArText = verse.ar.text;
-	const verseEnText = verse.en.text;
+
+	$: verseArText = highlightWord ? highlightWordInText(verseArText, highlightWord) : verse.ar.text;
+	$: verseEnText = highlightWord ? highlightWordInText(verseEnText, highlightWord) : verse.en.text;
+
 	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
 		$store[verseKey]?.every(Boolean)
 	);
 </script>
 
 <div class="ar-text" dir="rtl">
-	<p>{verseArText}</p>
+	<p>
+		{@html verseArText}
+	</p>
 </div>
 <div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
 	<p>
 		<VerseNumberInfo {displayMode} {chapterNumber} {verseNumber} />
-		{#if highlightWord}
-			{@html highlightedVerse}
-		{:else}
-			{@html verseEnText}
-		{/if}
+		{@html verseEnText}
 	</p>
-	{#if verseNotes.length > 0}
+	{#if showNotesToggle}
 		<Button
 			key={verseKey}
 			class="self-baseline"
@@ -54,9 +51,7 @@
 		/>
 	{/if}
 </div>
-{#if verseNotes.length > 0}
-	<VerseNotes id={verseKey} {verseNotes} bind:toggleAllNotesInVerse bind:toggleNote />
-{/if}
+<slot {VerseNotes} />
 
 <style lang="scss">
 	div {
