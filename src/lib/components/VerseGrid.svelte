@@ -12,18 +12,18 @@
 
 	export let verses: Quran.VersePair[];
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
-	export let highlightVerseNumber: Quran.VerseRange | null = null;
+	export let highlightVersePairs: Quran.VerseRange | null = null;
 	export let highlightWord: string | null = null;
 
 	let startVerse: number | null = null;
 	let endVerse: number | null = null;
 
-	$: if (highlightVerseNumber) {
-		if (highlightVerseNumber.includes('-')) {
-			[startVerse, endVerse] = highlightVerseNumber.split('-').map(Number);
+	$: if (highlightVersePairs) {
+		if (highlightVersePairs.includes('-')) {
+			[startVerse, endVerse] = highlightVersePairs.split('-').map(Number);
 		} else {
-			startVerse = Number(highlightVerseNumber);
-			endVerse = Number(highlightVerseNumber);
+			startVerse = Number(highlightVersePairs);
+			endVerse = Number(highlightVersePairs);
 		}
 	}
 
@@ -49,15 +49,7 @@
 				verse.ar.verseNumber >= startVerse &&
 				verse.ar.verseNumber <= endVerse}
 		>
-			<VerseGridItem
-				{verse}
-				{displayMode}
-				{highlightWord}
-				showNotesToggle={verseNotes.length > 0}
-				let:VerseNotes
-			>
-				<VerseNotes id={verseKey} {verseNotes} />
-			</VerseGridItem>
+			<VerseGridItem {verse} {verseNotes} {displayMode} {highlightWord} />
 		</li>
 	{/each}
 </ul>

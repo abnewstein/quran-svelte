@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 
 	let searchTerm = '';
+	let input: HTMLInputElement;
 	const search = () => {
 		if (!searchTerm.trim()) {
 			console.warn('Cannot search with an empty query');
@@ -12,6 +13,7 @@
 
 	const clearSearch = () => {
 		searchTerm = '';
+		input.focus();
 	};
 
 	const handleKeydown = (event: KeyboardEvent) => {
@@ -21,10 +23,11 @@
 	};
 </script>
 
-<div class="search-bar">
+<form>
 	<input
 		type="text"
 		bind:value={searchTerm}
+		bind:this={input}
 		on:keydown={handleKeydown}
 		placeholder="Search across the Quran"
 	/>
@@ -36,14 +39,14 @@
 	<button on:click={search} class="search-button">
 		<div class="i-ph-magnifying-glass" />
 	</button>
-</div>
+</form>
 
 <style lang="scss">
-	.search-bar {
+	form {
 		background-color: #fff;
 		height: 2.25rem;
 		--uno: flex items-center;
-		--uno: border-1 border-solid border-black rounded-lg;
+		--uno: border-1 border-solid border-black rounded-lg p-1;
 
 		&:hover,
 		&:active {
@@ -54,7 +57,7 @@
 		}
 
 		input {
-			--uno: m-1 outline-none border-none text-md;
+			--uno: m-0 outline-none border-none h-full;
 		}
 
 		button {

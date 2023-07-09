@@ -7,12 +7,13 @@
 	import { derived } from 'svelte/store';
 
 	export let verse: Quran.VersePair;
+	export let verseNotes: Quran.NoteDetails;
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 	export let highlightWord: string | null = null;
-	export let showNotesToggle: boolean = false;
 
 	let toggleAllNotesInVerse: () => void;
 	let toggleNote: (key: number) => void;
+
 	let verseArText: string;
 	let verseEnText: string;
 
@@ -24,8 +25,12 @@
 	const verseNumber = verse.ar.verseNumber;
 	const verseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
 
-	$: verseArText = highlightWord ? highlightWordInText(verseArText, highlightWord) : verse.ar.text;
-	$: verseEnText = highlightWord ? highlightWordInText(verseEnText, highlightWord) : verse.en.text;
+	$: verseArText = highlightWord
+		? highlightWordInText(verse.ar.text, highlightWord)
+		: verse.ar.text;
+	$: verseEnText = highlightWord
+		? highlightWordInText(verse.en.text, highlightWord)
+		: verse.en.text;
 
 	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
 		$store[verseKey]?.every(Boolean)
@@ -42,7 +47,7 @@
 		<VerseNumberInfo {displayMode} {chapterNumber} {verseNumber} />
 		{@html verseEnText}
 	</p>
-	{#if showNotesToggle}
+	{#if verseNotes.length > 0}
 		<Button
 			key={verseKey}
 			class="self-baseline"
@@ -51,7 +56,9 @@
 		/>
 	{/if}
 </div>
-<slot {VerseNotes} />
+{#if verseNotes.length > 0}
+	<VerseNotes id={verseKey} {verseNotes} bind:toggleNote bind:toggleAllNotesInVerse />
+{/if}
 
 <style lang="scss">
 	div {

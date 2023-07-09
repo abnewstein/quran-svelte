@@ -41,7 +41,11 @@
 				<VerseGrid verses={[firstVerse]} />
 			{/if}
 
-			<VerseGrid {verses} {highlightVerseNumber} displayMode={DisplayVerseInfo.VerseNumber} />
+			<VerseGrid
+				{verses}
+				highlightVersePairs={highlightVerseNumber}
+				displayMode={DisplayVerseInfo.VerseNumber}
+			/>
 		</div>
 	</container>
 </div>
