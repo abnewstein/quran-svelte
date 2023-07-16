@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { derived } from 'svelte/store';
 	import VerseNumberInfo from './VerseNumberInfo.svelte';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
 	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
-	import { derived } from 'svelte/store';
+	import { highlightWordInText } from '$lib/utils/utils.js';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
@@ -16,10 +17,6 @@
 
 	let verseArText: string;
 	let verseEnText: string;
-
-	function highlightWordInText(text: string, word: string) {
-		return text.replace(new RegExp(word, 'gi'), `<mark>${word}</mark>`);
-	}
 
 	const chapterNumber = verse.ar.chapterNumber;
 	const verseNumber = verse.ar.verseNumber;

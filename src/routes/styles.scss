@@ -20,3 +20,12 @@ sup {
 	line-height: 0;
 	white-space: nowrap;
 }
+
+mark {
+	&.partial {
+		--uno: bg-gray-300;
+	}
+	&.full {
+		--uno: bg-green-300;
+	}
+}

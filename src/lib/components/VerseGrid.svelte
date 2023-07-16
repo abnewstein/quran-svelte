@@ -23,7 +23,7 @@
 			[startVerse, endVerse] = highlightVersePairs.split('-').map(Number);
 		} else {
 			startVerse = Number(highlightVersePairs);
-			endVerse = Number(highlightVersePairs);
+			endVerse = startVerse;
 		}
 	}
 
