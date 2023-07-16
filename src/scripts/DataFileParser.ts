@@ -19,25 +19,41 @@ const translationsMetadata: { [key in TranslationEnum]: Quran.TranslationMetadat
 	// Add more translations metadata here
 };
 
+const NOTE_REF_REGEX = /^\d+:\d+:\d+$/;
+const ANCHOR_TAG_SIMPLE_REGEX = /<a>(\d+):(\d+)<\/a>/g;
+const ANCHOR_TAG_RANGE_REGEX = /<a>(\d+):(\d+)-(\d+)<\/a>/g;
+
+const createVerseKey = (chapterNumber: string, verseNumber: string) =>
+	`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
+const createNoteKey = (chapterNumber: string, verseNumber: string, noteNumber: string) =>
+	`${chapterNumber}:${verseNumber}:${noteNumber}` as Quran.VerseNoteKey;
+
+const replaceAnchorTags = (noteText: string) => {
+	noteText = noteText.replace(ANCHOR_TAG_SIMPLE_REGEX, `<a href="/chapter/$1?verse=$2">$1:$2</a>`);
+	return noteText.replace(ANCHOR_TAG_RANGE_REGEX, `<a href="/chapter/$1?verse=$2-$3">$1:$2-$3</a>`);
+};
+
+const processNoteText = (noteText: string) => replaceAnchorTags(noteText);
+
 const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.NoteDetails> => {
 	const notesLookup: Record<string, Quran.NoteDetails> = {};
 
 	for (const note of notes) {
 		const [chapterNumber, verseNumber, noteNumber] = note[0].toString().split(':');
-		const verseNoteKey = `${chapterNumber}:${verseNumber}:${noteNumber}` as Quran.VerseNoteKey;
-		const chapterVerseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
+		const verseNoteKey = createNoteKey(chapterNumber, verseNumber, noteNumber);
+		const chapterVerseKey = createVerseKey(chapterNumber, verseNumber);
 		if (!notesLookup[chapterVerseKey]) {
 			notesLookup[chapterVerseKey] = [];
 		}
 
 		let noteText = note[1] as string;
-		if (noteText.match(/^\d+:\d+:\d+$/) !== null) {
+		if (noteText.match(NOTE_REF_REGEX) !== null) {
 			const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
 			noteText =
-				notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey][
-					Number(noteNumber) - 1
-				].text;
+				notesLookup[createVerseKey(chapterNumber, verseNumber)][Number(noteNumber) - 1].text;
 		}
+
+		noteText = processNoteText(noteText);
 
 		notesLookup[chapterVerseKey].push({
 			id: verseNoteKey,
@@ -45,6 +61,19 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 		});
 	}
 	return notesLookup;
+};
+
+// ...
+
+const translationsResources = {
+	[TranslationEnum.ARABIC_ORIGINAL]: {
+		verses: versesArOriginal,
+		notes: []
+	},
+	[TranslationEnum.ENGLISH_SAM_GERRANS]: {
+		verses: versesEnSamGerransWithNotes,
+		notes: notesEnSamGerrans
+	}
 };
 
 const formatVerse = (
@@ -94,19 +123,12 @@ const groupVersesByChapter = (
 };
 
 function loadTranslationData(translation: TranslationEnum): Quran.Verse[][] {
-	let verses: (string | number)[][] = [];
-	let notesLookup: Record<string, Quran.NoteDetails> = {};
-	switch (translation) {
-		case TranslationEnum.ARABIC_ORIGINAL:
-			verses = versesArOriginal;
-			break;
-		case TranslationEnum.ENGLISH_SAM_GERRANS:
-			verses = versesEnSamGerransWithNotes;
-			notesLookup = createNotesLookup(notesEnSamGerrans);
-			break;
-		default:
-			throw new Error(`Translation ${translation} not found`);
+	if (!translationsResources[translation]) {
+		throw new Error(`Translation ${translation} not found`);
 	}
+
+	const { verses, notes } = translationsResources[translation];
+	const notesLookup = createNotesLookup(notes);
 
 	return groupVersesByChapter(verses, notesLookup);
 }

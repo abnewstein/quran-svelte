@@ -47,9 +47,9 @@ function createOramaStore() {
 
 			// parse the query and decide which database to search
 
-			const versesAr = await search(arDb, { term: query, limit: 200, exact: true, threshold: 0 });
+			const versesAr = await search(arDb, { term: query, limit: 200, threshold: 0 });
 			const verseArIds = versesAr.hits.map((hit) => hit.id);
-			const versesEn = await search(enDb, { term: query, limit: 200, exact: true, threshold: 0 });
+			const versesEn = await search(enDb, { term: query, limit: 200, threshold: 0 });
 			const verseEnIds = versesEn.hits.map((hit) => hit.id);
 
 			// merge the chapter and verse ids

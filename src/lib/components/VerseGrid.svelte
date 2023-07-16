@@ -41,7 +41,6 @@
 <ul class="p-0 m-0">
 	{#each verses as verse (`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`)}
 		{@const verseNotes = verse?.en?.notes ?? []}
-		{@const verseKey = `${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
 		<li
 			id={`${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
 			class:highlight={startVerse &&
