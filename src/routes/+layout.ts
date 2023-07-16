@@ -1,9 +1,4 @@
+import { dev } from '$app/environment';
+
 export const prerender = true;
-
-export function load({ url }) {
-	const { pathname } = url;
-
-	return {
-		pathname
-	};
-}
+export const csr = dev;

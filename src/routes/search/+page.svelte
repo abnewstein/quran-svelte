@@ -38,7 +38,10 @@
 		{#if !isSearchIndexReady}
 			<div class="text-center">
 				<h1 class="text-2xl font-bold">Loading...</h1>
-				<p class="text-lg">Please wait while we index the verses, this may take a minute.</p>
+				<p class="text-lg">
+					Please wait while we index the verses, this may take a minute on first page load.
+					Subsequent searches will be much faster.
+				</p>
 			</div>
 		{:else if $results}
 			<div class="text-center">

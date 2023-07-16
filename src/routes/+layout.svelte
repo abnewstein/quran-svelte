@@ -3,13 +3,12 @@
 	import 'uno.css';
 	import './styles.scss';
 	import NavHeader from '$lib/components/NavHeader.svelte';
-
-	export let data;
+	import { page } from '$app/stores';
 </script>
 
 <div class="app">
 	<NavHeader />
-	{#key data.pathname}
+	{#key $page.url}
 		<main>
 			<slot />
 		</main>

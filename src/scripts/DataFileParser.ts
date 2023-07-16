@@ -63,8 +63,6 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 	return notesLookup;
 };
 
-// ...
-
 const translationsResources = {
 	[TranslationEnum.ARABIC_ORIGINAL]: {
 		verses: versesArOriginal,
