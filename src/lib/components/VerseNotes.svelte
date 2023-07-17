@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+	import VersePreview from './VersePreview.svelte';
 	import { VersePreviewlinks } from '$lib/actions/VersePreviewLinks.js';
 	import {
 		visibleNotesStore,
@@ -10,6 +11,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
+	import { writable } from 'svelte/store';
 
 	export let id: Quran.ChapterVerseKey;
 	export let verseNotes: Quran.NoteDetails = [];
@@ -43,15 +45,29 @@
 	}
 
 	onMount(() => cleanup);
+
+	let verseKey = writable<Quran.ChapterVerseRange | ''>('');
+
+	const handleVersePreview = (verseKey: Quran.ChapterVerseRange) => {
+		if ($verseKey === verseKey) {
+			$verseKey = '';
+			return;
+		}
+		$verseKey = verseKey;
+	};
 </script>
 
 {#if anyNotesVisible}
 	<ul>
 		{#each verseNotes as note, index}
 			{#if $visibleNotesStore[componentId][index]}
-				<li use:VersePreviewlinks>
+				<li use:VersePreviewlinks={handleVersePreview}>
 					{@html note.text}
 					<button on:click={() => toggleNote(index + 1)}>X</button>
+
+					{#if $verseKey}
+						<VersePreview verseKey={$verseKey} />
+					{/if}
 				</li>
 			{/if}
 		{/each}
@@ -66,11 +82,12 @@
 			--uno: text-sm rounded-lg p-1 bg-lightblue-100;
 			border-bottom: 1px solid cadetblue;
 			border-top: 1px solid cadetblue;
+			--uno: bg-gradient-to-r from-blue-100 from-90% to-blue-200;
 
 			:global(a) {
 				--uno: text-blue-500;
 				&:hover {
-					--uno: text-blue-700;
+					--uno: text-blue-700 cursor-pointer;
 				}
 			}
 		}

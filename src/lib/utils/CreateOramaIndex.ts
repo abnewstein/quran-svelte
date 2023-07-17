@@ -19,7 +19,7 @@ type Verse = {
 
 const cleanUpVerse = ([chapterNumber, verseNumber, text]: (string | number)[]): Verse => {
 	let verseText = text as string;
-	verseText = verseText.replace(/<[^>]*>?/gm, '');
+	verseText = verseText.replace(/<[^>]*>([^<]*)<\/[^>]*>/g, '').replace(/<[^>]*>/g, '');
 	return {
 		id: `${chapterNumber}:${verseNumber}`,
 		text: verseText

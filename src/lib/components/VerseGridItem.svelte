@@ -9,7 +9,7 @@
 	import VerseNotes from './VerseNotes.svelte';
 
 	export let verse: Quran.VersePair;
-	export let verseNotes: Quran.NoteDetails;
+	export let verseNotes: Quran.NoteDetails = [];
 	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
 	export let highlightWord: string | null = null;
 

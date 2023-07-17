@@ -1,10 +1,12 @@
-export const VersePreviewlinks = (node: HTMLElement) => {
+export const VersePreviewlinks = (
+	node: HTMLElement,
+	handleVersePreview: (verseKey: Quran.ChapterVerseRange) => void
+) => {
 	const handleNoteClick = (event: Event) => {
 		event.preventDefault();
 		const target = event.target as HTMLElement;
 		if (target.tagName !== 'A') return;
-		const verseKey = target.textContent;
-		console.log(verseKey);
+		handleVersePreview(target.textContent as Quran.ChapterVerseRange);
 	};
 
 	node.addEventListener('click', handleNoteClick);

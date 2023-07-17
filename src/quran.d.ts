@@ -10,12 +10,16 @@ declare namespace Quran {
 	}
 
 	/** StringFormat = `${chapterNumber}:${verseNumber}` */
-	export type ChapterVerseKey = `${number}:${number}` | string;
+	export type ChapterVerseKey = `${number}:${number}`;
 
 	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
-	export type VerseNoteKey = `${number}:${number | '*'}:${number | '*'}`;
+	export type VerseNoteKey = `${number}:${number}:${number}`;
 
 	export type VerseRange = `${number}-${number}` | `${number}`;
+
+	export type ChapterVerseRange =
+		| `${number}:${number}-${number}:${number}`
+		| `${number}:${VersesRange}`;
 
 	export interface NoteDetail {
 		id: VerseNoteKey;

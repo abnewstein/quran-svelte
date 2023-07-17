@@ -1,6 +1,7 @@
 import versesArOriginal from '../lib/data/verses_ar_original.json';
 import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json';
 import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json';
+import { createChapterVerseKey, createVerseNoteKey } from '$lib/utils/VerseKeyUtils.js';
 
 export enum TranslationEnum {
 	ARABIC_ORIGINAL = 'ar_original',
@@ -23,11 +24,6 @@ const NOTE_REF_REGEX = /^\d+:\d+:\d+$/;
 const ANCHOR_TAG_SIMPLE_REGEX = /<a>(\d+):(\d+)<\/a>/g;
 const ANCHOR_TAG_RANGE_REGEX = /<a>(\d+):(\d+)-(\d+)<\/a>/g;
 
-const createVerseKey = (chapterNumber: string, verseNumber: string) =>
-	`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
-const createNoteKey = (chapterNumber: string, verseNumber: string, noteNumber: string) =>
-	`${chapterNumber}:${verseNumber}:${noteNumber}` as Quran.VerseNoteKey;
-
 const replaceAnchorTags = (noteText: string) => {
 	noteText = noteText.replace(ANCHOR_TAG_SIMPLE_REGEX, `<a href="/chapter/$1?verse=$2">$1:$2</a>`);
 	return noteText.replace(ANCHOR_TAG_RANGE_REGEX, `<a href="/chapter/$1?verse=$2-$3">$1:$2-$3</a>`);
@@ -40,8 +36,8 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 
 	for (const note of notes) {
 		const [chapterNumber, verseNumber, noteNumber] = note[0].toString().split(':');
-		const verseNoteKey = createNoteKey(chapterNumber, verseNumber, noteNumber);
-		const chapterVerseKey = createVerseKey(chapterNumber, verseNumber);
+		const verseNoteKey = createVerseNoteKey(chapterNumber, verseNumber, noteNumber);
+		const chapterVerseKey = createChapterVerseKey(chapterNumber, verseNumber);
 		if (!notesLookup[chapterVerseKey]) {
 			notesLookup[chapterVerseKey] = [];
 		}
@@ -50,7 +46,7 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 		if (noteText.match(NOTE_REF_REGEX) !== null) {
 			const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
 			noteText =
-				notesLookup[createVerseKey(chapterNumber, verseNumber)][Number(noteNumber) - 1].text;
+				notesLookup[createChapterVerseKey(chapterNumber, verseNumber)][Number(noteNumber) - 1].text;
 		}
 
 		// noteText = processNoteText(noteText);
