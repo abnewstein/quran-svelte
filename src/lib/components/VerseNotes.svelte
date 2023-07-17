@@ -46,14 +46,20 @@
 
 	onMount(() => cleanup);
 
-	let verseKey = writable<Quran.ChapterVerseRange | ''>('');
+	let versePreviewStore = writable<Map<number, Set<Quran.ChapterVerseRange>>>(new Map());
 
-	const handleVersePreview = (verseKey: Quran.ChapterVerseRange) => {
-		if ($verseKey === verseKey) {
-			$verseKey = '';
-			return;
+	const handleVersePreview = (noteIndex: number) => (verseKey: Quran.ChapterVerseRange) => {
+		let verseSet = $versePreviewStore.get(noteIndex);
+		if (!verseSet) {
+			verseSet = new Set<Quran.ChapterVerseRange>();
+			$versePreviewStore.set(noteIndex, verseSet);
 		}
-		$verseKey = verseKey;
+		if (verseSet.has(verseKey)) {
+			verseSet.delete(verseKey);
+		} else {
+			verseSet.add(verseKey);
+		}
+		$versePreviewStore = new Map($versePreviewStore.entries());
 	};
 </script>
 
@@ -61,13 +67,19 @@
 	<ul>
 		{#each verseNotes as note, index}
 			{#if $visibleNotesStore[componentId][index]}
-				<li use:VersePreviewlinks={handleVersePreview}>
+				<li use:VersePreviewlinks={handleVersePreview(index)}>
 					{@html note.text}
 					<button on:click={() => toggleNote(index + 1)}>X</button>
-
-					{#if $verseKey}
-						<VersePreview verseKey={$verseKey} />
-					{/if}
+					<VersePreview
+						verseRangeList={[...($versePreviewStore.get(index) || [])]}
+						on:remove={(event) => {
+							const set = $versePreviewStore.get(index);
+							if (set) {
+								set.delete(event.detail);
+							}
+							$versePreviewStore = new Map($versePreviewStore.entries());
+						}}
+					/>
 				</li>
 			{/if}
 		{/each}
@@ -82,7 +94,6 @@
 			--uno: text-sm rounded-lg p-1 bg-lightblue-100;
 			border-bottom: 1px solid cadetblue;
 			border-top: 1px solid cadetblue;
-			--uno: bg-gradient-to-r from-blue-100 from-90% to-blue-200;
 
 			:global(a) {
 				--uno: text-blue-500;
