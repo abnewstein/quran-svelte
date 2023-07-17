@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
+	import { derived } from 'svelte/store';
 	import { QuranStore } from '$lib/store/index.js';
+	import { toggleAllNotesInChapter, visibleNotesStore } from '$lib/store/VisibleNotesStore.js';
 
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
 	import Button from '$lib/components/ToggleButton.svelte';
-	import { toggleAllNotesInChapter, visibleNotesStore } from '$lib/components/VerseNotes.svelte';
-	import { derived } from 'svelte/store';
 
 	const chapterNumber = Number($page.params.chapter);
 	const chapter = QuranStore.getChapter(chapterNumber);

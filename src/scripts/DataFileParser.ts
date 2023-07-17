@@ -53,7 +53,7 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 				notesLookup[createVerseKey(chapterNumber, verseNumber)][Number(noteNumber) - 1].text;
 		}
 
-		noteText = processNoteText(noteText);
+		// noteText = processNoteText(noteText);
 
 		notesLookup[chapterVerseKey].push({
 			id: verseNoteKey,

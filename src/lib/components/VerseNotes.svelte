@@ -1,36 +1,10 @@
 <script lang="ts" context="module">
-	import { writable } from 'svelte/store';
-
-	function updateStore(componentId: string, updater: (notes: boolean[]) => void) {
-		visibleNotesStore.update((store) => {
-			const notes = store[componentId];
-			updater(notes);
-			return store;
-		});
-	}
-
-	export const visibleNotesStore = writable<Record<string, boolean[]>>({});
-
-	export function toggleAllNotesInChapter() {
-		visibleNotesStore.update((store) => {
-			const allVisible = Object.values(store)[0].some(Boolean);
-			for (const verse of Object.values(store)) {
-				verse.fill(!allVisible);
-			}
-			return store;
-		});
-	}
-
-	export function registerComponent(componentId: string, initialVisibleNotes: boolean[]) {
-		visibleNotesStore.update((store) => ({ ...store, [componentId]: initialVisibleNotes }));
-
-		return () => {
-			visibleNotesStore.update((store) => {
-				delete store[componentId];
-				return store;
-			});
-		};
-	}
+	import { VersePreviewlinks } from '$lib/actions/VersePreviewLinks.js';
+	import {
+		visibleNotesStore,
+		registerComponent,
+		updateStore
+	} from '$lib/store/VisibleNotesStore.js';
 </script>
 
 <script lang="ts">
@@ -75,7 +49,7 @@
 	<ul>
 		{#each verseNotes as note, index}
 			{#if $visibleNotesStore[componentId][index]}
-				<li>
+				<li use:VersePreviewlinks>
 					{@html note.text}
 					<button on:click={() => toggleNote(index + 1)}>X</button>
 				</li>
@@ -92,19 +66,16 @@
 			--uno: text-sm rounded-lg p-1 bg-lightblue-100;
 			border-bottom: 1px solid cadetblue;
 			border-top: 1px solid cadetblue;
+
+			:global(a) {
+				--uno: text-blue-500;
+				&:hover {
+					--uno: text-blue-700;
+				}
+			}
 		}
 		--uno: border-1 border-solid border-blue-400 rounded p-1 bg-blue-100;
 		box-shadow: 0 0 1px rgba(117, 0, 65, 0.793);
 		list-style: none;
-	}
-
-	:global(.verse-note > button) {
-		--uno: px-2px rounded-lg decoration-none text-blue-500 border-none outline-none bg-transparent;
-		&:hover {
-			--uno: bg-gray-800 text-white cursor-pointer;
-		}
-		&:active {
-			--uno: bg-gray-300 text-black;
-		}
 	}
 </style>

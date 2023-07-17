@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { derived } from 'svelte/store';
-	import VerseNumberInfo from './VerseNumberInfo.svelte';
 	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
+	import { highlightWordInText } from '$lib/utils/utils.js';
+	import { visibleNotesStore } from '$lib/store/VisibleNotesStore.js';
+	import VerseNumberInfo from './VerseNumberInfo.svelte';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
-	import VerseNotes, { visibleNotesStore } from './VerseNotes.svelte';
-	import { highlightWordInText } from '$lib/utils/utils.js';
+	import VerseNotes from './VerseNotes.svelte';
 
 	export let verse: Quran.VersePair;
 	export let verseNotes: Quran.NoteDetails;
