@@ -14,7 +14,7 @@
 	export let highlightWord: string | null = null;
 
 	let toggleAllNotesInVerse: () => void;
-	let toggleNote: (key: number) => void;
+	let toggleByNoteIndex: (key: number) => void;
 
 	let verseArText: string;
 	let verseEnText: string;
@@ -40,7 +40,7 @@
 		{@html verseArText}
 	</p>
 </div>
-<div class="en-text" use:VerseNoteClicked={(key) => toggleNote(Number(key.split(':')[2]))}>
+<div class="en-text" use:VerseNoteClicked={(key) => toggleByNoteIndex(Number(key.split(':')[2]))}>
 	<p>
 		<VerseNumberInfo {displayMode} {chapterNumber} {verseNumber} />
 		{@html verseEnText}
@@ -55,7 +55,7 @@
 	{/if}
 </div>
 {#if verseNotes.length > 0}
-	<VerseNotes id={verseKey} {verseNotes} bind:toggleNote bind:toggleAllNotesInVerse />
+	<VerseNotes id={verseKey} {verseNotes} bind:toggleByNoteIndex bind:toggleAllNotesInVerse />
 {/if}
 
 <style lang="scss">
