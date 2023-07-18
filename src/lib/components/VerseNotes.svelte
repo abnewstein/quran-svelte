@@ -20,63 +20,51 @@
 	const initialVisibleNotes = Array(verseNotes.length).fill(false);
 
 	let anyNotesVisible = false;
+	let versePreviewStore = writable<Map<number, Set<Quran.ChapterVerseRange>>>(new Map());
 
 	const cleanup = registerComponent(componentId, initialVisibleNotes);
 
-	function toggleNoteVisibility(noteIndex: number) {
+	onMount(() => cleanup);
+
+	function updateNoteVisibility(noteIndex: number, visibility: boolean) {
 		updateStore(componentId, (notes) => {
-			notes[noteIndex] = !notes[noteIndex];
+			notes[noteIndex] = visibility;
 		});
 	}
 
-	export function toggleNote(noteNumber: number) {
-		toggleNoteVisibility(noteNumber - 1);
+	export function toggleByNoteIndex(noteNumber: number) {
+		updateNoteVisibility(noteNumber - 1, !$visibleNotesStore[componentId][noteNumber - 1]);
 	}
 
 	export function toggleAllNotesInVerse() {
+		const allVisible = $visibleNotesStore[componentId].every(Boolean);
 		updateStore(componentId, (notes) => {
-			const allVisible = notes.every(Boolean);
 			notes.fill(!allVisible);
 		});
 	}
 
-	$: if (browser) {
-		anyNotesVisible = $visibleNotesStore[componentId].some(Boolean);
-	}
-
-	onMount(() => cleanup);
-
-	let versePreviewStore = writable<Map<number, Set<Quran.ChapterVerseRange>>>(new Map());
+	$: anyNotesVisible = browser && $visibleNotesStore[componentId].some(Boolean);
 
 	const handleVersePreview = (noteIndex: number) => (verseKey: Quran.ChapterVerseRange) => {
-		let verseSet = $versePreviewStore.get(noteIndex);
-		if (!verseSet) {
-			verseSet = new Set<Quran.ChapterVerseRange>();
-			$versePreviewStore.set(noteIndex, verseSet);
-		}
-		if (verseSet.has(verseKey)) {
-			verseSet.delete(verseKey);
-		} else {
-			verseSet.add(verseKey);
-		}
+		const verseSet = $versePreviewStore.get(noteIndex) ?? new Set<Quran.ChapterVerseRange>();
+		verseSet.has(verseKey) ? verseSet.delete(verseKey) : verseSet.add(verseKey);
+		$versePreviewStore.set(noteIndex, verseSet);
 		$versePreviewStore = new Map($versePreviewStore.entries());
 	};
 </script>
 
 {#if anyNotesVisible}
 	<ul>
-		{#each verseNotes as note, index}
+		{#each verseNotes as note, index (note.id)}
 			{#if $visibleNotesStore[componentId][index]}
 				<li use:VersePreviewlinks={handleVersePreview(index)}>
 					{@html note.text}
-					<button on:click={() => toggleNote(index + 1)}>X</button>
+					<button on:click={() => toggleByNoteIndex(index + 1)}>X</button>
 					<VersePreview
 						verseRangeList={[...($versePreviewStore.get(index) || [])]}
 						on:remove={(event) => {
 							const set = $versePreviewStore.get(index);
-							if (set) {
-								set.delete(event.detail);
-							}
+							set?.delete(event.detail);
 							$versePreviewStore = new Map($versePreviewStore.entries());
 						}}
 					/>
