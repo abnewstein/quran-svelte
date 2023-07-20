@@ -3,30 +3,32 @@
 	import { QuranStore } from '$lib/store/QuranStore.js';
 	import { parseChapterVerseRange } from '$lib/utils/VerseKeyUtils.js';
 
-	export let verseRangeList: Array<Quran.ChapterVerseRange>;
+	export let verseRangeList: Array<Quran.ChapterVerseRange> | undefined;
 
 	const { getVersesByRange } = QuranStore;
 	const dispatch = createEventDispatcher();
 </script>
 
-<div>
-	{#each verseRangeList as verseRangeStr}
-		{@const { chapterNumber, verseRange } = parseChapterVerseRange(verseRangeStr)}
-		{@const verses = getVersesByRange(chapterNumber, verseRange)}
-		<ul>
-			{#each verses as verse}
-				{@const verseEnText = verse.en.text
-					.replace(/<[^>]*>([^<]*)<\/[^>]*>/g, '')
-					.replace(/<[^>]*>/g, '')}
-				{@const chapterVerseKey = `${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
-				<li>
-					<p><strong>{chapterVerseKey} - </strong>{verseEnText}</p>
-				</li>
-			{/each}
-			<button on:click={() => dispatch('remove', verseRangeStr)}>X</button>
-		</ul>
-	{/each}
-</div>
+{#if verseRangeList}
+	<div>
+		{#each verseRangeList as verseRangeStr}
+			{@const { chapterNumber, verseRange } = parseChapterVerseRange(verseRangeStr)}
+			{@const verses = getVersesByRange(chapterNumber, verseRange)}
+			<ul>
+				{#each verses as verse}
+					{@const verseEnText = verse.en.text
+						.replace(/<[^>]*>([^<]*)<\/[^>]*>/g, '')
+						.replace(/<[^>]*>/g, '')}
+					{@const chapterVerseKey = `${verse.ar.chapterNumber}:${verse.ar.verseNumber}`}
+					<li>
+						<p><strong>{chapterVerseKey} - </strong>{verseEnText}</p>
+					</li>
+				{/each}
+				<button on:click={() => dispatch('remove', verseRangeStr)}>X</button>
+			</ul>
+		{/each}
+	</div>
+{/if}
 
 <style lang="scss">
 	div {

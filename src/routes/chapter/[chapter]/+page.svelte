@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { derived } from 'svelte/store';
 	import { QuranStore } from '$lib/store/index.js';
-	import { toggleAllNotesInChapter, visibleNotesStore } from '$lib/store/VisibleNotesStore.js';
+	import { VisibleNotesStore, allNotesVisible } from '$lib/store/VisibleNotesStore.js';
 
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
 	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
@@ -20,9 +19,9 @@
 		highlightVerseNumber = $page.url.searchParams.get('verse') as Quran.VerseRange | null;
 	}
 
-	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
-		Object.values($store).every((notes) => notes.every(Boolean))
-	);
+	function toggleAllNotesInChapter() {
+		VisibleNotesStore.toggleAllNotes();
+	}
 </script>
 
 <div class="flex flex-col items-center py-2 md:py-10">
@@ -35,7 +34,7 @@
 				key={chapterNumber}
 				class="self-end mr-1 mb-5"
 				onClick={toggleAllNotesInChapter}
-				active={$areAllNotesVisible}
+				active={$allNotesVisible}
 			/>
 			{#if chapterNumber !== 1 && chapterNumber !== 9}
 				<VerseGrid verses={[firstVerse]} />

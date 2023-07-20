@@ -1,4 +1,4 @@
-export const VersePreviewlinks = (
+export default (
 	node: HTMLElement,
 	handleVersePreview: (verseKey: Quran.ChapterVerseRange) => void
 ) => {

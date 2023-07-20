@@ -1,4 +1,4 @@
-export const VerseNoteClicked = (
+export default (
 	node: HTMLElement,
 	handleNoteClickFn: (verseNoteKey: Quran.VerseNoteKey) => void
 ) => {

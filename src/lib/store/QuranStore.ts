@@ -8,7 +8,18 @@ type QuranStoreState = {
 	translations: Record<TranslationEnum, Quran.Translation>;
 };
 
-function createQuranStore() {
+function createQuranStore(): {
+	subscribe: (
+		run: (value: QuranStoreState) => void,
+		invalidate?: (value?: QuranStoreState) => void
+	) => () => void;
+	getFirstVersePair: () => Quran.VersePair;
+	getChapter: (chapterNumber: number) => Quran.Chapter;
+	getVerse: (chapterNumber: number, verseNumber: number) => Quran.VersePair;
+	getVerses: (chapterNumber: number) => Quran.VersePair[];
+	getVersesByRange: (chapterNumber: number, verseRange: Quran.VerseRange) => Quran.VersePair[];
+	getAllVerses: () => Quran.VersePair[];
+} {
 	const { subscribe } = readable<QuranStoreState>({
 		chapters: chaptersData,
 		translations: translationsData
