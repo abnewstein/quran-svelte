@@ -1,32 +1,79 @@
-import { writable } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 
-export const visibleNotesStore = writable<Record<string, boolean[]>>({});
+type VisibleNotesStoreType = Record<string, boolean[]>;
 
-export function updateStore(componentId: string, updater: (notes: boolean[]) => void) {
-	visibleNotesStore.update((store) => {
-		const notes = store[componentId];
-		updater(notes);
-		return store;
-	});
-}
+type VisibleNotesStore = {
+	subscribe: (
+		run: (value: VisibleNotesStoreType) => void,
+		invalidate?: (value?: VisibleNotesStoreType) => void
+	) => () => void;
+	registerComponent: (componentId: string, initialVisibleNotes: boolean[]) => () => void;
+	updateNoteVisibility: (componentId: string, noteIndex: number, visibility: boolean) => void;
+	toggleByNoteIndex: (componentId: string, noteIndex: number) => void;
+	toggleAllNotesInComponent: (componentId: string) => void;
+	toggleAllNotes: () => void;
+};
 
-export function registerComponent(componentId: string, initialVisibleNotes: boolean[]) {
-	visibleNotesStore.update((store) => ({ ...store, [componentId]: initialVisibleNotes }));
+function createVisibleNotesStore(): VisibleNotesStore {
+	const { subscribe, update } = writable<VisibleNotesStoreType>({});
 
-	return () => {
-		visibleNotesStore.update((store) => {
-			delete store[componentId];
-			return store;
-		});
+	return {
+		subscribe,
+		registerComponent: (componentId: string, initialVisibleNotes: boolean[]) => {
+			update((store) => ({ ...store, [componentId]: initialVisibleNotes }));
+
+			return () => {
+				update((store) => {
+					delete store[componentId];
+					return store;
+				});
+			};
+		},
+		updateNoteVisibility: (componentId: string, noteIndex: number, visibility: boolean) => {
+			update((store) => {
+				const notes = store[componentId];
+				notes[noteIndex] = visibility;
+				return store;
+			});
+		},
+		toggleByNoteIndex: (componentId: string, noteIndex: number) => {
+			update((store) => {
+				const notes = store[componentId];
+				notes[noteIndex] = !notes[noteIndex];
+				return store;
+			});
+		},
+		toggleAllNotesInComponent: (componentId: string) => {
+			update((store) => {
+				const notes = store[componentId];
+				const allVisible = notes.every(Boolean);
+				notes.fill(!allVisible);
+				return store;
+			});
+		},
+		toggleAllNotes: () => {
+			update((store) => {
+				const allVisible = Object.values(store).every((notes) => notes.every(Boolean));
+				for (const notes of Object.values(store)) {
+					notes.fill(!allVisible);
+				}
+				return store;
+			});
+		}
 	};
 }
 
-export function toggleAllNotesInChapter() {
-	visibleNotesStore.update((store) => {
-		const allVisible = Object.values(store)[0].some(Boolean);
-		for (const verse of Object.values(store)) {
-			verse.fill(!allVisible);
-		}
-		return store;
+export const VisibleNotesStore = createVisibleNotesStore();
+
+export const getComponentNotes = (componentId: string) =>
+	derived(VisibleNotesStore, ($store) => $store[componentId]);
+
+export const anyNotesVisible = (componentId: string) =>
+	derived(VisibleNotesStore, ($store) => {
+		const notes = $store[componentId];
+		return notes ? notes.some(Boolean) : false;
 	});
-}
+
+export const allNotesVisible = derived(VisibleNotesStore, ($store) =>
+	Object.values($store).every((notes) => notes.every(Boolean))
+);

@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { derived } from 'svelte/store';
-	import { VerseNoteClicked } from '$lib/actions/VerseNoteClicked.js';
+	import VerseNoteClicked from '$lib/actions/VerseNoteClicked.js';
 	import { highlightWordInText } from '$lib/utils/utils.js';
-	import { visibleNotesStore } from '$lib/store/VisibleNotesStore.js';
+	import { allNotesVisible } from '$lib/store/VisibleNotesStore.js';
 	import VerseNumberInfo from './VerseNumberInfo.svelte';
 	import { DisplayVerseInfo } from './VerseGrid.svelte';
 	import Button from './ToggleButton.svelte';
@@ -29,10 +28,6 @@
 	$: verseEnText = highlightWord
 		? highlightWordInText(verse.en.text, highlightWord)
 		: verse.en.text;
-
-	const areAllNotesVisible = derived(visibleNotesStore, ($store) =>
-		$store[verseKey]?.every(Boolean)
-	);
 </script>
 
 <div class="ar-text" dir="rtl">
@@ -50,7 +45,7 @@
 			key={verseKey}
 			class="self-baseline"
 			onClick={toggleAllNotesInVerse}
-			active={$areAllNotesVisible}
+			active={$allNotesVisible}
 		/>
 	{/if}
 </div>

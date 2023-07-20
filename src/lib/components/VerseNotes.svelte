@@ -1,17 +1,9 @@
-<script lang="ts" context="module">
-	import VersePreview from './VersePreview.svelte';
-	import { VersePreviewlinks } from '$lib/actions/VersePreviewLinks.js';
-	import {
-		visibleNotesStore,
-		registerComponent,
-		updateStore
-	} from '$lib/store/VisibleNotesStore.js';
-</script>
-
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
-	import { writable } from 'svelte/store';
+	import VersePreviewLinks from '$lib/actions/VersePreviewLinks.js';
+	import { VisibleNotesStore, anyNotesVisible } from '$lib/store/VisibleNotesStore.js';
+	import { createVersePreviewStore } from '$lib/store/VersePreviewStore.js';
+	import VersePreview from './VersePreview.svelte';
 
 	export let id: Quran.ChapterVerseKey;
 	export let verseNotes: Quran.NoteDetails = [];
@@ -19,54 +11,37 @@
 	const componentId = id.toString();
 	const initialVisibleNotes = Array(verseNotes.length).fill(false);
 
-	let anyNotesVisible = false;
-	let versePreviewStore = writable<Map<number, Set<Quran.ChapterVerseRange>>>(new Map());
+	let versePreviewStore = createVersePreviewStore();
 
-	const cleanup = registerComponent(componentId, initialVisibleNotes);
+	const cleanup = VisibleNotesStore.registerComponent(componentId, initialVisibleNotes);
 
 	onMount(() => cleanup);
 
-	function updateNoteVisibility(noteIndex: number, visibility: boolean) {
-		updateStore(componentId, (notes) => {
-			notes[noteIndex] = visibility;
-		});
-	}
-
 	export function toggleByNoteIndex(noteNumber: number) {
-		updateNoteVisibility(noteNumber - 1, !$visibleNotesStore[componentId][noteNumber - 1]);
+		VisibleNotesStore.toggleByNoteIndex(componentId, noteNumber - 1);
 	}
 
 	export function toggleAllNotesInVerse() {
-		const allVisible = $visibleNotesStore[componentId].every(Boolean);
-		updateStore(componentId, (notes) => {
-			notes.fill(!allVisible);
-		});
+		VisibleNotesStore.toggleAllNotesInComponent(componentId);
 	}
 
-	$: anyNotesVisible = browser && $visibleNotesStore[componentId].some(Boolean);
-
 	const handleVersePreview = (noteIndex: number) => (verseKey: Quran.ChapterVerseRange) => {
-		const verseSet = $versePreviewStore.get(noteIndex) ?? new Set<Quran.ChapterVerseRange>();
-		verseSet.has(verseKey) ? verseSet.delete(verseKey) : verseSet.add(verseKey);
-		$versePreviewStore.set(noteIndex, verseSet);
-		$versePreviewStore = new Map($versePreviewStore.entries());
+		versePreviewStore.toggleVerseInSet(noteIndex, verseKey);
 	};
+
+	const show = anyNotesVisible(componentId);
 </script>
 
-{#if anyNotesVisible}
+{#if $show}
 	<ul>
 		{#each verseNotes as note, index (note.id)}
-			{#if $visibleNotesStore[componentId][index]}
-				<li use:VersePreviewlinks={handleVersePreview(index)}>
+			{#if $VisibleNotesStore[componentId][index]}
+				<li use:VersePreviewLinks={handleVersePreview(index)}>
 					{@html note.text}
 					<button on:click={() => toggleByNoteIndex(index + 1)}>X</button>
 					<VersePreview
-						verseRangeList={[...($versePreviewStore.get(index) || [])]}
-						on:remove={(event) => {
-							const set = $versePreviewStore.get(index);
-							set?.delete(event.detail);
-							$versePreviewStore = new Map($versePreviewStore.entries());
-						}}
+						verseRangeList={$versePreviewStore.get(index)}
+						on:remove={(event) => versePreviewStore.removeVerseFromSet(index, event.detail)}
 					/>
 				</li>
 			{/if}
