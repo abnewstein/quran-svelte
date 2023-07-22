@@ -4,11 +4,12 @@
 	import { VisibleNotesStore, anyNotesVisible } from '$lib/store/VisibleNotesStore.js';
 	import { createVersePreviewStore } from '$lib/store/VersePreviewStore.js';
 	import VersePreview from './VersePreview.svelte';
+	import { keyToString, parseKey } from '$lib/utils/VerseKeyUtils.js';
 
-	export let id: Quran.ChapterVerseKey;
+	export let id: QuranRef.Verse;
 	export let verseNotes: Quran.NoteDetails = [];
 
-	const componentId = id.toString();
+	const componentId = keyToString(id);
 	const initialVisibleNotes = Array(verseNotes.length).fill(false);
 
 	let versePreviewStore = createVersePreviewStore();
@@ -17,31 +18,38 @@
 
 	onMount(() => cleanup);
 
-	export function toggleByNoteIndex(noteNumber: number) {
-		VisibleNotesStore.toggleByNoteIndex(componentId, noteNumber - 1);
+	export function toggleByNoteIndex(noteRef: string) {
+		VisibleNotesStore.toggleByNoteRef(parseKey(noteRef) as QuranRef.Note);
 	}
 
 	export function toggleAllNotesInVerse() {
-		VisibleNotesStore.toggleAllNotesInComponent(componentId);
+		VisibleNotesStore.toggleAllNotesInComponent(id);
 	}
 
-	const handleVersePreview = (noteIndex: number) => (verseKey: Quran.ChapterVerseRange) => {
-		versePreviewStore.toggleVerseInSet(noteIndex, verseKey);
+	const handleVersePreview = (noteId: string, targetVerseRef: QuranRef.Verse) => {
+		const noteRef = parseKey(noteId) as QuranRef.Note;
+		versePreviewStore.toggleVerseInSet(noteRef, targetVerseRef);
 	};
 
-	const show = anyNotesVisible(componentId);
+	const handleRemoveVerseFromSet = (noteId: string, targetVerseRef: QuranRef.Verse) => {
+		const noteRef = parseKey(noteId) as QuranRef.Note;
+		versePreviewStore.removeVerseFromSet(noteRef, targetVerseRef);
+	};
+
+	$: show = anyNotesVisible(componentId);
 </script>
 
 {#if $show}
 	<ul>
 		{#each verseNotes as note, index (note.id)}
+			{@const noteRef = note.id}
 			{#if $VisibleNotesStore[componentId][index]}
-				<li use:VersePreviewLinks={handleVersePreview(index)}>
+				<li use:VersePreviewLinks={(key) => handleVersePreview(noteRef, key)}>
 					{@html note.text}
-					<button on:click={() => toggleByNoteIndex(index + 1)}>X</button>
+					<button on:click={() => toggleByNoteIndex(noteRef)}>X</button>
 					<VersePreview
-						verseRangeList={$versePreviewStore.get(index)}
-						on:remove={(event) => versePreviewStore.removeVerseFromSet(index, event.detail)}
+						verseRangeList={$versePreviewStore[note.id]}
+						on:remove={(event) => handleRemoveVerseFromSet(noteRef, event.detail)}
 					/>
 				</li>
 			{/if}

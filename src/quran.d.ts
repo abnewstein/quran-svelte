@@ -9,20 +9,8 @@ declare namespace Quran {
 		versesCount: number;
 	}
 
-	/** StringFormat = `${chapterNumber}:${verseNumber}` */
-	export type ChapterVerseKey = `${number}:${number}`;
-
-	/** StringFormat = `${chapterNumber}:${verseNumber}:${noteNumber}` */
-	export type VerseNoteKey = `${number}:${number}:${number}`;
-
-	export type VerseRange = `${number}-${number}` | `${number}`;
-
-	export type ChapterVerseRange =
-		| `${number}:${number}-${number}:${number}`
-		| `${number}:${VersesRange}`;
-
 	export interface NoteDetail {
-		id: VerseNoteKey;
+		id: string;
 		text: string;
 	}
 
@@ -59,4 +47,35 @@ declare namespace Quran {
 		chapterCount: number;
 		verseCount: number;
 	}
+}
+
+declare namespace QuranRef {
+	export type Chapter = {
+		type: 'chapter';
+		chapterNumber: number;
+	};
+
+	export type Verse = {
+		type: 'verse';
+		chapterNumber: number;
+		verseNumber: number;
+	};
+
+	export type Range = {
+		type: 'range';
+		chapterNumber: number;
+		verseStart: number;
+		verseEnd: number;
+	};
+
+	export type Note = {
+		type: 'note';
+		chapterNumber: number;
+		verseNumber: number;
+		noteNumber: number;
+	};
+
+	export type VerseRange = Verse | Range;
+
+	export type Reference = Chapter | Verse | Range | Note;
 }

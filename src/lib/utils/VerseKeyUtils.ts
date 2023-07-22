@@ -1,77 +1,53 @@
-export function parseChapterVerseKey(key: Quran.ChapterVerseKey): {
-	chapterNumber: number | string;
-	verseNumber: number | string;
-} {
-	const [chapterNumber, verseNumber] = key.split(':').map(Number);
-	return { chapterNumber, verseNumber };
+const parsers = {
+	Chapter: (parts: string[]): QuranRef.Chapter => ({
+		type: 'chapter',
+		chapterNumber: Number(parts[0])
+	}),
+	Verse: (parts: string[]): QuranRef.Verse => ({
+		type: 'verse',
+		chapterNumber: Number(parts[0]),
+		verseNumber: Number(parts[1])
+	}),
+	VerseRange: (parts: string[]): QuranRef.Range => {
+		const verseParts = parts[1].split('-');
+		return {
+			type: 'range',
+			chapterNumber: Number(parts[0]),
+			verseStart: Number(verseParts[0]),
+			verseEnd: Number(verseParts[1])
+		};
+	},
+	Note: (parts: string[]): QuranRef.Note => ({
+		type: 'note',
+		chapterNumber: Number(parts[0]),
+		verseNumber: Number(parts[1]),
+		noteNumber: Number(parts[2])
+	})
+};
+
+export function parseKey(key: string): QuranRef.Reference {
+	const parts = key.includes(':') ? key.split(':') : [key];
+	switch (parts.length) {
+		case 1:
+			return parsers.Chapter(parts);
+		case 2:
+			return parts[1].includes('-') ? parsers.VerseRange(parts) : parsers.Verse(parts);
+		case 3:
+			return parsers.Note(parts);
+		default:
+			throw new Error(`Invalid key: ${key}`);
+	}
 }
 
-export function parseVerseNoteKey(key: Quran.VerseNoteKey): {
-	chapterNumber: number | string;
-	verseNumber: number | string;
-	noteNumber: number | string;
-} {
-	const [chapterNumber, verseNumber, noteNumber] = key.split(':').map(Number);
-	return { chapterNumber, verseNumber, noteNumber };
-}
-
-export function createChapterVerseKey(
-	chapterNumber: number | string,
-	verseNumber: number | string
-): Quran.ChapterVerseKey {
-	return `${Number(chapterNumber)}:${Number(verseNumber)}`;
-}
-
-export function createVerseNoteKey(
-	chapterNumber: number | string,
-	verseNumber: number | string,
-	noteNumber: number | string
-): Quran.VerseNoteKey {
-	return `${Number(chapterNumber)}:${Number(verseNumber)}:${Number(noteNumber)}`;
-}
-export function isValidChapterVerseKey(key: string): key is Quran.ChapterVerseKey {
-	const regex = /^\d+:\d+$/;
-	return regex.test(key);
-}
-
-export function isValidVerseNoteKey(key: string): key is Quran.VerseNoteKey {
-	const regex = /^\d+:\d+:\d+$/;
-	return regex.test(key);
-}
-
-export function parseVerseRange(range: Quran.VerseRange): { start: number; end: number } {
-	const [start, end] = range.split('-').map(Number);
-	return { start: start, end: end || start };
-}
-
-export function createVerseRange(start: number, end?: number): Quran.VerseRange {
-	return end && start !== end ? `${start}-${end}` : `${start}`;
-}
-
-export function parseChapterVerseRange(range: Quran.ChapterVerseRange): {
-	chapterNumber: number;
-	verseRange: Quran.VerseRange;
-} {
-	const [chapterNumber, verseRange] = range.split(':');
-	return { chapterNumber: Number(chapterNumber), verseRange } as {
-		chapterNumber: number;
-		verseRange: Quran.VerseRange;
-	};
-}
-
-export function createChapterVerseRange(
-	chapterNumber: number,
-	verseRange: Quran.VerseRange
-): Quran.ChapterVerseRange {
-	return `${chapterNumber}:${verseRange}`;
-}
-
-export function isValidVerseRange(range: string): range is Quran.VerseRange {
-	const regex = /^\d+(-\d+)?$/;
-	return regex.test(range);
-}
-
-export function isValidChapterVerseRange(range: string): range is Quran.ChapterVerseRange {
-	const regex = /^\d+:\d+(-\d+)?$/;
-	return regex.test(range);
+export function keyToString(ref: QuranRef.Reference): string {
+	switch (ref.type) {
+		case 'chapter':
+			return `${ref.chapterNumber}`;
+		case 'verse':
+			return `${ref.chapterNumber}:${ref.verseNumber}`;
+		case 'range':
+			return `${ref.chapterNumber}:${ref.verseStart}-${ref.verseEnd}`;
+		case 'note':
+			return `${ref.chapterNumber}:${ref.verseNumber}:${ref.noteNumber}`;
+	}
 }

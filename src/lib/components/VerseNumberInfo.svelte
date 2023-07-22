@@ -1,21 +1,41 @@
-<script lang="ts">
-	import { DisplayVerseInfo } from './VerseGrid.svelte';
-	import { goto } from '$app/navigation';
-
-	export let displayMode: DisplayVerseInfo = DisplayVerseInfo.None;
-	export let chapterNumber: number;
-	export let verseNumber: number;
-
-	const verseKey = `${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey;
-	const gotoVerse = () => goto(`/chapter/${chapterNumber}?verse=${verseNumber}`);
+<script lang="ts" context="module">
+	export type displayType = 'none' | 'verse' | 'chapter:verse';
 </script>
 
-{#if displayMode == DisplayVerseInfo.ChapterAndVerseNumber}
-	<button on:click={gotoVerse}>
-		<sup class="font-bold mr-1 text-xl">{verseKey}</sup>
-	</button>
-{:else if displayMode == DisplayVerseInfo.VerseNumber}
-	<sup class="font-bold mr-1">{verseNumber}</sup>
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { keyToString } from '$lib/utils/VerseKeyUtils.js';
+
+	export let reference: QuranRef.Reference;
+	export let display: displayType = 'none';
+
+	const referenceKey = reference as QuranRef.Verse;
+	const gotoReference = () => {
+		switch (reference.type) {
+			case 'chapter':
+				break;
+			case 'verse':
+				goto(`/chapter/${reference.chapterNumber}?verse=${reference.verseNumber}`);
+				break;
+			case 'range':
+				goto(
+					`/chapter/${reference.chapterNumber}?verse=${reference.verseStart}-${reference.verseEnd}`
+				);
+				break;
+			case 'note':
+				break;
+		}
+	};
+</script>
+
+{#if display !== 'none'}
+	{#if display === 'verse'}
+		<sup class="font-bold mr-1">{referenceKey.verseNumber}</sup>
+	{:else if display === 'chapter:verse'}
+		<button on:click={gotoReference}>
+			<sup class="font-bold mr-1 text-xl">{keyToString(referenceKey)}</sup>
+		</button>
+	{/if}
 {/if}
 
 <style lang="scss">

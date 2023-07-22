@@ -2,6 +2,7 @@ import { search, type ProvidedTypes, type Orama } from '@orama/orama';
 import { writable } from 'svelte/store';
 import { QuranStore } from './QuranStore.js';
 import { createSearchDatabases } from '../utils/CreateOramaIndex.js';
+import { parseKey } from '$lib/utils/VerseKeyUtils.js';
 
 export enum VerseDb {
 	ArOriginal = 'ar_original',
@@ -57,8 +58,7 @@ function createOramaStore() {
 
 			searchResult.verses = verseIds
 				.map((id) => {
-					const [chapterNumber, verseNumber] = id.split(':').map(Number);
-					return QuranStore.getVerse(chapterNumber, verseNumber);
+					return QuranStore.getVerse(parseKey(id) as QuranRef.Verse);
 				})
 				.sort((a, b) => a.ar.id - b.ar.id);
 			searchResult.verseCount = verseIds.length;

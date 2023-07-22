@@ -1,3 +1,4 @@
+import { keyToString } from '$lib/utils/VerseKeyUtils.js';
 import { derived, writable } from 'svelte/store';
 
 type VisibleNotesStoreType = Record<string, boolean[]>;
@@ -9,8 +10,8 @@ type VisibleNotesStore = {
 	) => () => void;
 	registerComponent: (componentId: string, initialVisibleNotes: boolean[]) => () => void;
 	updateNoteVisibility: (componentId: string, noteIndex: number, visibility: boolean) => void;
-	toggleByNoteIndex: (componentId: string, noteIndex: number) => void;
-	toggleAllNotesInComponent: (componentId: string) => void;
+	toggleByNoteRef: (noteRef: QuranRef.Note) => void;
+	toggleAllNotesInComponent: (verseRef: QuranRef.Verse) => void;
 	toggleAllNotes: () => void;
 };
 
@@ -36,16 +37,18 @@ function createVisibleNotesStore(): VisibleNotesStore {
 				return store;
 			});
 		},
-		toggleByNoteIndex: (componentId: string, noteIndex: number) => {
+		toggleByNoteRef: (noteRef: QuranRef.Note) => {
 			update((store) => {
+				const componentId = `${noteRef.chapterNumber}:${noteRef.verseNumber}`;
+				const noteIndex = noteRef.noteNumber - 1;
 				const notes = store[componentId];
 				notes[noteIndex] = !notes[noteIndex];
 				return store;
 			});
 		},
-		toggleAllNotesInComponent: (componentId: string) => {
+		toggleAllNotesInComponent: (verseRef: QuranRef.Verse) => {
 			update((store) => {
-				const notes = store[componentId];
+				const notes = store[keyToString(verseRef)];
 				const allVisible = notes.every(Boolean);
 				notes.fill(!allVisible);
 				return store;

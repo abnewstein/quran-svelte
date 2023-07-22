@@ -1,7 +1,6 @@
 import versesArOriginal from '../lib/data/verses_ar_original.json';
 import versesEnSamGerransWithNotes from '../lib/data/verses_en_sam-gerrans_with-notes.json';
 import notesEnSamGerrans from '../lib/data/notes_en_sam-gerrans.json';
-import { createChapterVerseKey, createVerseNoteKey } from '$lib/utils/VerseKeyUtils.js';
 
 export enum TranslationEnum {
 	ARABIC_ORIGINAL = 'ar_original',
@@ -36,17 +35,18 @@ const createNotesLookup = (notes: (string | number)[][]): Record<string, Quran.N
 
 	for (const note of notes) {
 		const [chapterNumber, verseNumber, noteNumber] = note[0].toString().split(':');
-		const verseNoteKey = createVerseNoteKey(chapterNumber, verseNumber, noteNumber);
-		const chapterVerseKey = createChapterVerseKey(chapterNumber, verseNumber);
+		const chapterVerseKey = `${chapterNumber}:${verseNumber}`;
+		const verseNoteKey = `${chapterVerseKey}:${noteNumber}`;
 		if (!notesLookup[chapterVerseKey]) {
 			notesLookup[chapterVerseKey] = [];
 		}
 
 		let noteText = note[1] as string;
 		if (noteText.match(NOTE_REF_REGEX) !== null) {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const [chapterNumber, verseNumber, noteNumber] = noteText.split(':');
-			noteText =
-				notesLookup[createChapterVerseKey(chapterNumber, verseNumber)][Number(noteNumber) - 1].text;
+			const chapterVerseKey = `${chapterNumber}:${verseNumber}`;
+			noteText = notesLookup[chapterVerseKey][Number(noteNumber) - 1].text;
 		}
 
 		// noteText = processNoteText(noteText);
@@ -107,8 +107,7 @@ const groupVersesByChapter = (
 			currentChapterNumber = chapterNumber;
 			currentChapterVerses = [];
 		}
-		const verseNotes =
-			notesLookup[`${chapterNumber}:${verseNumber}` as Quran.ChapterVerseKey] || [];
+		const verseNotes = notesLookup[`${chapterNumber}:${verseNumber}`] || [];
 		currentChapterVerses.push(formatVerse(verse, verseId++, verseNotes));
 	}
 

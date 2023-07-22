@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	import { QuranStore } from '$lib/store/QuranStore.js';
-	import { parseChapterVerseRange } from '$lib/utils/VerseKeyUtils.js';
 
-	export let verseRangeList: Array<Quran.ChapterVerseRange> | undefined;
+	export let verseRangeList: Array<QuranRef.VerseRange> | undefined;
 
-	const { getVersesByRange } = QuranStore;
+	const { getVerses } = QuranStore;
 	const dispatch = createEventDispatcher();
 </script>
 
 {#if verseRangeList}
 	<div>
 		{#each verseRangeList as verseRangeStr}
-			{@const { chapterNumber, verseRange } = parseChapterVerseRange(verseRangeStr)}
-			{@const verses = getVersesByRange(chapterNumber, verseRange)}
+			{@const reference = verseRangeStr}
+			{@const verses = getVerses(reference)}
 			<ul>
 				{#each verses as verse}
 					{@const verseEnText = verse.en.text
@@ -35,7 +34,7 @@
 		--uno: flex flex-col gap-1 my-2;
 		ul {
 			li {
-				--uno: text-lg rounded-lg px-2 m-0;
+				--uno: rounded-lg px-2 m-0;
 				p {
 					--uno: mx-1 my-2 color-black;
 				}

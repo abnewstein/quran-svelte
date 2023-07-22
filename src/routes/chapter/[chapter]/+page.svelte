@@ -5,18 +5,22 @@
 	import { VisibleNotesStore, allNotesVisible } from '$lib/store/VisibleNotesStore.js';
 
 	import ChapterTitle from '$lib/components/ChapterTitle.svelte';
-	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
+	import VerseGrid from '$lib/components/VerseGrid.svelte';
 	import Button from '$lib/components/ToggleButton.svelte';
+	import { parseKey } from '$lib/utils/VerseKeyUtils.js';
 
 	const chapterNumber = Number($page.params.chapter);
 	const chapter = QuranStore.getChapter(chapterNumber);
-	const verses = QuranStore.getVerses(chapterNumber);
+	const verses = QuranStore.getVersesByChapter(chapterNumber);
 	const firstVerse = QuranStore.getFirstVersePair();
 
-	let highlightVerseNumber: Quran.VerseRange | null = null;
+	let highlightVerseNumber: QuranRef.VerseRange | null = null;
 
 	$: if (browser) {
-		highlightVerseNumber = $page.url.searchParams.get('verse') as Quran.VerseRange | null;
+		const qsVerseRange = $page.url.searchParams.get('verse') as string;
+		if (qsVerseRange) {
+			highlightVerseNumber = parseKey(`${chapterNumber}:${qsVerseRange}`) as QuranRef.VerseRange;
+		}
 	}
 
 	function toggleAllNotesInChapter() {
@@ -37,14 +41,10 @@
 				active={$allNotesVisible}
 			/>
 			{#if chapterNumber !== 1 && chapterNumber !== 9}
-				<VerseGrid verses={[firstVerse]} />
+				<VerseGrid verses={[firstVerse]} display="none" />
 			{/if}
 
-			<VerseGrid
-				{verses}
-				highlightVersePairs={highlightVerseNumber}
-				displayMode={DisplayVerseInfo.VerseNumber}
-			/>
+			<VerseGrid {verses} highlightVersePairs={highlightVerseNumber} />
 		</div>
 	</container>
 </div>

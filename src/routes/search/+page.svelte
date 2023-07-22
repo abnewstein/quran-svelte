@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { OramaStore } from '$lib/store/index.js';
-	import VerseGrid, { DisplayVerseInfo } from '$lib/components/VerseGrid.svelte';
+	import VerseGrid from '$lib/components/VerseGrid.svelte';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 
@@ -50,11 +50,7 @@
 			</div>
 			{#if $results.verseCount > 0}
 				{#key searchTerm}
-					<VerseGrid
-						verses={$results.verses}
-						displayMode={DisplayVerseInfo.ChapterAndVerseNumber}
-						highlightWord={searchTerm}
-					/>
+					<VerseGrid verses={$results.verses} highlightWord={searchTerm} display="chapter:verse" />
 				{/key}
 			{:else}
 				<div class="text-center">
