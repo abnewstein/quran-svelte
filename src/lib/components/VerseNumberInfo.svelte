@@ -12,8 +12,6 @@
 	const referenceKey = reference as QuranRef.Verse;
 	const gotoReference = () => {
 		switch (reference.type) {
-			case 'chapter':
-				break;
 			case 'verse':
 				goto(`/chapter/${reference.chapterNumber}?verse=${reference.verseNumber}`);
 				break;
@@ -22,8 +20,8 @@
 					`/chapter/${reference.chapterNumber}?verse=${reference.verseStart}-${reference.verseEnd}`
 				);
 				break;
-			case 'note':
-				break;
+			default:
+				console.error('Invalid Quran reference : ', reference);
 		}
 	};
 </script>

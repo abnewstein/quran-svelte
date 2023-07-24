@@ -25,8 +25,41 @@ const parsers = {
 	})
 };
 
-export function parseKey(key: string): QuranRef.Reference {
+function isValidKey(parts: string[]): boolean {
+	if (parts.length < 1 || parts.length > 3) {
+		return false;
+	}
+	const chapterNumber = Number(parts[0]);
+	if (isNaN(chapterNumber) || chapterNumber < 1 || chapterNumber > 114) {
+		return false;
+	}
+	if (parts.length >= 2) {
+		const verseParts = parts[1].split('-');
+		const verseNumber = Number(verseParts[0]);
+		if (isNaN(verseNumber) || verseNumber < 1 || verseNumber > 286) {
+			return false;
+		}
+		if (verseParts.length === 2) {
+			const verseEndNumber = Number(verseParts[1]);
+			if (isNaN(verseEndNumber) || verseEndNumber < verseNumber || verseEndNumber > 286) {
+				return false;
+			}
+		}
+	}
+	if (parts.length === 3) {
+		const noteNumber = Number(parts[2]);
+		if (isNaN(noteNumber) || noteNumber < 1 || noteNumber > 9) {
+			return false;
+		}
+	}
+	return true;
+}
+
+export function parseKey(key: string): QuranRef.Reference | null {
 	const parts = key.includes(':') ? key.split(':') : [key];
+	if (!isValidKey(parts)) {
+		return null;
+	}
 	switch (parts.length) {
 		case 1:
 			return parsers.Chapter(parts);
@@ -35,7 +68,7 @@ export function parseKey(key: string): QuranRef.Reference {
 		case 3:
 			return parsers.Note(parts);
 		default:
-			throw new Error(`Invalid key: ${key}`);
+			return null;
 	}
 }
 

@@ -28,7 +28,7 @@
 
 	const handleVersePreview = (noteId: string, targetVerseRef: QuranRef.Verse) => {
 		const noteRef = parseKey(noteId) as QuranRef.Note;
-		versePreviewStore.toggleVerseInSet(noteRef, targetVerseRef);
+		if (noteRef && targetVerseRef) versePreviewStore.toggleVerseInSet(noteRef, targetVerseRef);
 	};
 
 	const handleRemoveVerseFromSet = (noteId: string, targetVerseRef: QuranRef.Verse) => {

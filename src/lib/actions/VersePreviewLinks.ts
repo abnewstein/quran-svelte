@@ -4,8 +4,10 @@ export default (node: HTMLElement, handleVersePreview: (verseKey: QuranRef.Verse
 		event.preventDefault();
 		const target = event.target as HTMLElement;
 		if (target.tagName !== 'A') return;
-		const key = parseKey(target.textContent as string) as QuranRef.Verse;
-		handleVersePreview(key);
+		const key = parseKey(target.textContent as string);
+
+		// TODO later allow Notepad and Article References to be clicked
+		handleVersePreview(key as QuranRef.Verse);
 	};
 
 	node.addEventListener('click', handleNoteClick);
