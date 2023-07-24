@@ -33,7 +33,7 @@
 
 	const handleRemoveVerseFromSet = (noteId: string, targetVerseRef: QuranRef.Verse) => {
 		const noteRef = parseKey(noteId) as QuranRef.Note;
-		versePreviewStore.removeVerseFromSet(noteRef, targetVerseRef);
+		if (noteRef && targetVerseRef) versePreviewStore.removeVerseFromSet(noteRef, targetVerseRef);
 	};
 
 	$: show = anyNotesVisible(componentId);

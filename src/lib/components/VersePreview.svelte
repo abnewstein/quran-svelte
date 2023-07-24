@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 </script>
 
-{#if verseRangeList}
+{#if verseRangeList && verseRangeList.length > 0}
 	<div>
 		{#each verseRangeList as verseRangeStr}
 			{@const reference = verseRangeStr}
