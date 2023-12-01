@@ -13,12 +13,10 @@ const config = {
 		adapter: adapter()
 	},
 	vitePlugin: {
-		experimental: {
-			inspector: {
-				toggleKeyCombo: 'meta-shift',
-				showToggleButton: 'always',
-				toggleButtonPos: 'bottom-right'
-			}
+		inspector: {
+			toggleKeyCombo: 'meta-shift',
+			showToggleButton: 'always',
+			toggleButtonPos: 'bottom-right'
 		}
 	},
 	onwarn: (warning, handler) => {
