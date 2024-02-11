@@ -22,13 +22,13 @@ Follow these instructions to get a copy of the project up and running on your lo
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/quran-reading-app.git
+git clone https://github.com/abnewstein/quran-svelte.git
 ```
 
 2. Navigate to the project directory:
 
 ```bash
-cd quran-reading-app
+cd quran-svelte
 ```
 
 3. Install dependencies:
