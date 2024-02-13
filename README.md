@@ -2,6 +2,8 @@
 
 Welcome to the Quran App! This application allows users to read the Quran in Arabic or the English translation by Sam Gerrans. Built using SvelteKit and leveraging the Orama search library, this project aims to provide a seamless and user-friendly experience for exploring the sacred text.
 
+Currently hosted at temporary vercel domain https://quran-svelte.vercel.app
+
 ## Features
 
 - Read the Quran in Arabic or English translation by Sam Gerrans.
